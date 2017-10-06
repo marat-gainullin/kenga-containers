@@ -1,21 +1,18 @@
-define([
-    'core/id',
-    'core/extend',
-    'ui/container'], function (
-        Id,
-        extend,
-        Container) {
-    /**
-     * A container with Grid Layout.
-     * @param rows the number of grid rows.
-     * @param columns the number of grid columns.
-     * @param hgap the horizontal gap (optional).
-     * @param vgap the vertical gap (optional).
-     * @constructor GridPane GridPane
-     */
-    function GridPane(rows, columns, hgap, vgap) {
-        Container.call(this);
-        var self = this;
+import Id from 'core/id';
+import Container from 'ui/container';
+
+/**
+ * A container with Grid Layout.
+ * @param rows the number of grid rows.
+ * @param columns the number of grid columns.
+ * @param hgap the horizontal gap (optional).
+ * @param vgap the vertical gap (optional).
+ * @constructor GridPane GridPane
+ */
+class GridPane extends Container {
+    constructor(rows, columns, hgap, vgap) {
+        super();
+        const self = this;
 
         if (arguments.length < 1)
             rows = 1;
@@ -28,47 +25,41 @@ define([
 
         this.element.classList.add('p-cells');
 
-        this.element.id = 'p-' + Id.generate();
+        this.element.id = `p-${Id.generate()}`;
 
-        var gapsStyle = document.createElement('style');
+        const gapsStyle = document.createElement('style');
         this.element.appendChild(gapsStyle);
+
         function formatChildren() {
             gapsStyle.innerHTML =
-                    'div#' + self.element.id + ' > .p-widget {' +
-                    'width: ' + (100 / columns) + '%;' +
-                    'height: ' + (100 / rows) + '%;' +
-                    'padding-left: ' + (hgap / 2) + 'px;' +
-                    'padding-right: ' + (hgap / 2) + 'px;' +
-                    'padding-top: ' + (vgap / 2) + 'px;' +
-                    'padding-bottom: ' + (vgap / 2) + 'px;' +
-                    '}';
+                `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;padding-left: ${hgap / 2}px;padding-right: ${hgap / 2}px;padding-top: ${vgap / 2}px;padding-bottom: ${vgap / 2}px;}`;
         }
         formatChildren();
 
-        var grid = [];
-        for (var r = 0; r < rows; r++) {
-            var row = [];
+        const grid = [];
+        for (let r = 0; r < rows; r++) {
+            const row = [];
             grid.push(row);
-            for (var c = 0; c < columns; c++) {
+            for (let c = 0; c < columns; c++) {
                 row.push(null);
             }
         }
         Object.defineProperty(this, "rows", {
-            get: function () {
+            get: function() {
                 return rows;
             }
         });
         Object.defineProperty(this, "columns", {
-            get: function () {
+            get: function() {
                 return columns;
             }
         });
 
         Object.defineProperty(this, "hgap", {
-            get: function () {
+            get: function() {
                 return hgap;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (hgap !== aValue) {
                     hgap = aValue;
                     formatChildren();
@@ -76,10 +67,10 @@ define([
             }
         });
         Object.defineProperty(this, "vgap", {
-            get: function () {
+            get: function() {
                 return vgap;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (vgap !== aValue) {
                     vgap = aValue;
                     formatChildren();
@@ -87,7 +78,8 @@ define([
             }
         });
 
-        var superAdd = this.add;
+        const superAdd = this.add;
+
         function add(w, row, col) {
             if (w) {
                 if (w.parent === self)
@@ -99,15 +91,15 @@ define([
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function () {
+            get: function() {
                 return add;
             }
         });
 
         function addToFreeCell(w) {
-            for (var row = 0; row < grid.length; row++) {
-                for (var col = 0; col < grid[row].length; col++) {
-                    var already = getWidget(row, col);
+            for (let row = 0; row < grid.length; row++) {
+                for (let col = 0; col < grid[row].length; col++) {
+                    const already = getWidget(row, col);
                     if (!already) {
                         setWidget(row, col, w);
                         return true;
@@ -117,11 +109,11 @@ define([
             return false;
         }
 
-        var superRemove = this.remove;
+        const superRemove = this.remove;
+
         function setWidget(row, column, w) {
-            if (row >= 0 && row < grid.length
-                    && column >= 0 && column < grid[row].length) {
-                var old = grid[row][column];
+            if (row >= 0 && row < grid.length && column >= 0 && column < grid[row].length) {
+                const old = grid[row][column];
                 if (old) {
                     superRemove(old);
                 }
@@ -132,8 +124,7 @@ define([
         }
 
         function getWidget(row, column) {
-            if (row >= 0 && row < grid.length
-                    && column >= 0 && column < grid[row].length) {
+            if (row >= 0 && row < grid.length && column >= 0 && column < grid[row].length) {
                 return grid[row][column];
             } else {
                 return null;
@@ -142,22 +133,23 @@ define([
 
         function remove(widgetOrIndexOrRow, column) {
             if (arguments.length < 2) {
-                var removed = superRemove(widgetOrIndexOrRow);
+                const removed = superRemove(widgetOrIndexOrRow);
                 checkCells(removed);
                 return removed;
             } else {
-                var w = grid[widgetOrIndexOrRow][column];
+                const w = grid[widgetOrIndexOrRow][column];
                 grid[widgetOrIndexOrRow][column] = null;
                 return superRemove(w);
             }
         }
         Object.defineProperty(this, 'remove', {
-            get: function () {
+            get: function() {
                 return remove;
             }
         });
 
-        var superChild = this.child;
+        const superChild = this.child;
+
         function child(row, col) {
             if (arguments < 2) {
                 throw "'row' and 'col' are required parameters";
@@ -165,15 +157,15 @@ define([
             return getWidget(row, col);
         }
         Object.defineProperty(this, 'child', {
-            get: function () {
+            get: function() {
                 return child;
             }
         });
 
         function checkCells(w) {
             if (w) {
-                for (var i = 0; i < grid.length; i++) {
-                    for (var j = 0; j < grid[i].length; j++) {
+                for (let i = 0; i < grid.length; i++) {
+                    for (let j = 0; j < grid[i].length; j++) {
                         if (grid[i][j] === w) {
                             grid[i][j] = null;
                         }
@@ -182,37 +174,34 @@ define([
             }
         }
 
-        function ajustLeft(w, aValue) {
-        }
+        function ajustLeft(w, aValue) {}
         Object.defineProperty(this, 'ajustLeft', {
-            get: function () {
+            get: function() {
                 return ajustLeft;
             }
         });
 
-        function ajustWidth(w, aValue) {
-        }
+        function ajustWidth(w, aValue) {}
         Object.defineProperty(this, 'ajustWidth', {
-            get: function () {
+            get: function() {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {
-        }
+        function ajustTop(w, aValue) {}
         Object.defineProperty(this, 'ajustTop', {
-            get: function () {
+            get: function() {
                 return ajustTop;
             }
         });
-        function ajustHeight(w, aValue) {
-        }
+
+        function ajustHeight(w, aValue) {}
         Object.defineProperty(this, 'ajustHeight', {
-            get: function () {
+            get: function() {
                 return ajustHeight;
             }
         });
     }
-    extend(GridPane, Container);
-    return GridPane;
-});
+}
+
+export default GridPane;

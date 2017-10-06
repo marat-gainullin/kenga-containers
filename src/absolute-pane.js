@@ -1,11 +1,9 @@
-define([
-    'core/extend',
-    './anchors-pane'], function (
-        extend,
-        Anchors) {
-    function Absolute() {
-        Anchors.call(this);
+import Anchors from './anchors-pane';
+
+class Absolute extends Anchors {
+    constructor() {
+        super();
     }
-    extend(Absolute, Anchors);
-    return Absolute;
-});
+}
+
+export default Absolute;

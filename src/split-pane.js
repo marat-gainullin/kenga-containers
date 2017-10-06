@@ -1,94 +1,72 @@
-define([
-    'core/id',
-    'core/extend',
-    'ui/utils',
-    'ui/container'], function (
-        Id,
-        extend,
-        Ui,
-        Container) {
-    function Split(orientation) {
+import Id from 'core/id';
+import Ui from 'ui/utils';
+import Container from 'ui/container';
+
+class Split extends Container {
+    constructor(orientation) {
         if (arguments.length < 1)
             orientation = Ui.Orientation.HORIZONTAL;
 
-        Container.call(this);
+        super();
 
-        var self = this;
+        const self = this;
 
-        var dividerSize = 10;
+        let dividerSize = 10;
 
-        var firstWidget;
-        var secondWidget;
+        let firstWidget;
+        let secondWidget;
 
-        var oneTouchExpandable;
-        var dividerLocation = 0;
+        let oneTouchExpandable;
+        let dividerLocation = 0;
 
         this.element.classList.add('p-split');
 
-        this.element.id = 'p-' + Id.generate();
+        this.element.id = `p-${Id.generate()}`;
 
-        var style = document.createElement('style');
+        const style = document.createElement('style');
         self.element.appendChild(style);
+        
+        const superAdd = this.add;
+        const superRemove = this.remove;
 
         function formatChildren() {
             if (orientation === Ui.Orientation.HORIZONTAL) {
                 style.innerHTML =
-                        'div#' + self.element.id + ' > .p-widget:nth-child(2) {' + // firstWidget
-                        'position: absolute;' +
-                        'left: ' + 0 + 'px;' +
-                        'top: ' + 0 + 'px;' +
-                        'bottom: ' + 0 + 'px;' +
-                        'width: ' + dividerLocation + 'px;' +
-                        '}' +
-                        'div#' + self.element.id + ' > .p-widget:last-child {' + // secondWidget
-                        'position: absolute;' +
-                        'right: ' + 0 + 'px;' +
-                        'top: ' + 0 + 'px;' +
-                        'bottom: ' + 0 + 'px;' +
-                        'left: ' + (dividerLocation + dividerSize) + 'px';
+                    // firstWidget
+                    // secondWidget
+                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;top: ${0}px;bottom: ${0}px;width: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;right: ${0}px;top: ${0}px;bottom: ${0}px;left: ${dividerLocation + dividerSize}px`;
                 '}';
                 divider.style.top = '0px';
                 divider.style.bottom = '0px';
-                divider.style.width = dividerSize + 'px';
-                divider.style.left = dividerLocation + 'px';
+                divider.style.width = `${dividerSize}px`;
+                divider.style.left = `${dividerLocation}px`;
                 divider.style.height = '';
                 divider.style.right = '';
             } else {
                 style.innerHTML =
-                        'div#' + self.element.id + ' > .p-widget:nth-child(2) {' + // firstWidget
-                        'position: absolute;' +
-                        'left: ' + 0 + 'px;' +
-                        'right: ' + 0 + 'px;' +
-                        'top: ' + 0 + 'px;' +
-                        'height: ' + dividerLocation + 'px;' +
-                        '}' +
-                        'div#' + self.element.id + ' > .p-widget:last-child {' + // secondWidget
-                        'position: absolute;' +
-                        'left: ' + 0 + 'px;' +
-                        'right: ' + 0 + 'px;' +
-                        'bottom: ' + 0 + 'px;' +
-                        'top: ' + (dividerLocation + dividerSize) + 'px;' +
-                        '}';
+                    // firstWidget
+                    // secondWidget
+                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;right: ${0}px;top: ${0}px;height: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;left: ${0}px;right: ${0}px;bottom: ${0}px;top: ${dividerLocation + dividerSize}px;}`;
                 divider.style.left = '0px';
                 divider.style.right = '0px';
-                divider.style.height = dividerSize + 'px';
-                divider.style.top = dividerLocation + 'px';
+                divider.style.height = `${dividerSize}px`;
+                divider.style.top = `${dividerLocation}px`;
                 divider.style.width = '';
                 divider.style.bottom = '';
             }
         }
 
-        var divider = document.createElement('div');
+        const divider = document.createElement('div');
         divider.classList.add('p-split-divider');
         divider.style.position = 'absolute';
         this.element.appendChild(divider);
 
-        (function () {
-            var mouseDownAt = null;
-            var mouseDownDividerAt = null;
-            var onMouseUp = null;
-            var onMouseMove = null;
-            Ui.on(divider, Ui.Events.MOUSEDOWN, function (event) {
+        ((() => {
+            let mouseDownAt = null;
+            let mouseDownDividerAt = null;
+            let onMouseUp = null;
+            let onMouseMove = null;
+            Ui.on(divider, Ui.Events.MOUSEDOWN, event => {
                 if (event.button === 0) {
                     event.stopPropagation();
                     if (orientation === Ui.Orientation.HORIZONTAL) {
@@ -98,7 +76,7 @@ define([
                     }
                     mouseDownDividerAt = dividerLocation;
                     if (!onMouseUp) {
-                        onMouseUp = Ui.on(document, Ui.Events.MOUSEUP, function (event) {
+                        onMouseUp = Ui.on(document, Ui.Events.MOUSEUP, event => {
                             event.stopPropagation();
                             if (onMouseUp) {
                                 onMouseUp.removeHandler();
@@ -111,9 +89,9 @@ define([
                         });
                     }
                     if (!onMouseMove) {
-                        onMouseMove = Ui.on(document, Ui.Events.MOUSEMOVE, function (event) {
+                        onMouseMove = Ui.on(document, Ui.Events.MOUSEMOVE, event => {
                             event.stopPropagation();
-                            var mouseDiff;
+                            let mouseDiff;
                             if (orientation === Ui.Orientation.HORIZONTAL) {
                                 mouseDiff = event.clientX - mouseDownAt;
                             } else {
@@ -124,7 +102,7 @@ define([
                     }
                 }
             });
-        }());
+        })());
 
         formatChildren();
 
@@ -141,7 +119,6 @@ define([
             }
         }
 
-        var superAdd = this.add;
         function add(w, beforeIndex) {
             if (w) {
                 if (w.parent === self)
@@ -151,7 +128,7 @@ define([
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function () {
+            get: function() {
                 return add;
             }
         });
@@ -165,35 +142,35 @@ define([
             }
         }
 
-        var superRemove = this.remove;
         function remove(w) {
-            var removed = superRemove(w);
+            const removed = superRemove(w);
             checkRemove(removed);
             return removed;
         }
         Object.defineProperty(this, 'remove', {
-            get: function () {
+            get: function() {
                 return remove;
             }
         });
 
-        var superClear = this.clear;
+        const superClear = this.clear;
+
         function clear() {
             firstWidget = null;
             secondWidget = null;
             superClear();
         }
         Object.defineProperty(this, 'clear', {
-            get: function () {
+            get: function() {
                 return clear;
             }
         });
 
         Object.defineProperty(this, "orientation", {
-            get: function () {
+            get: function() {
                 return orientation;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (orientation !== aValue) {
                     orientation = aValue;
                     formatChildren();
@@ -201,10 +178,10 @@ define([
             }
         });
         Object.defineProperty(this, "firstComponent", {
-            get: function () {
+            get: function() {
                 return firstWidget;
             },
-            set: function (aFirstWidget) {
+            set: function(aFirstWidget) {
                 if (firstWidget !== aFirstWidget) {
                     if (firstWidget) {
                         superRemove(firstWidget);
@@ -218,10 +195,10 @@ define([
             }
         });
         Object.defineProperty(this, "secondComponent", {
-            get: function () {
+            get: function() {
                 return secondWidget;
             },
-            set: function (aSecondWidget) {
+            set: function(aSecondWidget) {
                 if (secondWidget !== aSecondWidget) {
                     if (secondWidget) {
                         superRemove(secondWidget);
@@ -235,12 +212,12 @@ define([
             }
         });
         Object.defineProperty(this, "dividerLocation", {
-            get: function () {
+            get: function() {
                 return dividerLocation;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (dividerLocation !== aValue) {
-                    var dividerLimit = (orientation === Ui.Orientation.HORIZONTAL ? self.element.offsetWidth : self.element.offsetHeight) - dividerSize;
+                    const dividerLimit = (orientation === Ui.Orientation.HORIZONTAL ? self.element.offsetWidth : self.element.offsetHeight) - dividerSize;
                     if (aValue >= 0 && aValue <= dividerLimit) {
                         dividerLocation = aValue;
                         formatChildren();
@@ -249,10 +226,10 @@ define([
             }
         });
         Object.defineProperty(this, "dividerSize", {
-            get: function () {
+            get: function() {
                 return dividerSize;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (dividerSize !== aValue) {
                     dividerSize = aValue;
                     formatChildren();
@@ -260,46 +237,44 @@ define([
             }
         });
         Object.defineProperty(this, "oneTouchExpandable", {
-            get: function () {
+            get: function() {
                 return oneTouchExpandable;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (oneTouchExpandable !== aValue) {
                     oneTouchExpandable = aValue;
                 }
             }
         });
-        function ajustLeft(w, aValue) {
-        }
+
+        function ajustLeft(w, aValue) {}
         Object.defineProperty(this, 'ajustLeft', {
-            get: function () {
+            get: function() {
                 return ajustLeft;
             }
         });
 
-        function ajustWidth(w, aValue) {
-        }
+        function ajustWidth(w, aValue) {}
         Object.defineProperty(this, 'ajustWidth', {
-            get: function () {
+            get: function() {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {
-        }
+        function ajustTop(w, aValue) {}
         Object.defineProperty(this, 'ajustTop', {
-            get: function () {
+            get: function() {
                 return ajustTop;
             }
         });
-        function ajustHeight(w, aValue) {
-        }
+
+        function ajustHeight(w, aValue) {}
         Object.defineProperty(this, 'ajustHeight', {
-            get: function () {
+            get: function() {
                 return ajustHeight;
             }
         });
     }
-    extend(Split, Container);
-    return Split;
-});
+}
+
+export default Split;

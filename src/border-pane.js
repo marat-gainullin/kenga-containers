@@ -1,58 +1,47 @@
-define([
-    'core/id',
-    'core/extend',
-    'ui/utils',
-    'ui/container'
-], function (
-        Id,
-        extend,
-        Ui,
-        Container) {
-    function BorderPane(hgap, vgap) {
+import Id from 'core/id';
+import Ui from 'ui/utils';
+import Container from 'ui/container';
+
+class BorderPane extends Container {
+    constructor(hgap, vgap) {
         if (arguments.length < 2)
             vgap = 0;
         if (arguments.length < 1)
             hgap = 0;
 
-        Container.call(this);
+        super();
 
-        var self = this;
-        var flexColumn = this.element;
+        const self = this;
+        const flexColumn = this.element;
 
         flexColumn.classList.add('p-borders-column');
-        var flexRow = document.createElement('div');
+        const flexRow = document.createElement('div');
         flexRow.classList.add('p-borders-row');
         this.element.appendChild(flexRow);
 
-        flexColumn.id = 'p-' + Id.generate();
-        flexRow.id = 'p-' + Id.generate();
+        flexColumn.id = `p-${Id.generate()}`;
+        flexRow.id = `p-${Id.generate()}`;
 
-        var gapsStyle = document.createElement('style');
+        const gapsStyle = document.createElement('style');
         this.element.appendChild(gapsStyle);
+
         function formatChildren() {
             gapsStyle.innerHTML =
-                    'div#' + flexColumn.id + ' > .p-borders-row {' +
-                    'margin-top: ' + vgap + 'px;' +
-                    'margin-bottom: ' + vgap + 'px;' +
-                    '}' +
-                    'div#' + flexRow.id + ' > .p-borders-center {' +
-                    'margin-left: ' + hgap + 'px;' +
-                    'margin-right: ' + hgap + 'px;' +
-                    '}';
+                `div#${flexColumn.id} > .p-borders-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}div#${flexRow.id} > .p-borders-center {margin-left: ${hgap}px;margin-right: ${hgap}px;}`;
         }
         formatChildren();
 
-        var center;
-        var left;
-        var right;
-        var top;
-        var bottom;
+        let center;
+        let left;
+        let right;
+        let top;
+        let bottom;
 
         Object.defineProperty(this, 'hgap', {
-            get: function () {
+            get: function() {
                 return hgap;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (hgap !== aValue) {
                     hgap = aValue;
                     formatChildren();
@@ -61,10 +50,10 @@ define([
         });
 
         Object.defineProperty(this, 'vgap', {
-            get: function () {
+            get: function() {
                 return vgap;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (vgap !== aValue) {
                     vgap = aValue;
                     formatChildren();
@@ -72,47 +61,48 @@ define([
             }
         });
 
-        var superAdd = this.add;
+        const superAdd = this.add;
+
         function add(w, aPlace, aSize) {
             if (arguments.length < 2) {
-                var cold = self.centerComponent;
+                let cold = self.centerComponent;
                 self.centerComponent = w;
                 return cold;
             } else {
                 switch (aPlace) {
                     case Ui.HorizontalPosition.LEFT:
-                        var lold = self.leftComponent;
+                        const lold = self.leftComponent;
                         self.leftComponent = w;
-                        if(arguments.length > 2)
+                        if (arguments.length > 2)
                             w.width = aSize;
                         return lold;
                     case Ui.HorizontalPosition.RIGHT:
-                        var rold = self.rightComponent;
+                        const rold = self.rightComponent;
                         self.rightComponent = w;
-                        if(arguments.length > 2)
+                        if (arguments.length > 2)
                             w.width = aSize;
                         return rold;
                     case Ui.VerticalPosition.TOP:
-                        var told = self.topComponent;
+                        const told = self.topComponent;
                         self.topComponent = w;
-                        if(arguments.length > 2)
+                        if (arguments.length > 2)
                             w.height = aSize;
                         return told;
                     case Ui.VerticalPosition.BOTTOM:
-                        var bold = self.bottomComponent;
+                        const bold = self.bottomComponent;
                         self.bottomComponent = w;
-                        if(arguments.length > 2)
+                        if (arguments.length > 2)
                             w.height = aSize;
                         return bold;
                     default:
-                        var cold = self.centerComponent;
+                        let cold = self.centerComponent;
                         self.centerComponent = w;
                         return cold;
                 }
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function () {
+            get: function() {
                 return add;
             }
         });
@@ -134,11 +124,13 @@ define([
             top = null;
             topHeight = 0;
         }
+
         function bottomRemoved() {
             bottom.element.classList.remove('p-borders-bottom');
             bottom = null;
             bottomHeight = 0;
         }
+
         function centerRemoved() {
             center.element.classList.remove('p-borders-center');
             center = null;
@@ -162,19 +154,21 @@ define([
             }
         }
 
-        var superRemove = this.remove;
+        const superRemove = this.remove;
+
         function remove(widgetOrIndex) {
-            var removed = superRemove(widgetOrIndex);
+            const removed = superRemove(widgetOrIndex);
             checkRemoved(removed);
             return removed;
         }
         Object.defineProperty(this, 'remove', {
-            get: function () {
+            get: function() {
                 return remove;
             }
         });
 
-        var superClear = this.clear;
+        const superClear = this.clear;
+
         function clear() {
             superClear();
             if (left)
@@ -189,16 +183,16 @@ define([
                 centerRemoved();
         }
         Object.defineProperty(this, 'clear', {
-            get: function () {
+            get: function() {
                 return clear;
             }
         });
 
         Object.defineProperty(this, 'leftComponent', {
-            get: function () {
+            get: function() {
                 return left;
             },
-            set: function (w) {
+            set: function(w) {
                 if (w !== left) {
                     if (left) {
                         superRemove(left);
@@ -214,10 +208,10 @@ define([
             }
         });
         Object.defineProperty(this, 'rightComponent', {
-            get: function () {
+            get: function() {
                 return right;
             },
-            set: function (w) {
+            set: function(w) {
                 if (w !== right) {
                     if (right) {
                         superRemove(right);
@@ -233,10 +227,10 @@ define([
             }
         });
         Object.defineProperty(this, 'topComponent', {
-            get: function () {
+            get: function() {
                 return top;
             },
-            set: function (w) {
+            set: function(w) {
                 if (w !== top) {
                     if (top) {
                         superRemove(top);
@@ -251,10 +245,10 @@ define([
             }
         });
         Object.defineProperty(this, 'bottomComponent', {
-            get: function () {
+            get: function() {
                 return bottom;
             },
-            set: function (w) {
+            set: function(w) {
                 if (w !== bottom) {
                     if (bottom) {
                         superRemove(bottom);
@@ -269,10 +263,10 @@ define([
             }
         });
         Object.defineProperty(this, 'centerComponent', {
-            get: function () {
+            get: function() {
                 return center;
             },
-            set: function (w) {
+            set: function(w) {
                 if (w !== center) {
                     if (center) {
                         superRemove(center);
@@ -288,48 +282,46 @@ define([
             }
         });
 
-        function ajustLeft(w, aValue) {
-        }
+        function ajustLeft(w, aValue) {}
         Object.defineProperty(this, 'ajustLeft', {
-            get: function () {
+            get: function() {
                 return ajustLeft;
             }
         });
 
         function ajustWidth(w, aValue) {
             if (left === w) {
-                left.element.style.width = aValue + 'px';
+                left.element.style.width = `${aValue}px`;
             } else if (right === w) {
-                right.element.style.width = aValue + 'px';
+                right.element.style.width = `${aValue}px`;
             }
         }
         Object.defineProperty(this, 'ajustWidth', {
-            get: function () {
+            get: function() {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {
-        }
+        function ajustTop(w, aValue) {}
         Object.defineProperty(this, 'ajustTop', {
-            get: function () {
+            get: function() {
                 return ajustTop;
             }
         });
 
         function ajustHeight(w, aValue) {
             if (top === w) {
-                top.element.style.height = aValue + 'px';
+                top.element.style.height = `${aValue}px`;
             } else if (bottom === w) {
-                bottom.element.style.height = aValue + 'px';
+                bottom.element.style.height = `${aValue}px`;
             }
         }
         Object.defineProperty(this, 'ajustHeight', {
-            get: function () {
+            get: function() {
                 return ajustHeight;
             }
         });
     }
-    extend(BorderPane, Container);
-    return BorderPane;
-});
+}
+
+export default BorderPane;

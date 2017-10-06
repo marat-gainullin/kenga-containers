@@ -1,37 +1,32 @@
-define([
-    'core/invoke',
-    'ui/utils',
-    'core/extend',
-    './card-pane'], function (
-        Invoke,
-        Ui,
-        extend,
-        CardPane) {
+import Invoke from 'core/invoke';
+import Ui from 'ui/utils';
+import CardPane from './card-pane';
 
-    var SCROLL_PORTION = 20;
-    var AUTO_SCROLL_DELAY = 300;
+const SCROLL_PORTION = 20;
+const AUTO_SCROLL_DELAY = 300;
 
-    function TabbedPane() {
-        var shell = document.createElement('div');
+class TabbedPane extends CardPane {
+    constructor() {
+        const shell = document.createElement('div');
         shell.className = 'p-tabs';
-        var content = document.createElement('div');
+        const content = document.createElement('div');
         content.className = 'p-tabs-content';
-        CardPane.call(this, 0, 0, shell, content);
+        super(0, 0, shell, content);
 
-        var self = this;
+        const self = this;
 
-        var captionsShell = document.createElement('div');
+        const captionsShell = document.createElement('div');
         captionsShell.className = 'p-tabs-captions-shell';
-        var captions = document.createElement('div');
+        const captions = document.createElement('div');
         captions.className = 'p-tabs-captions';
-        var tabsOf = new Map();
+        const tabsOf = new Map();
 
         captionsShell.appendChild(captions);
         shell.appendChild(captionsShell);
         shell.appendChild(content);
 
         function showCaption(toShow) {
-            var caption = captions.firstElementChild;
+            let caption = captions.firstElementChild;
             while (caption) {
                 if (caption === toShow) {
                     caption.classList.add('p-tab-caption-selected');
@@ -44,20 +39,20 @@ define([
 
         function addCaption(w, title, image, toolTip, beforeIndex) {
             if (!title) {
-                title = w.name ? w.name : "Unnamed - " + captions.childElementCount;
+                title = w.name ? w.name : `Unnamed - ${captions.childElementCount}`;
             }
-            var caption = document.createElement('div');
+            const caption = document.createElement('div');
             caption.className = 'p-tab-caption';
-            Ui.on(caption, Ui.Events.CLICK, function (event) {
+            Ui.on(caption, Ui.Events.CLICK, event => {
                 event.stopPropagation();
                 self.show(w);
             });
-            var labelText = document.createElement('div');
+            const labelText = document.createElement('div');
             labelText.className = 'p-tab-caption-text';
             labelText.innerText = title;
-            var closeTool = document.createElement('div');
+            const closeTool = document.createElement('div');
             closeTool.className = 'p-tab-caption-close-tool';
-            Ui.on(closeTool, Ui.Events.CLICK, function (event) {
+            Ui.on(closeTool, Ui.Events.CLICK, event => {
                 event.stopPropagation();
                 self.remove(w);
             });
@@ -83,21 +78,23 @@ define([
         }
 
         // TODO: Add <html> prefix in tab title feature 
-        var superAdd = this.add;
+        const superAdd = this.add;
+
         function add(w, title, image, tooltip, beforeIndex) {
             superAdd(w, beforeIndex);
             addCaption(w, arguments.length < 2 ? null : title, arguments.length < 3 ? null : image, arguments.length < 4 ? '' : tooltip, beforeIndex);
             checkChevrons();
         }
         Object.defineProperty(this, 'add', {
-            get: function () {
+            get: function() {
                 return add;
             }
         });
 
-        var superRemove = this.remove;
+        const superRemove = this.remove;
+
         function remove(widgetOrIndex) {
-            var removed = superRemove(widgetOrIndex);
+            const removed = superRemove(widgetOrIndex);
             if (removed) {
                 captions.removeChild(tabsOf.get(removed));
                 tabsOf.delete(removed);
@@ -106,11 +103,12 @@ define([
             return removed;
         }
         Object.defineProperty(this, 'remove', {
-            get: function () {
+            get: function() {
                 return remove;
             }
         });
-        var superClear = this.clear;
+        const superClear = this.clear;
+
         function clear() {
             superClear();
             while (captions.firstElementChild)
@@ -119,25 +117,25 @@ define([
             checkChevrons();
         }
         Object.defineProperty(this, 'clear', {
-            get: function () {
+            get: function() {
                 return clear;
             }
         });
 
-        this.addSelectionHandler(function (evt) {
+        this.addSelectionHandler(evt => {
             showCaption(tabsOf.get(evt.item));
         });
 
-        var leftChevron = document.createElement('div');
+        const leftChevron = document.createElement('div');
         leftChevron.classList.add('p-tabs-chevron');
         leftChevron.classList.add('p-tabs-chevron-left');
-        var rightChevron = document.createElement('div');
+        const rightChevron = document.createElement('div');
         rightChevron.classList.add('p-tabs-chevron');
         rightChevron.classList.add('p-tabs-chevron-right');
 
         function checkChevrons() {
             if (self.count > 0) {
-                var lastCaption = captions.lastElementChild;
+                const lastCaption = captions.lastElementChild;
                 if (captions.scrollLeft > 0) {
                     if (!leftChevron.parentElement) {
                         captionsShell.appendChild(leftChevron);
@@ -178,17 +176,17 @@ define([
             checkChevrons();
         }
 
-        Ui.on(this.element, Ui.Events.MOUSEOVER, function (event) {
+        Ui.on(this.element, Ui.Events.MOUSEOVER, event => {
             checkChevrons();
         });
-        Ui.on(captionsShell, Ui.Events.SCROLL, function (event) {
+        Ui.on(captionsShell, Ui.Events.SCROLL, event => {
             checkChevrons();
         });
 
         var scheduledLeft = null;
-        Ui.on(leftChevron, Ui.Events.MOUSEDOWN, function (event) {
+        Ui.on(leftChevron, Ui.Events.MOUSEDOWN, event => {
             function schedule() {
-                Invoke.delayed(AUTO_SCROLL_DELAY, function () {
+                Invoke.delayed(AUTO_SCROLL_DELAY, () => {
                     if (scheduledLeft === schedule) {
                         schedule();
                         moveRight();
@@ -198,14 +196,14 @@ define([
             scheduledLeft = schedule;
             schedule();
         });
-        Ui.on(leftChevron, Ui.Events.MOUSEUP, function (event) {
+        Ui.on(leftChevron, Ui.Events.MOUSEUP, event => {
             scheduledLeft = null;
             moveRight();
         });
         var scheduledRight = null;
-        Ui.on(rightChevron, Ui.Events.MOUSEDOWN, function (event) {
+        Ui.on(rightChevron, Ui.Events.MOUSEDOWN, event => {
             function schedule() {
-                Invoke.delayed(AUTO_SCROLL_DELAY, function () {
+                Invoke.delayed(AUTO_SCROLL_DELAY, () => {
                     if (scheduledRight === schedule) {
                         schedule();
                         moveLeft();
@@ -215,11 +213,11 @@ define([
             scheduledRight = schedule;
             schedule();
         });
-        Ui.on(rightChevron, Ui.Events.MOUSEUP, function (event) {
+        Ui.on(rightChevron, Ui.Events.MOUSEUP, event => {
             scheduledRight = null;
             moveLeft();
         });
     }
-    extend(TabbedPane, CardPane);
-    return TabbedPane;
-});
+}
+
+export default TabbedPane;

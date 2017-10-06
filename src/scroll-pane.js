@@ -1,17 +1,11 @@
-define([
-    'ui/utils',
-    'core/extend',
-    'ui/container'
-    ], function (
-        Ui,
-        extend,
-        Container
-        ) {
+import Ui from 'ui/utils';
+import Container from 'ui/container';
 
-    function Scroll(view) {
-        Container.call(this);
+class Scroll extends Container {
+    constructor(view) {
+        super();
 
-        var self = this;
+        const self = this;
 
         this.element.classList.add('p-scroll');
         this.element.classList.add('p-vertical-scroll-filler');
@@ -20,75 +14,76 @@ define([
          * Used to set the horizontal scroll bar policy so that horizontal
          * scrollbars are displayed only when needed.
          */
-        var SCROLLBAR_AS_NEEDED = 30;
+        const SCROLLBAR_AS_NEEDED = 30;
         /**
          * Used to set the horizontal scroll bar policy so that horizontal
          * scrollbars are never displayed.
          */
-        var SCROLLBAR_NEVER = 31;
+        const SCROLLBAR_NEVER = 31;
         /**
          * Used to set the horizontal scroll bar policy so that horizontal
          * scrollbars are always displayed.
          */
-        var SCROLLBAR_ALWAYS = 32;
+        const SCROLLBAR_ALWAYS = 32;
 
-        var verticalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
-        var horizontalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
+        let verticalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
+        let horizontalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
 
         Object.defineProperty(this, 'horizontalScrollBarPolicy', {
-            get: function () {
+            get: function() {
                 return verticalScrollBarPolicy;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 verticalScrollBarPolicy = aValue;
                 applyHorizontalScrollBarPolicy();
             }
         });
 
         Object.defineProperty(this, 'verticalScrollBarPolicy', {
-            get: function () {
+            get: function() {
                 return horizontalScrollBarPolicy;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 horizontalScrollBarPolicy = aValue;
                 applyVerticalScrollBarPolicy();
             }
         });
 
         function isHorizontalScrollFiller(w) {
-            return w.element.className.indexOf('p-horizontal-scroll-filler') > -1;
+            return w.element.className.includes('p-horizontal-scroll-filler');
         }
 
         function isVerticalScrollFiller(w) {
-            return w.element.className.indexOf('p-vertical-scroll-filler') > -1;
+            return w.element.className.includes('p-vertical-scroll-filler');
         }
 
         function ajustWidth(w, aValue) {
             if (!isHorizontalScrollFiller(w)) {
-                w.element.style.width = aValue + 'px';
+                w.element.style.width = `${aValue}px`;
             }
         }
         Object.defineProperty(this, 'ajustWidth', {
-            get: function () {
+            get: function() {
                 return ajustWidth;
             }
         });
 
         function ajustHeight(w, aValue) {
             if (!isVerticalScrollFiller(w)) {
-                w.element.style.height = aValue + 'px';
+                w.element.style.height = `${aValue}px`;
             }
         }
         Object.defineProperty(this, 'ajustHeight', {
-            get: function () {
+            get: function() {
                 return ajustHeight;
             }
         });
 
-        var superAdd = this.add;
-        var superRemove = this.remove;
+        const superAdd = this.add;
+        const superRemove = this.remove;
+
         function setView(w) {
-            var old = view;
+            const old = view;
             if (old) {
                 superRemove(old);
             }
@@ -101,26 +96,26 @@ define([
         }
 
         function applyHorizontalScrollBarPolicy() {
-            var value = 'auto';
+            let value = 'auto';
             if (horizontalScrollBarPolicy === SCROLLBAR_ALWAYS) {
                 value = 'scroll';
             } else if (horizontalScrollBarPolicy === SCROLLBAR_NEVER) {
                 value = 'hidden';
             }
-            if (view.element.className.indexOf('p-scroll') !== -1) {
+            if (view.element.className.includes('p-scroll')) {
                 value = 'hidden';
             }
             self.element.style.overflowX = value;
         }
 
         function applyVerticalScrollBarPolicy() {
-            var value = 'auto';
+            let value = 'auto';
             if (verticalScrollBarPolicy === SCROLLBAR_ALWAYS) {
                 value = 'scroll';
             } else if (verticalScrollBarPolicy === SCROLLBAR_NEVER) {
                 value = 'hidden';
             }
-            if (view.element.className.indexOf('p-scroll') !== -1) {
+            if (view.element.className.includes('p-scroll')) {
                 value = 'hidden';
             }
             self.element.style.overflowY = value;
@@ -135,29 +130,29 @@ define([
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function () {
+            get: function() {
                 return add;
             }
         });
 
         function remove(widgetOrIndex) {
-            var removed = superRemove(widgetOrIndex);
+            const removed = superRemove(widgetOrIndex);
             if (removed === view) {
                 view = null;
             }
             return removed;
         }
         Object.defineProperty(this, "remove", {
-            get: function () {
+            get: function() {
                 return remove;
             }
         });
 
         Object.defineProperty(this, "view", {
-            get: function () {
+            get: function() {
                 return view;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (view !== aValue) {
                     if (aValue)
                         setView(aValue);
@@ -167,23 +162,21 @@ define([
             }
         });
 
-        function ajustTop(w) {
-        }
+        function ajustTop(w) {}
         Object.defineProperty(this, "ajustTop", {
-            get: function () {
+            get: function() {
                 return ajustTop;
             }
         });
 
-        function ajustLeft(w) {
-        }
+        function ajustLeft(w) {}
         Object.defineProperty(this, "ajustLeft", {
-            get: function () {
+            get: function() {
                 return ajustLeft;
             }
         });
 
     }
-    extend(Scroll, Container);
-    return Scroll;
-});
+}
+
+export default Scroll;

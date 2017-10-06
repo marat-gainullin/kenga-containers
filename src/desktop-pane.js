@@ -1,18 +1,16 @@
-define([
-    'core/extend',
-    './anchors-pane'
-], function (extend, AnchorsPane) {
+import AnchorsPane from './anchors-pane';
 
-    function DesktopPane() {
-        AnchorsPane.call(this);
+class DesktopPane extends AnchorsPane {
+    constructor() {
+        super();
 
-        var self = this;
+        const self = this;
 
-        function lookupForms(){
-            var res = [];
-            var child = self.element.firstElementChild;
-            while(child){
-                if(child.className.indexOf('p-window-shell') !== -1){
+        function lookupForms() {
+            const res = [];
+            let child = self.element.firstElementChild;
+            while (child) {
+                if (child.className.includes('p-window-shell')) {
                     res.push(child['p-widget']);
                 }
                 child = child.nextElementSibling;
@@ -21,107 +19,109 @@ define([
         }
 
         Object.defineProperty(this, 'forms', {
-            get: function () {
+            get: function() {
                 return lookupForms();
             }
         });
 
         function minimizeAll() {
-            lookupForms().forEach(function (w) {
+            lookupForms().forEach(w => {
                 if (w.minimize) {
                     w.minimize();
                 }
             });
         }
         Object.defineProperty(this, 'minimizeAll', {
-            get: function () {
+            get: function() {
                 return minimizeAll;
             }
         });
 
         function maximizeAll() {
-            lookupForms().forEach(function (w) {
+            lookupForms().forEach(w => {
                 if (w.maximize) {
                     w.maximize();
                 }
             });
         }
         Object.defineProperty(this, 'maximizeAll', {
-            get: function () {
+            get: function() {
                 return maximizeAll;
             }
         });
 
         function restoreAll() {
-            lookupForms().forEach(function (w) {
+            lookupForms().forEach(w => {
                 if (w.restore) {
                     w.restore();
                 }
             });
         }
         Object.defineProperty(this, 'restoreAll', {
-            get: function () {
+            get: function() {
                 return restoreAll;
             }
         });
 
         function closeAll() {
-            lookupForms().forEach(function (w) {
+            lookupForms().forEach(w => {
                 if (w.close) {
                     w.close();
                 }
             });
         }
         Object.defineProperty(this, 'closeAll', {
-            get: function () {
+            get: function() {
                 return closeAll;
             }
         });
 
-        var platformLocationLeft = 10;
+        let platformLocationLeft = 10;
         Object.defineProperty(this, 'platformLocationLeft', {
-            get: function () {
+            get: function() {
                 return platformLocationLeft;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 platformLocationLeft = aValue;
             }
         });
 
-        var platformLocationTop = 10;
+        let platformLocationTop = 10;
         Object.defineProperty(this, 'platformLocationTop', {
-            get: function () {
+            get: function() {
                 return platformLocationTop;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 platformLocationTop = aValue;
             }
         });
 
-        var shownForms = new Map();
+        const shownForms = new Map();
+
         function getShownForms() {
             return Array.from(shownForms.values());
         }
+
         function getShownForm(aFormKey) {
             return shownForms.get(aFormKey);
         }
         Object.defineProperty(this, 'shownForms', {
-            get: function () {
+            get: function() {
                 return shownForms;
             }
         });
         Object.defineProperty(this, 'shown', {
-            get: function () {
+            get: function() {
                 return getShownForms;
             }
         });
 
         Object.defineProperty(this, 'getShownForm', {
-            get: function () {
+            get: function() {
                 return getShownForm;
             }
         });
     }
-    extend(DesktopPane, AnchorsPane);
-    return DesktopPane;
-});
+}
+
+export default DesktopPane;

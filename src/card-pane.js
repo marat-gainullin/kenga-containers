@@ -1,22 +1,17 @@
-define([
-    'core/id',
-    'core/extend',
-    'core/invoke',
-    'ui/container',
-    'ui/events/item-event'], function (
-        Id,
-        extend,
-        Invoke,
-        Container,
-        SelectionEvent) {
-    function Cards(hgap, vgap, shell, content) {
+import Id from 'core/id';
+import Invoke from 'core/invoke';
+import Container from 'ui/container';
+import SelectionEvent from 'ui/events/item-event';
+
+class Cards extends Container {
+    constructor(hgap, vgap, shell, content) {
         if (!shell)
             shell = document.createElement('div');
         if (!content)
             content = shell;
-        Container.call(this, shell, content);
+        super(shell, content);
 
-        var self = this;
+        const self = this;
 
         if (arguments.length < 2) {
             vgap = 0;
@@ -28,81 +23,84 @@ define([
 
         this.element.classList.add('p-cards');
 
-        this.element.id = 'p-' + Id.generate();
+        this.element.id = `p-${Id.generate()}`;
 
-        var style = document.createElement('style');
+        const style = document.createElement('style');
         self.element.appendChild(style);
+
         function formatChildren() {
             style.innerHTML =
-                    'div#' + self.element.id + ' > .p-widget {' +
-                    '}';
+                `div#${self.element.id} > .p-widget {}`;
         }
         formatChildren();
 
-        var cards = new Map();
+        const cards = new Map();
 
-        var selectedComponent;
+        let selectedComponent;
 
         Object.defineProperty(this, 'hgap', {
-            get: function () {
+            get: function() {
                 return hgap;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (hgap !== aValue) {
                     hgap = aValue;
-                    self.element.style.paddingLeft = self.element.style.paddingRight = hgap + 'px';
+                    self.element.style.paddingLeft = self.element.style.paddingRight = `${hgap}px`;
                 }
             }
         });
 
         Object.defineProperty(this, 'vgap', {
-            get: function () {
+            get: function() {
                 return vgap;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (vgap !== aValue) {
                     vgap = aValue;
-                    self.element.style.paddingTop = self.element.style.paddingBottom = vgap + 'px';
+                    self.element.style.paddingTop = self.element.style.paddingBottom = `${vgap}px`;
                 }
             }
         });
 
-        var superChild = this.child;
+        const superChild = this.child;
+
         function child(indexOrCard) {
             if (isNaN(indexOrCard)) {
-                var card = indexOrCard;
+                const card = indexOrCard;
                 return cards.get(card);
             } else {
-                var index = +indexOrCard;
+                const index = +indexOrCard;
                 return superChild(index);
             }
         }
         Object.defineProperty(this, 'child', {
-            get: function () {
+            get: function() {
                 return child;
             }
         });
 
-        var superAdd = this.add;
+        const superAdd = this.add;
+        const superRemove = this.remove;
+
         function add(w, indexOrCard) {
             if (w) {
                 if (w.parent === self)
                     throw 'A widget is already added to this container';
-                var card;
-                var index;
+                let card;
+                let index;
                 if (arguments.length < 2 || indexOrCard === undefined) {
-                    card = 'card-' + Id.generate();
+                    card = `card-${Id.generate()}`;
                     index = self.count;
                 } else {
                     if (isNaN(indexOrCard)) {
                         card = indexOrCard;
                         index = self.count;
                     } else {
-                        card = 'card-' + Id.generate();
+                        card = `card-${Id.generate()}`;
                         index = indexOrCard;
                     }
                 }
-                var old;
+                let old;
                 if (cards.has(card)) {
                     old = superRemove(cards.get(card));
                 }
@@ -113,23 +111,22 @@ define([
                     showWidget(w);
                 }
                 return {
-                    card: card,
+                    card,
                     evicted: old
                 };
             }
         }
         Object.defineProperty(this, 'add', {
             configurable: true,
-            get: function () {
+            get: function() {
                 return add;
             }
         });
 
-        var superRemove = this.remove;
         function remove(widgetOrIndexOrCard) {
             if (typeof widgetOrIndexOrCard === 'string')
                 widgetOrIndexOrCard = cards.get(widgetOrIndexOrCard);
-            var removed = superRemove(widgetOrIndexOrCard);
+            const removed = superRemove(widgetOrIndexOrCard);
             if (removed) {
                 removeCard(removed);
                 if (selectedComponent === removed) {
@@ -144,23 +141,24 @@ define([
         }
         Object.defineProperty(this, 'remove', {
             configurable: true,
-            get: function () {
+            get: function() {
                 return remove;
             }
         });
 
-        var superClear = this.clear;
+        const superClear = this.clear;
+
         function clear() {
             selectedComponent = null;
             cards.clear();
-            self.forEach(function (w) {
+            self.forEach(w => {
                 w.element.classList.remove('p-card-shown');
             });
             superClear();
         }
         Object.defineProperty(this, 'clear', {
             configurable: true,
-            get: function () {
+            get: function() {
                 return clear;
             }
         });
@@ -174,7 +172,7 @@ define([
         }
 
         function showWidget(toBeShown) {
-            var oldWidget = selectedComponent;
+            const oldWidget = selectedComponent;
             selectedComponent = toBeShown;
 
             if (selectedComponent !== oldWidget) {
@@ -188,9 +186,9 @@ define([
         }
 
         function fireSelected(aItem) {
-            var event = new SelectionEvent(self, aItem);
-            selectionHandlers.forEach(function (h) {
-                Invoke.later(function () {
+            const event = new SelectionEvent(self, aItem);
+            selectionHandlers.forEach(h => {
+                Invoke.later(() => {
                     h(event);
                 });
             });
@@ -198,7 +196,7 @@ define([
 
         function show(widgetOrCardName) {
             if (cards.has(widgetOrCardName)) {
-                var toShow = cards.get(widgetOrCardName);
+                const toShow = cards.get(widgetOrCardName);
                 showWidget(toShow);
             } else {
                 showWidget(widgetOrCardName);
@@ -206,18 +204,18 @@ define([
         }
 
         Object.defineProperty(this, 'show', {
-            get: function () {
+            get: function() {
                 return show;
             }
         });
 
         Object.defineProperty(this, 'selectedComponent', {
-            get: function () {
+            get: function() {
                 return selectedComponent;
             }
         });
         Object.defineProperty(this, 'selectedIndex', {
-            get: function () {
+            get: function() {
                 if (selectedComponent)
                     return self.indexOf(selectedComponent);
                 else
@@ -225,54 +223,51 @@ define([
             }
         });
 
-        var selectionHandlers = new Set();
+        const selectionHandlers = new Set();
 
         function addSelectionHandler(handler) {
             selectionHandlers.add(handler);
             return {
-                removeHandler: function () {
+                removeHandler: function() {
                     selectionHandlers.delete(handler);
                 }
             };
         }
 
         Object.defineProperty(this, 'addSelectionHandler', {
-            get: function () {
+            get: function() {
                 return addSelectionHandler;
             }
         });
 
-        function ajustLeft(w, aValue) {
-        }
+        function ajustLeft(w, aValue) {}
         Object.defineProperty(this, 'ajustLeft', {
-            get: function () {
+            get: function() {
                 return ajustLeft;
             }
         });
 
-        function ajustWidth(w, aValue) {
-        }
+        function ajustWidth(w, aValue) {}
         Object.defineProperty(this, 'ajustWidth', {
-            get: function () {
+            get: function() {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {
-        }
+        function ajustTop(w, aValue) {}
         Object.defineProperty(this, 'ajustTop', {
-            get: function () {
+            get: function() {
                 return ajustTop;
             }
         });
-        function ajustHeight(w, aValue) {
-        }
+
+        function ajustHeight(w, aValue) {}
         Object.defineProperty(this, 'ajustHeight', {
-            get: function () {
+            get: function() {
                 return ajustHeight;
             }
         });
     }
-    extend(Cards, Container);
-    return Cards;
-});
+}
+
+export default Cards;

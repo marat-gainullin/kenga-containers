@@ -1,23 +1,18 @@
-define([
-    'ui/utils',
-    'core/invoke',
-    'core/extend',
-    '../box-pane'], function (
-        Ui,
-        Invoke,
-        extend,
-        Box) {
+import Ui from 'ui/utils';
+import Invoke from 'core/invoke';
+import Box from '../box-pane';
 
-    var SCROLL_PORTION = 20;
-    var AUTO_SCROLL_DELAY = 300;
+const SCROLL_PORTION = 20;
+const AUTO_SCROLL_DELAY = 300;
 
-    function Toolbar(hgap) {
+class Toolbar extends Box {
+    constructor(hgap) {
         if (arguments.length < 1)
             hgap = 0;
 
-        Box.call(this, Ui.Orientation.HORIZONTAL, hgap, 0);
+        super(Ui.Orientation.HORIZONTAL, hgap, 0);
 
-        var self = this;
+        const self = this;
 
         delete this.orientation;
         delete this.vgap;
@@ -25,26 +20,26 @@ define([
         this.element.classList.add('p-toolbar');
         this.element.classList.add('p-btn-group');
 
-        var leftChevron = document.createElement('div');
+        const leftChevron = document.createElement('div');
         leftChevron.classList.add('p-toolbar-chevron');
         leftChevron.classList.add('p-toolbar-chevron-left');
-        var rightChevron = document.createElement('div');
+        const rightChevron = document.createElement('div');
         rightChevron.classList.add('p-toolbar-chevron');
         rightChevron.classList.add('p-toolbar-chevron-right');
 
-        this.addAddHandler(function () {
+        this.addAddHandler(() => {
             checkChevrons();
         });
-        this.addRemoveHandler(function () {
+        this.addRemoveHandler(() => {
             checkChevrons();
         });
 
         function checkChevrons() {
             if (self.count > 0) {
-                var lastTool = self.child(self.count - 1);
+                const lastTool = self.child(self.count - 1);
                 if (self.element.scrollLeft > 0) {
                     if (parseFloat(leftChevron.style.left) !== self.element.scrollLeft)
-                        leftChevron.style.left = self.element.scrollLeft + 'px';
+                        leftChevron.style.left = `${self.element.scrollLeft}px`;
                     if (!leftChevron.parentElement) {
                         self.element.appendChild(leftChevron);
                     }
@@ -56,7 +51,7 @@ define([
                 }
                 if (lastTool.element.offsetLeft + lastTool.element.offsetWidth - self.element.scrollLeft > self.element.offsetWidth) {
                     if (parseFloat(rightChevron.style.right) !== -self.element.scrollLeft)
-                        rightChevron.style.right = -self.element.scrollLeft + 'px';
+                        rightChevron.style.right = `${-self.element.scrollLeft}px`;
                     if (!rightChevron.parentElement) {
                         self.element.appendChild(rightChevron);
                     }
@@ -86,17 +81,17 @@ define([
             checkChevrons();
         }
 
-        Ui.on(this.element, Ui.Events.MOUSEOVER, function () {
+        Ui.on(this.element, Ui.Events.MOUSEOVER, () => {
             checkChevrons();
         });
-        Ui.on(this.element, Ui.Events.SCROLL, function (event) {
+        Ui.on(this.element, Ui.Events.SCROLL, event => {
             checkChevrons();
         });
 
         var scheduledLeft = null;
-        Ui.on(leftChevron, Ui.Events.MOUSEDOWN, function (event) {
+        Ui.on(leftChevron, Ui.Events.MOUSEDOWN, event => {
             function schedule() {
-                Invoke.delayed(AUTO_SCROLL_DELAY, function () {
+                Invoke.delayed(AUTO_SCROLL_DELAY, () => {
                     if (scheduledLeft === schedule) {
                         schedule();
                         moveRight();
@@ -106,14 +101,14 @@ define([
             scheduledLeft = schedule;
             schedule();
         });
-        Ui.on(leftChevron, Ui.Events.MOUSEUP, function (event) {
+        Ui.on(leftChevron, Ui.Events.MOUSEUP, event => {
             scheduledLeft = null;
             moveRight();
         });
         var scheduledRight = null;
-        Ui.on(rightChevron, Ui.Events.MOUSEDOWN, function (event) {
+        Ui.on(rightChevron, Ui.Events.MOUSEDOWN, event => {
             function schedule() {
-                Invoke.delayed(AUTO_SCROLL_DELAY, function () {
+                Invoke.delayed(AUTO_SCROLL_DELAY, () => {
                     if (scheduledRight === schedule) {
                         schedule();
                         moveLeft();
@@ -123,11 +118,11 @@ define([
             scheduledRight = schedule;
             schedule();
         });
-        Ui.on(rightChevron, Ui.Events.MOUSEUP, function (event) {
+        Ui.on(rightChevron, Ui.Events.MOUSEUP, event => {
             scheduledRight = null;
             moveLeft();
         });
     }
-    extend(Toolbar, Box);
-    return Toolbar;
-});
+}
+
+export default Toolbar;

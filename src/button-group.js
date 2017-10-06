@@ -1,50 +1,46 @@
-define([
-    'core/logger',
-    'core/invoke',
-    'ui/widget',
-    'ui/events/container-event',
-    'ui/events/item-event'], function (
-        Logger,
-        Invoke,
-        Widget,
-        ContainerEvent,
-        SelectionEvent) {
-    function ButtonGroup() {
-        var self = this;
+import Logger from 'core/logger';
+import Invoke from 'core/invoke';
+import Widget from 'ui/widget';
+import ContainerEvent from 'ui/events/container-event';
+import SelectionEvent from 'ui/events/item-event';
 
-        var selectionHandlers = new Set();
+class ButtonGroup extends Object {
+    constructor() {
+        const self = this;
+
+        const selectionHandlers = new Set();
 
         function addSelectHandler(handler) {
             selectionHandlers.add(handler);
             return {
-                removeHandler: function () {
+                removeHandler: function() {
                     selectionHandlers.delete(handler);
                 }
             };
         }
 
         function fireSelected(aItem) {
-            var event = new SelectionEvent(self, aItem);
-            selectionHandlers.forEach(function (h) {
-                Invoke.later(function () {
+            const event = new SelectionEvent(self, aItem);
+            selectionHandlers.forEach(h => {
+                Invoke.later(() => {
                     h(event);
                 });
             });
         }
 
         Object.defineProperty(this, 'addSelectHandler', {
-            get: function () {
+            get: function() {
                 return addSelectHandler;
             }
         });
 
-        var onSelect;
-        var selectReg;
+        let onSelect;
+        let selectReg;
         Object.defineProperty(this, 'onSelect', {
-            get: function () {
+            get: function() {
                 return onSelect;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (onSelect !== aValue) {
                     if (selectReg) {
                         selectReg.removeHandler();
@@ -52,7 +48,7 @@ define([
                     }
                     onSelect = aValue;
                     if (onSelect) {
-                        selectReg = addSelectHandler(function (event) {
+                        selectReg = addSelectHandler(event => {
                             if (onSelect) {
                                 onSelect(event);
                             }
@@ -62,10 +58,10 @@ define([
             }
         });
 
-        var children = [];
+        const children = [];
 
         Object.defineProperty(this, 'count', {
-            get: function () {
+            get: function() {
                 return children.length;
             }
         });
@@ -78,16 +74,17 @@ define([
             }
         }
         Object.defineProperty(this, 'child', {
-            get: function () {
+            get: function() {
                 return child;
             }
         });
+
         function _children() {
             Logger.warning("'children()' function is obsolete. Use 'count', 'child' and 'forEach' please");
             return children.slice(0, children.length);
         }
         Object.defineProperty(this, 'children', {
-            get: function () {
+            get: function() {
                 return _children;
             }
         });
@@ -97,7 +94,7 @@ define([
         }
 
         Object.defineProperty(this, 'forEach', {
-            get: function () {
+            get: function() {
                 return forEach;
             }
         });
@@ -107,12 +104,12 @@ define([
         }
 
         Object.defineProperty(this, 'indexOf', {
-            get: function () {
+            get: function() {
                 return indexOf;
             }
         });
 
-        var valueChangeRegs = new Map();
+        const valueChangeRegs = new Map();
 
         function add(w, beforeIndex) {
             if (w.buttonGroup !== self) {
@@ -124,11 +121,9 @@ define([
                     children.splice(beforeIndex, 0, w);
                 }
                 if (w.addValueChangeHandler) {
-                    var valueChangeReg = w.addValueChangeHandler(function (evt) {
+                    const valueChangeReg = w.addValueChangeHandler(evt => {
                         if (evt.newValue) {
-                            children.filter(function (item) {
-                                return item !== evt.source;
-                            }).forEach(function (item) {
+                            children.filter(item => item !== evt.source).forEach(item => {
                                 item.value = false;
                             });
                             fireSelected(evt.source);
@@ -141,24 +136,24 @@ define([
         }
 
         Object.defineProperty(this, 'add', {
-            get: function () {
+            get: function() {
                 return add;
             }
         });
 
         function remove(w) {
-            var idx;
+            let idx;
             if (w instanceof Widget)
                 idx = children.indexOf(w);
             else
                 idx = w;
             if (idx >= 0 && idx < children.length) {
-                var removed = children[idx];
+                let removed = children[idx];
                 if (removed.buttonGroup === self) {
                     removed.buttonGroup = null;
                 } else {
                     removed = children.splice(idx, 1)[0];
-                    var valueChangeReg = valueChangeRegs.get(removed);
+                    const valueChangeReg = valueChangeRegs.get(removed);
                     valueChangeRegs.delete(removed);
                     if (valueChangeReg)
                         valueChangeReg.removeHandler();
@@ -171,83 +166,83 @@ define([
         }
 
         Object.defineProperty(this, 'remove', {
-            get: function () {
+            get: function() {
                 return remove;
             }
         });
 
         function clear() {
-            var toRemove = _children();
-            toRemove.forEach(function (child) {
+            const toRemove = _children();
+            toRemove.forEach(child => {
                 remove(child);
             });
         }
 
         Object.defineProperty(this, 'clear', {
-            get: function () {
+            get: function() {
                 return clear;
             }
         });
 
-        var addHandlers = new Set();
+        const addHandlers = new Set();
 
         function addAddHandler(handler) {
             addHandlers.add(handler);
             return {
-                removeHandler: function () {
+                removeHandler: function() {
                     addHandlers.delete(handler);
                 }
             };
         }
 
         Object.defineProperty(this, 'addAddHandler', {
-            get: function () {
+            get: function() {
                 return addAddHandler;
             }
         });
 
         function fireAdded(w) {
-            var event = new ContainerEvent(self, w);
-            addHandlers.forEach(function (h) {
-                Invoke.later(function () {
+            const event = new ContainerEvent(self, w);
+            addHandlers.forEach(h => {
+                Invoke.later(() => {
                     h(event);
                 });
             });
         }
 
-        var removeHandlers = new Set();
+        const removeHandlers = new Set();
 
         function addRemoveHandler(handler) {
             removeHandlers.add(handler);
             return {
-                removeHandler: function () {
+                removeHandler: function() {
                     removeHandlers.delete(handler);
                 }
             };
         }
 
         Object.defineProperty(this, 'addRemoveHandler', {
-            get: function () {
+            get: function() {
                 return addRemoveHandler;
             }
         });
 
         function fireRemoved(w) {
-            var event = new ContainerEvent(self, w);
-            removeHandlers.forEach(function (h) {
-                Invoke.later(function () {
+            const event = new ContainerEvent(self, w);
+            removeHandlers.forEach(h => {
+                Invoke.later(() => {
                     h(event);
                 });
             });
         }
 
-        var onAdded;
-        var addedReg;
+        let onAdded;
+        let addedReg;
         Object.defineProperty(this, 'onAdded', {
-            get: function () {
+            get: function() {
                 return onAdded;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (onAdded !== aValue) {
                     if (addedReg) {
                         addedReg.removeHandler();
@@ -255,7 +250,7 @@ define([
                     }
                     onAdded = aValue;
                     if (onAdded) {
-                        addedReg = addAddHandler(function (event) {
+                        addedReg = addAddHandler(event => {
                             if (onAdded) {
                                 onAdded(event);
                             }
@@ -265,13 +260,13 @@ define([
             }
         });
 
-        var onRemoved;
-        var removedReg;
+        let onRemoved;
+        let removedReg;
         Object.defineProperty(this, 'onRemoved', {
-            get: function () {
+            get: function() {
                 return onRemoved;
             },
-            set: function (aValue) {
+            set: function(aValue) {
                 if (onRemoved !== aValue) {
                     if (removedReg) {
                         removedReg.removeHandler();
@@ -279,7 +274,7 @@ define([
                     }
                     onRemoved = aValue;
                     if (onRemoved) {
-                        removedReg = addRemoveHandler(function (event) {
+                        removedReg = addRemoveHandler(event => {
                             if (onRemoved) {
                                 onRemoved(event);
                             }
@@ -289,5 +284,6 @@ define([
             }
         });
     }
-    return ButtonGroup;
-});
+}
+
+export default ButtonGroup;

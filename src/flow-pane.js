@@ -1,15 +1,11 @@
-define([
-    'core/id',
-    'core/extend',
-    'ui/container'
-], function (
-        Id,
-        extend,
-        Container){
-    function Flow(hgap, vgap) {
-        Container.call(this);
+import Id from 'core/id';
+import Container from 'ui/container';
 
-        var self = this;
+class Flow extends Container {
+    constructor(hgap, vgap) {
+        super();
+
+        const self = this;
 
         if (arguments.length < 2) {
             vgap = 0;
@@ -21,45 +17,44 @@ define([
 
         this.element.classList.add('p-flow');
 
-        this.element.id = 'p-' + Id.generate();
+        this.element.id = `p-${Id.generate()}`;
 
-        var style = document.createElement('style');
+        const style = document.createElement('style');
+
         function formatChildren() {
             style.innerHTML =
-                    'div#' + self.element.id + ' > .p-widget {' +
-                    'margin-left: ' + hgap + 'px;' +
-                    'margin-top: ' + vgap + 'px;' +
-                    '}';
+                `div#${self.element.id} > .p-widget {margin-left: ${hgap}px;margin-top: ${vgap}px;}`;
         }
         formatChildren();
         this.element.appendChild(style);
 
         Object.defineProperty(this, "hgap", {
-            get: function () {
+            get: function() {
                 return hgap;
             },
-            set: function (aValue) {
-                if(hgap !== aValue){
+            set: function(aValue) {
+                if (hgap !== aValue) {
                     hgap = aValue;
                     formatChildren();
-                    self.element.style.paddingRight = hgap + 'px';
+                    self.element.style.paddingRight = `${hgap}px`;
                 }
             }
         });
         Object.defineProperty(this, "vgap", {
-            get: function () {
+            get: function() {
                 return vgap;
             },
-            set: function (aValue) {
-                if(vgap !== aValue){
+            set: function(aValue) {
+                if (vgap !== aValue) {
                     vgap = aValue;
                     formatChildren();
-                    self.element.style.paddingBottom = vgap + 'px';
+                    self.element.style.paddingBottom = `${vgap}px`;
                 }
             }
         });
 
-        var superAdd = this.add;
+        const superAdd = this.add;
+
         function add(w, beforeIndex) {
             if (w) {
                 if (w.parent === self)
@@ -68,11 +63,11 @@ define([
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function () {
+            get: function() {
                 return add;
             }
         });
     }
-    extend(Flow, Container);
-    return Flow;
-});
+}
+
+export default Flow;
