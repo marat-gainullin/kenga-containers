@@ -1,6 +1,6 @@
-import Id from 'core/id';
-import Ui from 'ui/utils';
-import Container from 'ui/container';
+import Id from 'septima-utils/id';
+import Ui from 'kenga/utils';
+import Container from 'kenga/container';
 
 class Box extends Container {
     constructor(orientation, hgap, vgap) {

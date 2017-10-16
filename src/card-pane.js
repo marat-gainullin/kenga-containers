@@ -1,7 +1,7 @@
-import Id from 'core/id';
-import Invoke from 'core/invoke';
-import Container from 'ui/container';
-import SelectionEvent from 'ui/events/item-event';
+import Id from 'septima-utils/id';
+import Invoke from 'septima-utils/invoke';
+import Container from 'kenga/container';
+import SelectionEvent from 'kenga/events/item-event';
 
 class Cards extends Container {
     constructor(hgap, vgap, shell, content) {
@@ -187,7 +187,7 @@ class Cards extends Container {
 
         function fireSelected(aItem) {
             const event = new SelectionEvent(self, aItem);
-            selectionHandlers.forEach(h => {
+            selectHandlers.forEach(h => {
                 Invoke.later(() => {
                     h(event);
                 });
@@ -209,7 +209,7 @@ class Cards extends Container {
             }
         });
 
-        Object.defineProperty(this, 'selectedComponent', {
+        Object.defineProperty(this, 'selected', {
             get: function() {
                 return selectedComponent;
             }
@@ -223,20 +223,20 @@ class Cards extends Container {
             }
         });
 
-        const selectionHandlers = new Set();
+        const selectHandlers = new Set();
 
-        function addSelectionHandler(handler) {
-            selectionHandlers.add(handler);
+        function addSelectHandler(handler) {
+            selectHandlers.add(handler);
             return {
                 removeHandler: function() {
-                    selectionHandlers.delete(handler);
+                    selectHandlers.delete(handler);
                 }
             };
         }
 
-        Object.defineProperty(this, 'addSelectionHandler', {
+        Object.defineProperty(this, 'addSelectHandler', {
             get: function() {
-                return addSelectionHandler;
+                return addSelectHandler;
             }
         });
 

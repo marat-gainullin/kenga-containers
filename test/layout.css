@@ -1,0 +1,5 @@
+/* These imports we need here because dependecies on kenga-buttons and kenga-fields are only for test/development needs */
+@import 'node_modules/kenga-buttons/layout.css';
+@import 'node_modules/kenga-fields/layout.css';
+/* These imports we need here because imports of css we can add only to end-user application files. */
+@import 'node_modules/kenga-fields/rich-text-area/layout.css';

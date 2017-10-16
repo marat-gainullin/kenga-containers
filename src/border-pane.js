@@ -1,6 +1,6 @@
-import Id from 'core/id';
-import Ui from 'ui/utils';
-import Container from 'ui/container';
+import Id from 'septima-utils/id';
+import Ui from 'kenga/utils';
+import Container from 'kenga/container';
 
 class BorderPane extends Container {
     constructor(hgap, vgap) {
@@ -110,25 +110,21 @@ class BorderPane extends Container {
         function leftRemoved() {
             left.element.classList.remove('p-borders-left');
             left = null;
-            leftWidth = 0;
         }
 
         function rightRemoved() {
             right.element.classList.remove('p-borders-right');
             right = null;
-            rightWidth = 0;
         }
 
         function topRemoved() {
             top.element.classList.remove('p-borders-top');
             top = null;
-            topHeight = 0;
         }
 
         function bottomRemoved() {
             bottom.element.classList.remove('p-borders-bottom');
             bottom = null;
-            bottomHeight = 0;
         }
 
         function centerRemoved() {

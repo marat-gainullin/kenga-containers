@@ -1,6 +1,6 @@
-import Id from 'core/id';
-import Ui from 'ui/utils';
-import Container from 'ui/container';
+import Id from 'septima-utils/id';
+import Ui from 'kenga/utils';
+import Container from 'kenga/container';
 
 class Split extends Container {
     constructor(orientation) {
@@ -34,8 +34,7 @@ class Split extends Container {
                 style.innerHTML =
                     // firstWidget
                     // secondWidget
-                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;top: ${0}px;bottom: ${0}px;width: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;right: ${0}px;top: ${0}px;bottom: ${0}px;left: ${dividerLocation + dividerSize}px`;
-                '}';
+                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;top: ${0}px;bottom: ${0}px;width: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;right: ${0}px;top: ${0}px;bottom: ${0}px;left: ${dividerLocation + dividerSize}px;}`;
                 divider.style.top = '0px';
                 divider.style.bottom = '0px';
                 divider.style.width = `${dividerSize}px`;

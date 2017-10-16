@@ -1,5 +1,5 @@
-import Id from 'core/id';
-import Container from 'ui/container';
+import Id from 'septima-utils/id';
+import Container from 'kenga/container';
 
 /**
  * A container with Grid Layout.

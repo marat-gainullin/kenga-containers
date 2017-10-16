@@ -1,6 +1,14 @@
-/* global expect */
+/* global expect, spyOn */
+// These imports are located here because we have tests only dependencies
+import './layout.css';
+import './theme.css';
+// These imports have transitive references only to kenga css
+import '../src/layout.css';
+import '../src/theme.css';
+
 import Invoke from 'septima-utils/invoke';
 import Logger from 'septima-utils/logger';
+import Resource from 'septima-remote/resource';
 import Ui from 'kenga/utils';
 import Font from 'kenga/font';
 import Color from 'kenga/color';
@@ -8,6 +16,8 @@ import Cursor from 'kenga/cursor';
 import CheckBox from 'kenga-buttons/check-box';
 import RadioButton from 'kenga-buttons/radio-button';
 import ToggleButton from 'kenga-buttons/toggle-button';
+import TextArea from 'kenga-fields/text-area';
+import RichTextArea from 'kenga-fields/rich-text-area';
 import Box from '../src/box-pane';
 import Flow from '../src/flow-pane';
 import Cards from '../src/card-pane';
@@ -20,8 +30,6 @@ import Anchors from '../src/anchors-pane';
 import Absolute from '../src/absolute-pane';
 import TabbedPane from '../src/tabbed-pane';
 import ButtonGroup from '../src/button-group';
-import TextArea from 'forms/fields/text-area';
-import RichTextArea from 'forms/fields/rich-text-area';
 
 describe('Containers Api', () => {
 
@@ -30,7 +38,7 @@ describe('Containers Api', () => {
         expect(obj[prop]).toEqual(value);
     }
 
-    function expectWidget(widget, Font, Color, Cursor) {
+    function expectWidget(widget) {
         expect('name' in widget).toBeTruthy();
         expectValue(widget, 'name', 'widgetName');
         expect('element' in widget).toBeTruthy();
@@ -75,42 +83,40 @@ describe('Containers Api', () => {
         expect(typeof widget.focus).toEqual('function');
         widget.focus();
 
-        expect('onShown' in widget).toBeTruthy();
-        expectValue(widget, 'onShown', () => {});
-        expect('onHidden' in widget).toBeTruthy();
-        expectValue(widget, 'onHidden', () => {});
-        expect('onMouseDragged' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseDragged', () => {});
-        expect('onMouseReleased' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseReleased', () => {});
+        expect('onShow' in widget).toBeTruthy();
+        expectValue(widget, 'onShow', () => {});
+        expect('onHide' in widget).toBeTruthy();
+        expectValue(widget, 'onHide', () => {});
+        expect('onMouseRelease' in widget).toBeTruthy();
+        expectValue(widget, 'onMouseRelease', () => {});
         expect('onFocusLost' in widget).toBeTruthy();
         expectValue(widget, 'onFocusLost', () => {});
-        expect('onMousePressed' in widget).toBeTruthy();
-        expectValue(widget, 'onMousePressed', () => {});
-        expect('onMouseEntered' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseEntered', () => {});
-        expect('onMouseMoved' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseMoved', () => {});
-        expect('onActionPerformed' in widget).toBeTruthy();
-        expectValue(widget, 'onActionPerformed', () => {});
-        expect('onKeyReleased' in widget).toBeTruthy();
-        expectValue(widget, 'onKeyReleased', () => {});
-        expect('onKeyTyped' in widget).toBeTruthy();
-        expectValue(widget, 'onKeyTyped', () => {});
-        expect('onMouseWheelMoved' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseWheelMoved', () => {});
-        expect('onFocusGained' in widget).toBeTruthy();
-        expectValue(widget, 'onFocusGained', () => {});
-        expect('onMouseClicked' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseClicked', () => {});
-        expect('onMouseExited' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseExited', () => {});
-        expect('onKeyPressed' in widget).toBeTruthy();
-        expectValue(widget, 'onKeyPressed', () => {});
+        expect('onMousePress' in widget).toBeTruthy();
+        expectValue(widget, 'onMousePress', () => {});
+        expect('onMouseEnter' in widget).toBeTruthy();
+        expectValue(widget, 'onMouseEnter', () => {});
+        expect('onMouseMove' in widget).toBeTruthy();
+        expectValue(widget, 'onMouseMove', () => {});
+        expect('onAction' in widget).toBeTruthy();
+        expectValue(widget, 'onAction', () => {});
+        expect('onKeyRelease' in widget).toBeTruthy();
+        expectValue(widget, 'onKeyRelease', () => {});
+        expect('onKeyType' in widget).toBeTruthy();
+        expectValue(widget, 'onKeyType', () => {});
+        expect('onMouseWheelMove' in widget).toBeTruthy();
+        expectValue(widget, 'onMouseWheelMove', () => {});
+        expect('onFocus' in widget).toBeTruthy();
+        expectValue(widget, 'onFocus', () => {});
+        expect('onMouseClick' in widget).toBeTruthy();
+        expectValue(widget, 'onMouseClick', () => {});
+        expect('onMouseExit' in widget).toBeTruthy();
+        expectValue(widget, 'onMouseExit', () => {});
+        expect('onKeyPress' in widget).toBeTruthy();
+        expectValue(widget, 'onKeyPress', () => {});
     }
 
-    function expectContainer(container, Font, Color, Cursor) {
-        expectWidget(container, Font, Color, Cursor);
+    function expectContainer(container) {
+        expectWidget(container);
         // Structure
         expect('count' in container).toBeTruthy();
         expect(container.add).toBeDefined();
@@ -123,49 +129,20 @@ describe('Containers Api', () => {
         expect(typeof container.children).toEqual('function');
         expect(container.child).toBeDefined();
         expect(typeof container.child).toEqual('function');
-        expect('onAdded' in container).toBeTruthy();
-        expectValue(container, 'onAdded', () => {});
-        expect('onRemoved' in container).toBeTruthy();
-        expectValue(container, 'onRemoved', () => {});
+        expect('onAdd' in container).toBeTruthy();
+        expectValue(container, 'onAdd', () => {});
+        expect('onRemove' in container).toBeTruthy();
+        expectValue(container, 'onRemove', () => {});
     }
-
-    it('Color Api', done => {
-        const c1 = new Color("#ccc");
-        expect(c1.red).toEqual(204);
-        expect(c1.green).toEqual(204);
-        expect(c1.blue).toEqual(204);
-        expect(c1.alpha).toEqual(255);
-        const c2 = new Color("rgb(12, 23, 34)");
-        expect(c2.red).toEqual(12);
-        expect(c2.green).toEqual(23);
-        expect(c2.blue).toEqual(34);
-        expect(c2.alpha).toEqual(255);
-        const c22 = new Color(12, 23, 34);
-        expect(c22.red).toEqual(12);
-        expect(c22.green).toEqual(23);
-        expect(c22.blue).toEqual(34);
-        expect(c22.alpha).toEqual(255);
-        const c3 = new Color("rgba(12, 23, 34, .5)");
-        expect(c3.red).toEqual(12);
-        expect(c3.green).toEqual(23);
-        expect(c3.blue).toEqual(34);
-        expect(c3.alpha).toEqual(127);
-        const c33 = new Color(12, 23, 34, 45);
-        expect(c33.red).toEqual(12);
-        expect(c33.green).toEqual(23);
-        expect(c33.blue).toEqual(34);
-        expect(c33.alpha).toEqual(45);
-        done();
-    });
 
     it('Flow pane.Structure', done => {
         const container = new Flow();
-        expectContainer(container, Font, Color, Cursor);
+        expectContainer(container);
         expect(container.hgap).toEqual(0);
         expect(container.vgap).toEqual(0);
         expect(container.element).toBeDefined();
         const container2 = new Flow(3, 6);
-        expectContainer(container2, Font, Color, Cursor);
+        expectContainer(container2);
         expect(container2.hgap).toEqual(3);
         expect(container2.vgap).toEqual(6);
         expect(container2.element).toBeDefined();
@@ -296,19 +273,19 @@ describe('Containers Api', () => {
     it('Cards pane.Structure', done => {
         const container = new Cards();
         let selectedEvents = 0;
-        const selected = container.addSelectionHandler(event => {
+        const selected = container.addSelectHandler(event => {
             selectedEvents++;
             expect(event).toBeDefined();
             expect(event.source).toBeDefined();
             expect(event.target).toBeDefined();
             expect(event.item).toBeDefined();
         });
-        expectContainer(container, Font, Color, Cursor);
+        expectContainer(container);
         expect(container.hgap).toEqual(0);
         expect(container.vgap).toEqual(0);
         expect(container.element).toBeDefined();
         const container2 = new Cards(3, 6);
-        expectContainer(container2, Font, Color, Cursor);
+        expectContainer(container2);
         expect(container2.hgap).toEqual(3);
         expect(container2.vgap).toEqual(6);
         expect(container2.element).toBeDefined();
@@ -360,13 +337,13 @@ describe('Containers Api', () => {
         expect(container.child(0)).toEqual(step1);
         expect(container.child(1)).toEqual(step2);
         expect(container.child(2)).toEqual(step3);
-        expect(container.visibleWidget).toEqual(step1);
+        expect(container.selected).toEqual(step1);
         container.show('Step-2-view');
-        expect(container.visibleWidget).toEqual(step2);
+        expect(container.selected).toEqual(step2);
         container.show(step3);
-        expect(container.visibleWidget).toEqual(step3);
+        expect(container.selected).toEqual(step3);
         container.remove(step3);
-        expect(container.visibleWidget).toEqual(step1);
+        expect(container.selected).toEqual(step1);
         container.remove('Step-2-view');
         expect(container.count).toEqual(1);
         container.remove(0);
@@ -464,7 +441,7 @@ describe('Containers Api', () => {
 
     it('Grid pane.Structure', done => {
         const container1 = new Cells();
-        expectContainer(container1, Font, Color, Cursor);
+        expectContainer(container1);
         expect(container1.rows).toEqual(1);
         expect(container1.columns).toEqual(1);
         expect(container1.hgap).toEqual(0);
@@ -721,7 +698,7 @@ describe('Containers Api', () => {
     });
     it('Absolute pane.Structure', done => {
         const container = new Absolute();
-        expectContainer(container, Font, Color, Cursor);
+        expectContainer(container);
         expect(container.element).toBeDefined();
 
         const child0 = new Absolute();
@@ -761,7 +738,7 @@ describe('Containers Api', () => {
     });
     it('Anchors pane.Structure', done => {
         const container = new Anchors();
-        expectContainer(container, Font, Color, Cursor);
+        expectContainer(container);
         expect(container.element).toBeDefined();
 
         const child0 = new Anchors();
@@ -883,7 +860,7 @@ describe('Containers Api', () => {
     });
     it('Box pane.Structure', done => {
         const container = new Box();
-        expectContainer(container, Font, Color, Cursor);
+        expectContainer(container);
         expect(container.element).toBeDefined();
 
         const child0 = new Box();
@@ -1102,7 +1079,7 @@ describe('Containers Api', () => {
     });
     it('Scroll pane.Structure', done => {
         const container = new Scroll();
-        expectContainer(container, Font, Color, Cursor);
+        expectContainer(container);
         expect(container.element).toBeDefined();
 
         const child0 = new Scroll();
@@ -1155,8 +1132,8 @@ describe('Containers Api', () => {
 
         done();
     });
-    it('Scroll pane.detached left top width height', done => {
-        const child = new Scroll();
+    it('Scroll pane.detached left top width height', () => {
+        const child = new ToggleButton();
         const container = new Scroll(child);
         expect(child.left).toEqual(0);
         child.left += 10;
@@ -1170,10 +1147,9 @@ describe('Containers Api', () => {
         expect(child.height).toEqual(0);
         child.height += 10;
         expect(child.height).toEqual(10);
-        done();
     });
-    it('Scroll pane.attached left top width height', done => {
-        const child = new Scroll();
+    it('Scroll pane.attached left top width height', () => {
+        const child = new Flow();
         const container = new Scroll(child);
         container.width = container.height = 400;
         document.body.appendChild(container.element);
@@ -1190,7 +1166,6 @@ describe('Containers Api', () => {
         child.top += 10;
         expect(child.element.offsetTop).toEqual(0);
         document.body.removeChild(container.element);
-        done();
     });
     it('Box in Scroll horizontal vertical', done => {
         const scroll = new Scroll();
@@ -1271,7 +1246,7 @@ describe('Containers Api', () => {
     });
     it('Split pane.Structure', done => {
         const container = new Split();
-        expectContainer(container, Font, Color, Cursor);
+        expectContainer(container);
         expect(container.element).toBeDefined();
 
         const child0 = new Split();
@@ -1432,9 +1407,9 @@ describe('Containers Api', () => {
             });
         });
     });
-    it('Borders pane.Structure', done => {
+    it('Borders pane.Structure', () => {
         const borders = new Borders();
-        expectContainer(borders, Font, Color, Cursor);
+        expectContainer(borders);
         expect(borders.element).toBeDefined();
 
         const topChild = new Borders();
@@ -1500,8 +1475,6 @@ describe('Containers Api', () => {
         const rightChild1 = new Borders();
         const oldRight = borders.add(rightChild1, Ui.HorizontalPosition.RIGHT);
         expect(oldRight).toEqual(rightChild);
-
-        done();
     });
     it('Borders pane.attached left top width height', done => {
         const borders = new Borders();
@@ -1674,11 +1647,11 @@ describe('Containers Api', () => {
 
     it('TabedPane.Structure', done => {
         const tabs = new TabbedPane();
-        expectContainer(tabs, Font, Color, Cursor);
+        expectContainer(tabs);
         const tab0 = new TabbedPane();
         const tab1 = new TabbedPane();
         const tab2 = new TabbedPane();
-        Ui.Icon.load('assets/binary-content.png', loaded => {
+        Resource.Icon.load('base/assets/binary-content.png', loaded => {
             tabs.add(tab0, 'tab1', loaded, 'tooltip1');
             tabs.add(tab1, 'tab2', loaded, 'tooltip2');
             tabs.add(tab2, 'tab3', loaded, 'tooltip3');
@@ -1708,22 +1681,22 @@ describe('Containers Api', () => {
     });
     it('TabedPane.Markup', done => {
         const tabs = new TabbedPane();
-        tabs.onItemSelected = evt => {
-            Logger.info(`Item selected on: ${evt.source.constructor.name}`);
+        tabs.onSelect = evt => {
+            Logger.info(`Tab selected on: ${evt.source.constructor.name}`);
         };
         document.body.appendChild(tabs.element);
-        const tab0 = new FlowPane();
+        const tab0 = new Flow();
         tab0.background = '#bcbcfc';
         tab0.width = 250;
         tab0.height = 200;
-        const tab1 = new FlowPane();
+        const tab1 = new Flow();
         tab1.background = '#fcacac';
         tab1.width = 200;
         tab1.height = 250;
-        const tab2 = new FlowPane();
+        const tab2 = new Flow();
         tabs.add(tab0, 'tab0', null, 'tooltip0');
         tabs.add(tab2, 'tab2', null, 'tooltip2');
-        Ui.Icon.load('assets/binary-content.png', loaded => {
+        Resource.Icon.load('base/assets/binary-content.png', loaded => {
             tabs.add(tab1, 'tab1', loaded, 'tooltip1', 1);
             expect(tabs.children()).toEqual([tab0, tab1, tab2]);
             document.body.removeChild(tabs.element);
@@ -1732,8 +1705,8 @@ describe('Containers Api', () => {
     });
     it('TextArea.ScrollPane.Markup', done => {
         const textArea = new TextArea();
-        const scroll = new ScrollPane(textArea);
-        const scroll1 = new ScrollPane(scroll);
+        const scroll = new Scroll(textArea);
+        const scroll1 = new Scroll(scroll);
         document.body.appendChild(scroll1.element);
         textArea.text =
                 'Sample text for text area, ' +
@@ -1756,8 +1729,8 @@ describe('Containers Api', () => {
     });
     it('RichTextArea.ScrollPane.Markup', done => {
         const textArea = new RichTextArea();
-        const scroll = new ScrollPane(textArea);
-        const scroll1 = new ScrollPane(scroll);
+        const scroll = new Scroll(textArea);
+        const scroll1 = new Scroll(scroll);
         document.body.appendChild(scroll1.element);
         textArea.text =
                 'Sample text for text area, ' +
@@ -1779,8 +1752,8 @@ describe('Containers Api', () => {
         });
     });
     it('Box.Horizontal.ScrollPane.Markup', done => {
-        const box = new BoxPane();
-        const scroll = new ScrollPane(box);
+        const box = new Box();
+        const scroll = new Scroll(box);
         scroll.width = scroll.height = 400;
         document.body.appendChild(scroll.element);
         Invoke.later(() => {
@@ -1793,9 +1766,9 @@ describe('Containers Api', () => {
         });
     });
     it('Box.Vertical.ScrollPane.Markup', done => {
-        const box = new BoxPane();
+        const box = new Box();
         box.orientation = Ui.Orientation.VERTICAL;
-        const scroll = new ScrollPane(box);
+        const scroll = new Scroll(box);
         scroll.width = scroll.height = 400;
         document.body.appendChild(scroll.element);
         Invoke.later(() => {
@@ -1881,11 +1854,11 @@ describe('Containers Api', () => {
         group.add(radio);
         group.add(toggle);
 
-        group.onItemSelected = evt => {
+        group.onSelect = evt => {
             Logger.info(`selected ${evt.target.constructor.name}`);
         };
 
-        spyOn(group, 'onItemSelected');
+        spyOn(group, 'onSelect').and.callThrough();
 
         check.selected = true;
         radio.selected = true;
@@ -1893,7 +1866,7 @@ describe('Containers Api', () => {
 
         Invoke.later(() => {
             Invoke.later(() => {
-                expect(group.onItemSelected.calls.count()).toEqual(3);
+                expect(group.onSelect.calls.count()).toEqual(3);
                 document.body.removeChild(check.element);
                 document.body.removeChild(radio.element);
                 document.body.removeChild(toggle.element);

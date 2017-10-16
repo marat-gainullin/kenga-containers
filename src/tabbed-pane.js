@@ -1,5 +1,5 @@
-import Invoke from 'core/invoke';
-import Ui from 'ui/utils';
+import Invoke from 'septima-utils/invoke';
+import Ui from 'kenga/utils';
 import CardPane from './card-pane';
 
 const SCROLL_PORTION = 20;
@@ -122,7 +122,7 @@ class TabbedPane extends CardPane {
             }
         });
 
-        this.addSelectionHandler(evt => {
+        this.addSelectHandler(evt => {
             showCaption(tabsOf.get(evt.item));
         });
 

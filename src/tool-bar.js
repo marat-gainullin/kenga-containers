@@ -1,6 +1,6 @@
-import Ui from 'ui/utils';
-import Invoke from 'core/invoke';
-import Box from '../box-pane';
+import Ui from 'kenga/utils';
+import Invoke from 'septima-utils/invoke';
+import Box from './box-pane';
 
 const SCROLL_PORTION = 20;
 const AUTO_SCROLL_DELAY = 300;

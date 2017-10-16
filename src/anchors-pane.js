@@ -1,4 +1,4 @@
-import Container from 'ui/container';
+import Container from 'kenga/container';
 
 class Anchors extends Container {
     constructor() {

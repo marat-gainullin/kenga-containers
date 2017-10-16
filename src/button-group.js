@@ -1,10 +1,10 @@
-import Logger from 'core/logger';
-import Invoke from 'core/invoke';
-import Widget from 'ui/widget';
-import ContainerEvent from 'ui/events/container-event';
-import SelectionEvent from 'ui/events/item-event';
+import Invoke from 'septima-utils/invoke';
+import Logger from 'septima-utils/logger';
+import Widget from 'kenga/widget';
+import SelectionEvent from 'kenga/events/item-event';
+import ContainerEvent from 'kenga/events/container-event';
 
-class ButtonGroup extends Object {
+class ButtonGroup {
     constructor() {
         const self = this;
 
