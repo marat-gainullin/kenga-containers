@@ -320,35 +320,6 @@ describe('Containers Api', () => {
         expect(container.indexOf(child1)).toEqual(-1);
         expect(container.indexOf(child2)).toEqual(-1);
 
-        // Cards specific
-        const step1 = new Cards();
-        container.add(step1, 'Step-1-view');
-        const step2 = new Cards();
-        container.add(step2, 'Step-2-view');
-        const step03 = new Cards();
-        const step3 = new Cards();
-        container.add(step03, 'Step-3-view');
-        container.add(step3, 'Step-3-view');
-        expect(container.indexOf(step03)).toEqual(-1);
-
-        expect(container.child('Step-1-view')).toEqual(step1);
-        expect(container.child('Step-2-view')).toEqual(step2);
-        expect(container.child('Step-3-view')).toEqual(step3);
-        expect(container.child(0)).toEqual(step1);
-        expect(container.child(1)).toEqual(step2);
-        expect(container.child(2)).toEqual(step3);
-        expect(container.selected).toEqual(step1);
-        container.show('Step-2-view');
-        expect(container.selected).toEqual(step2);
-        container.show(step3);
-        expect(container.selected).toEqual(step3);
-        container.remove(step3);
-        expect(container.selected).toEqual(step1);
-        container.remove('Step-2-view');
-        expect(container.count).toEqual(1);
-        container.remove(0);
-        expect(container.count).toEqual(0);
-
         selected.removeHandler();
         Invoke.later(() => {
             expect(selectedEvents).toBeGreaterThan(0);
