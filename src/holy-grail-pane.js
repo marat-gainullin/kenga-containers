@@ -2,7 +2,7 @@ import Id from 'septima-utils/id';
 import Ui from 'kenga/utils';
 import Container from 'kenga/container';
 
-class BorderPane extends Container {
+class HolyGrailPane extends Container {
     constructor(hgap, vgap) {
         if (arguments.length < 2)
             vgap = 0;
@@ -14,9 +14,9 @@ class BorderPane extends Container {
         const self = this;
         const flexColumn = this.element;
 
-        flexColumn.classList.add('p-borders-column');
+        flexColumn.classList.add('p-holy-grail-column');
         const flexRow = document.createElement('div');
-        flexRow.classList.add('p-borders-row');
+        flexRow.classList.add('p-holy-grail-row');
         this.element.appendChild(flexRow);
 
         flexColumn.id = `p-${Id.generate()}`;
@@ -27,15 +27,15 @@ class BorderPane extends Container {
 
         function formatChildren() {
             gapsStyle.innerHTML =
-                `div#${flexColumn.id} > .p-borders-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}div#${flexRow.id} > .p-borders-center {margin-left: ${hgap}px;margin-right: ${hgap}px;}`;
+                `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap}px;margin-right: ${hgap}px;}`;
         }
         formatChildren();
 
-        let center;
-        let left;
-        let right;
-        let top;
-        let bottom;
+        let content;
+        let leftSide;
+        let rightSide;
+        let header;
+        let footer;
 
         Object.defineProperty(this, 'hgap', {
             get: function() {
@@ -65,38 +65,38 @@ class BorderPane extends Container {
 
         function add(w, aPlace, aSize) {
             if (arguments.length < 2) {
-                let cold = self.centerComponent;
-                self.centerComponent = w;
+                let cold = self.content;
+                self.content = w;
                 return cold;
             } else {
                 switch (aPlace) {
                     case Ui.HorizontalPosition.LEFT:
-                        const lold = self.leftComponent;
-                        self.leftComponent = w;
+                        const lold = self.leftSide;
+                        self.leftSide = w;
                         if (arguments.length > 2)
                             w.width = aSize;
                         return lold;
                     case Ui.HorizontalPosition.RIGHT:
-                        const rold = self.rightComponent;
-                        self.rightComponent = w;
+                        const rold = self.rightSide;
+                        self.rightSide = w;
                         if (arguments.length > 2)
                             w.width = aSize;
                         return rold;
                     case Ui.VerticalPosition.TOP:
-                        const told = self.topComponent;
-                        self.topComponent = w;
+                        const told = self.header;
+                        self.header = w;
                         if (arguments.length > 2)
                             w.height = aSize;
                         return told;
                     case Ui.VerticalPosition.BOTTOM:
-                        const bold = self.bottomComponent;
-                        self.bottomComponent = w;
+                        const bold = self.footer;
+                        self.footer = w;
                         if (arguments.length > 2)
                             w.height = aSize;
                         return bold;
                     default:
-                        let cold = self.centerComponent;
-                        self.centerComponent = w;
+                        let cold = self.content;
+                        self.content = w;
                         return cold;
                 }
             }
@@ -107,46 +107,46 @@ class BorderPane extends Container {
             }
         });
 
-        function leftRemoved() {
-            left.element.classList.remove('p-borders-left');
-            left = null;
+        function leftSideRemoved() {
+            leftSide.element.classList.remove('p-holy-grail-left');
+            leftSide = null;
         }
 
-        function rightRemoved() {
-            right.element.classList.remove('p-borders-right');
-            right = null;
+        function rightSideRemoved() {
+            rightSide.element.classList.remove('p-holy-grail-right');
+            rightSide = null;
         }
 
-        function topRemoved() {
-            top.element.classList.remove('p-borders-top');
-            top = null;
+        function headerRemoved() {
+            header.element.classList.remove('p-holy-grail-header');
+            header = null;
         }
 
-        function bottomRemoved() {
-            bottom.element.classList.remove('p-borders-bottom');
-            bottom = null;
+        function footerRemoved() {
+            footer.element.classList.remove('p-holy-grail-footer');
+            footer = null;
         }
 
-        function centerRemoved() {
-            center.element.classList.remove('p-borders-center');
-            center = null;
+        function contentRemoved() {
+            content.element.classList.remove('p-holy-grail-content');
+            content = null;
         }
 
         function checkRemoved(w) {
-            if (left === w) {
-                leftRemoved();
+            if (leftSide === w) {
+                leftSideRemoved();
             }
-            if (right === w) {
-                rightRemoved();
+            if (rightSide === w) {
+                rightSideRemoved();
             }
-            if (top === w) {
-                topRemoved();
+            if (header === w) {
+                headerRemoved();
             }
-            if (bottom === w) {
-                bottomRemoved();
+            if (footer === w) {
+                footerRemoved();
             }
-            if (center === w) {
-                centerRemoved();
+            if (content === w) {
+                contentRemoved();
             }
         }
 
@@ -167,16 +167,16 @@ class BorderPane extends Container {
 
         function clear() {
             superClear();
-            if (left)
-                leftRemoved();
-            if (right)
-                rightRemoved();
-            if (top)
-                topRemoved();
-            if (bottom)
-                bottomRemoved();
-            if (center)
-                centerRemoved();
+            if (leftSide)
+                leftSideRemoved();
+            if (rightSide)
+                rightSideRemoved();
+            if (header)
+                headerRemoved();
+            if (footer)
+                footerRemoved();
+            if (content)
+                contentRemoved();
         }
         Object.defineProperty(this, 'clear', {
             get: function() {
@@ -184,96 +184,96 @@ class BorderPane extends Container {
             }
         });
 
-        Object.defineProperty(this, 'leftComponent', {
+        Object.defineProperty(this, 'leftSide', {
             get: function() {
-                return left;
+                return leftSide;
             },
             set: function(w) {
-                if (w !== left) {
-                    if (left) {
-                        superRemove(left);
-                        leftRemoved();
+                if (w !== leftSide) {
+                    if (leftSide) {
+                        superRemove(leftSide);
+                        leftSideRemoved();
                     }
                     if (w) {
                         superAdd(w);
                         flexRow.appendChild(w.element);
-                        w.element.classList.add('p-borders-left');
+                        w.element.classList.add('p-holy-grail-left');
                     }
-                    left = w;
+                    leftSide = w;
                 }
             }
         });
-        Object.defineProperty(this, 'rightComponent', {
+        Object.defineProperty(this, 'rightSide', {
             get: function() {
-                return right;
+                return rightSide;
             },
             set: function(w) {
-                if (w !== right) {
-                    if (right) {
-                        superRemove(right);
-                        rightRemoved();
+                if (w !== rightSide) {
+                    if (rightSide) {
+                        superRemove(rightSide);
+                        rightSideRemoved();
                     }
                     if (w) {
                         superAdd(w);
                         flexRow.appendChild(w.element);
-                        w.element.classList.add('p-borders-right');
+                        w.element.classList.add('p-holy-grail-right');
                     }
-                    right = w;
+                    rightSide = w;
                 }
             }
         });
-        Object.defineProperty(this, 'topComponent', {
+        Object.defineProperty(this, 'header', {
             get: function() {
-                return top;
+                return header;
             },
             set: function(w) {
-                if (w !== top) {
-                    if (top) {
-                        superRemove(top);
-                        topRemoved();
+                if (w !== header) {
+                    if (header) {
+                        superRemove(header);
+                        headerRemoved();
                     }
                     if (w) {
                         superAdd(w);
-                        w.element.classList.add('p-borders-top');
+                        w.element.classList.add('p-holy-grail-header');
                     }
-                    top = w;
+                    header = w;
                 }
             }
         });
-        Object.defineProperty(this, 'bottomComponent', {
+        Object.defineProperty(this, 'footer', {
             get: function() {
-                return bottom;
+                return footer;
             },
             set: function(w) {
-                if (w !== bottom) {
-                    if (bottom) {
-                        superRemove(bottom);
-                        bottomRemoved();
+                if (w !== footer) {
+                    if (footer) {
+                        superRemove(footer);
+                        footerRemoved();
                     }
                     if (w) {
                         superAdd(w);
-                        w.element.classList.add('p-borders-bottom');
+                        w.element.classList.add('p-holy-grail-footer');
                     }
-                    bottom = w;
+                    footer = w;
                 }
             }
         });
-        Object.defineProperty(this, 'centerComponent', {
+        Object.defineProperty(this, 'content', {
             get: function() {
-                return center;
+                return content;
             },
             set: function(w) {
-                if (w !== center) {
-                    if (center) {
-                        superRemove(center);
-                        centerRemoved();
+                if (w !== content) {
+                    if (content) {
+                        superRemove(content);
+                        contentRemoved();
                     }
                     if (w) {
                         superAdd(w);
-                        w.element.classList.add('p-borders-center');
+                        w.element.classList.add('p-holy-grail-content');
                         flexRow.appendChild(w.element);
                     }
-                    center = w;
+                    content = w;
                 }
             }
         });
@@ -286,10 +286,10 @@ class BorderPane extends Container {
         });
 
         function ajustWidth(w, aValue) {
-            if (left === w) {
-                left.element.style.width = `${aValue}px`;
-            } else if (right === w) {
-                right.element.style.width = `${aValue}px`;
+            if (leftSide === w) {
+                leftSide.element.style.width = `${aValue}px`;
+            } else if (rightSide === w) {
+                rightSide.element.style.width = `${aValue}px`;
             }
         }
         Object.defineProperty(this, 'ajustWidth', {
@@ -306,10 +306,10 @@ class BorderPane extends Container {
         });
 
         function ajustHeight(w, aValue) {
-            if (top === w) {
-                top.element.style.height = `${aValue}px`;
-            } else if (bottom === w) {
-                bottom.element.style.height = `${aValue}px`;
+            if (header === w) {
+                header.element.style.height = `${aValue}px`;
+            } else if (footer === w) {
+                footer.element.style.height = `${aValue}px`;
             }
         }
         Object.defineProperty(this, 'ajustHeight', {
@@ -320,4 +320,4 @@ class BorderPane extends Container {
     }
 }
 
-export default BorderPane;
+export default HolyGrailPane;

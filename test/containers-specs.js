@@ -25,7 +25,7 @@ import Cells from '../src/grid-pane';
 import Toolbar from '../src/tool-bar';
 import Split from '../src/split-pane';
 import Scroll from '../src/scroll-pane';
-import Borders from '../src/border-pane';
+import Grail from '../src/holy-grail-pane';
 import Anchors from '../src/anchors-pane';
 import Absolute from '../src/absolute-pane';
 import TabbedPane from '../src/tabbed-pane';
@@ -1379,40 +1379,40 @@ describe('Containers Api', () => {
         });
     });
     it('Borders pane.Structure', () => {
-        const borders = new Borders();
+        const borders = new Grail();
         expectContainer(borders);
         expect(borders.element).toBeDefined();
 
-        const topChild = new Borders();
-        const leftChild = new Borders();
-        const centerChild = new Borders();
-        const rightChild = new Borders();
-        const bottomChild = new Borders();
+        const topChild = new Grail();
+        const leftChild = new Grail();
+        const centerChild = new Grail();
+        const rightChild = new Grail();
+        const bottomChild = new Grail();
 
-        borders.topComponent = topChild;
+        borders.header = topChild;
         expect(borders.count).toEqual(1);
         expect(borders.child(0)).toEqual(topChild);
-        expect(borders.topComponent).toEqual(topChild);
+        expect(borders.header).toEqual(topChild);
 
-        borders.leftComponent = leftChild;
+        borders.leftSide = leftChild;
         expect(borders.count).toEqual(2);
         expect(borders.child(1)).toEqual(leftChild);
-        expect(borders.leftComponent).toEqual(leftChild);
+        expect(borders.leftSide).toEqual(leftChild);
 
-        borders.centerComponent = centerChild;
+        borders.content = centerChild;
         expect(borders.count).toEqual(3);
         expect(borders.child(2)).toEqual(centerChild);
-        expect(borders.centerComponent).toEqual(centerChild);
+        expect(borders.content).toEqual(centerChild);
 
-        borders.rightComponent = rightChild;
+        borders.rightSide = rightChild;
         expect(borders.count).toEqual(4);
         expect(borders.child(3)).toEqual(rightChild);
-        expect(borders.rightComponent).toEqual(rightChild);
+        expect(borders.rightSide).toEqual(rightChild);
 
-        borders.bottomComponent = bottomChild;
+        borders.footer = bottomChild;
         expect(borders.count).toEqual(5);
         expect(borders.child(4)).toEqual(bottomChild);
-        expect(borders.bottomComponent).toEqual(bottomChild);
+        expect(borders.footer).toEqual(bottomChild);
 
         expect(borders.children()).toEqual([topChild, leftChild, centerChild, rightChild, bottomChild]);
 
@@ -1422,62 +1422,62 @@ describe('Containers Api', () => {
         expect(borders.count).toEqual(4);
         expect(borders.children()).toEqual([leftChild, centerChild, rightChild, bottomChild]);
 
-        expect(borders.topComponent).toBeNull();
+        expect(borders.header).toBeNull();
 
-        borders.topComponent = topChild;
+        borders.header = topChild;
         expect(borders.count).toEqual(5);
         expect(borders.child(borders.count - 1)).toEqual(topChild);
-        expect(borders.topComponent).toEqual(topChild);
+        expect(borders.header).toEqual(topChild);
 
         borders.clear();
         expect(borders.count).toEqual(0);
         expect(borders.children()).toEqual([]);
-        expect(borders.leftComponent).toBeNull();
-        expect(borders.centerComponent).toBeNull();
-        expect(borders.rightComponent).toBeNull();
-        expect(borders.bottomComponent).toBeNull();
+        expect(borders.leftSide).toBeNull();
+        expect(borders.content).toBeNull();
+        expect(borders.rightSide).toBeNull();
+        expect(borders.footer).toBeNull();
 
-        borders.centerComponent = centerChild;
-        const centerChild1 = new Borders();
+        borders.content = centerChild;
+        const centerChild1 = new Grail();
         const oldCenter = borders.add(centerChild1);
         expect(oldCenter).toEqual(centerChild);
 
-        borders.rightComponent = rightChild;
-        const rightChild1 = new Borders();
+        borders.rightSide = rightChild;
+        const rightChild1 = new Grail();
         const oldRight = borders.add(rightChild1, Ui.HorizontalPosition.RIGHT);
         expect(oldRight).toEqual(rightChild);
     });
     it('Borders pane.attached left top width height', done => {
-        const borders = new Borders();
+        const borders = new Grail();
         borders.background = Color.blue;
         borders.width = borders.height = 400;
         document.body.appendChild(borders.element);
 
-        const topChild = new Borders();
+        const topChild = new Grail();
         topChild.height = 50;
         topChild.background = Color.black;
 
-        const leftChild = new Borders();
+        const leftChild = new Grail();
         leftChild.width = 50;
         leftChild.background = Color.black;
 
-        const centerChild = new Borders();
+        const centerChild = new Grail();
         centerChild.background = Color.black;
 
-        const rightChild = new Borders();
+        const rightChild = new Grail();
         //rightChild.width = 50; moved to third argument 'add' call
         rightChild.background = Color.black;
 
-        const bottomChild = new Borders();
+        const bottomChild = new Grail();
         bottomChild.height = 50;
         bottomChild.background = Color.black;
 
-        borders.topComponent = topChild;
-        borders.leftComponent = leftChild;
-        borders.centerComponent = centerChild;
-        //borders.rightComponent = rightChild;
+        borders.header = topChild;
+        borders.leftSide = leftChild;
+        borders.content = centerChild;
+        //borders.rightSide = rightChild;
         borders.add(rightChild, Ui.HorizontalPosition.RIGHT, 50);
-        borders.bottomComponent = bottomChild;
+        borders.footer = bottomChild;
 
         Invoke.later(() => {
             // top
@@ -1551,35 +1551,35 @@ describe('Containers Api', () => {
         });
     });
     it('Borders pane.attached hgap vgap', done => {
-        const borders = new Borders(10);
+        const borders = new Grail(10);
         borders.background = Color.blue;
         borders.width = borders.height = 400;
         document.body.appendChild(borders.element);
 
-        const topChild = new Borders();
+        const topChild = new Grail();
         topChild.height = 50;
         topChild.background = Color.black;
 
-        const leftChild = new Borders();
+        const leftChild = new Grail();
         leftChild.width = 50;
         leftChild.background = Color.black;
 
-        const centerChild = new Borders();
+        const centerChild = new Grail();
         centerChild.background = Color.black;
 
-        const rightChild = new Borders();
+        const rightChild = new Grail();
         rightChild.width = 50;
         rightChild.background = Color.black;
 
-        const bottomChild = new Borders();
+        const bottomChild = new Grail();
         bottomChild.height = 50;
         bottomChild.background = Color.black;
 
-        borders.topComponent = topChild;
-        borders.leftComponent = leftChild;
-        borders.centerComponent = centerChild;
-        borders.rightComponent = rightChild;
-        borders.bottomComponent = bottomChild;
+        borders.header = topChild;
+        borders.leftSide = leftChild;
+        borders.content = centerChild;
+        borders.rightSide = rightChild;
+        borders.footer = bottomChild;
 
         expect(borders.vgap).toEqual(0);
         borders.vgap = 10;
