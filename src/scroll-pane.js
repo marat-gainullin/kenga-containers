@@ -28,22 +28,24 @@ class Scroll extends Container {
 
         let verticalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
         let horizontalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
+        this.element.style.overflowX = 'auto';
+        this.element.style.overflowY = 'auto';
 
         Object.defineProperty(this, 'horizontalScrollBarPolicy', {
-            get: function() {
+            get: function () {
                 return verticalScrollBarPolicy;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 verticalScrollBarPolicy = aValue;
                 applyHorizontalScrollBarPolicy();
             }
         });
 
         Object.defineProperty(this, 'verticalScrollBarPolicy', {
-            get: function() {
+            get: function () {
                 return horizontalScrollBarPolicy;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 horizontalScrollBarPolicy = aValue;
                 applyVerticalScrollBarPolicy();
             }
@@ -63,7 +65,7 @@ class Scroll extends Container {
             }
         }
         Object.defineProperty(this, 'ajustWidth', {
-            get: function() {
+            get: function () {
                 return ajustWidth;
             }
         });
@@ -74,7 +76,7 @@ class Scroll extends Container {
             }
         }
         Object.defineProperty(this, 'ajustHeight', {
-            get: function() {
+            get: function () {
                 return ajustHeight;
             }
         });
@@ -130,7 +132,7 @@ class Scroll extends Container {
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function() {
+            get: function () {
                 return add;
             }
         });
@@ -142,17 +144,17 @@ class Scroll extends Container {
             }
             return removed;
         }
-        Object.defineProperty(this, "remove", {
-            get: function() {
+        Object.defineProperty(this, 'remove', {
+            get: function () {
                 return remove;
             }
         });
 
-        Object.defineProperty(this, "view", {
-            get: function() {
+        Object.defineProperty(this, 'view', {
+            get: function () {
                 return view;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (view !== aValue) {
                     if (aValue)
                         setView(aValue);
@@ -163,15 +165,15 @@ class Scroll extends Container {
         });
 
         function ajustTop(w) {}
-        Object.defineProperty(this, "ajustTop", {
-            get: function() {
+        Object.defineProperty(this, 'ajustTop', {
+            get: function () {
                 return ajustTop;
             }
         });
 
         function ajustLeft(w) {}
-        Object.defineProperty(this, "ajustLeft", {
-            get: function() {
+        Object.defineProperty(this, 'ajustLeft', {
+            get: function () {
                 return ajustLeft;
             }
         });

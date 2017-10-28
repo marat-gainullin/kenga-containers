@@ -176,7 +176,7 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "firstComponent", {
+        Object.defineProperty(this, 'firstComponent', {
             get: function() {
                 return firstWidget;
             },
@@ -193,7 +193,7 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "secondComponent", {
+        Object.defineProperty(this, 'secondComponent', {
             get: function() {
                 return secondWidget;
             },
@@ -210,7 +210,7 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "dividerLocation", {
+        Object.defineProperty(this, 'dividerLocation', {
             get: function() {
                 return dividerLocation;
             },
@@ -224,7 +224,7 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "dividerSize", {
+        Object.defineProperty(this, 'dividerSize', {
             get: function() {
                 return dividerSize;
             },
@@ -235,7 +235,7 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "oneTouchExpandable", {
+        Object.defineProperty(this, 'oneTouchExpandable', {
             get: function() {
                 return oneTouchExpandable;
             },

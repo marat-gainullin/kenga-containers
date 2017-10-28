@@ -2,8 +2,6 @@
 
 .p-flow {
     white-space: normal;
-    line-height: 0px;
-    overflow: auto;
 }
 
 .p-flow > .p-widget {
@@ -91,6 +89,12 @@
     overflow-y: auto;
 }
 
+.p-scroll > .p-widget {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
 .p-scroll > .p-vertical-scroll-filler {
     height: 100%
 }
@@ -160,4 +164,3 @@
 .p-holy-grail-row > .p-holy-grail-right {
     order: 3;
 }
-
