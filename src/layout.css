@@ -95,6 +95,10 @@
     top: 0px;
 }
 
+.p-scroll > .p-scroll {
+    position: relative; /* case of scroll in scroll or TextArea/RichTextArea in scroll*/
+}
+
 .p-scroll > .p-vertical-scroll-filler {
     height: 100%
 }

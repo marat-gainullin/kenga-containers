@@ -1048,7 +1048,7 @@ describe('Containers Api', () => {
         document.body.removeChild(box.element);
         done();
     });
-    it('Scroll pane.Structure', done => {
+    it('Scroll pane.Structure', () => {
         const container = new Scroll();
         expectContainer(container);
         expect(container.element).toBeDefined();
@@ -1100,8 +1100,6 @@ describe('Containers Api', () => {
         expect(container.count).toEqual(0);
         expect(container.child(0)).toEqual(null);
         expect(container.children()).toEqual([]);
-
-        done();
     });
     it('Scroll pane.detached left top width height', () => {
         const child = new ToggleButton();
@@ -1226,12 +1224,12 @@ describe('Containers Api', () => {
         container.add(child0);
         expect(container.count).toEqual(1);
         expect(container.child(0)).toEqual(child0);
-        expect(container.firstComponent).toEqual(child0);
+        expect(container.firstWidget).toEqual(child0);
 
         container.add(child1);
         expect(container.count).toEqual(2);
         expect(container.child(1)).toEqual(child1);
-        expect(container.secondComponent).toEqual(child1);
+        expect(container.secondWidget).toEqual(child1);
 
         expect(container.children()).toEqual([child0, child1]);
 
@@ -1241,7 +1239,7 @@ describe('Containers Api', () => {
         expect(container.count).toEqual(1);
         expect(container.children()).toEqual([child0]);
 
-        expect(container.firstComponent).toBeNull();
+        expect(container.firstWidget).toBeNull();
 
         const removed1 = container.remove(0);
         expect(removed1).toBeDefined();
@@ -1249,32 +1247,32 @@ describe('Containers Api', () => {
         expect(container.count).toEqual(0);
         expect(container.children()).toEqual([]);
 
-        expect(container.secondComponent).toBeNull();
+        expect(container.secondWidget).toBeNull();
 
-        container.firstComponent = child0;
+        container.firstWidget = child0;
         expect(container.count).toEqual(1);
         expect(container.child(0)).toEqual(child0);
-        container.secondComponent = child1;
+        container.secondWidget = child1;
         expect(container.count).toEqual(2);
         expect(container.child(1)).toEqual(child1);
 
-        container.firstComponent = null;
+        container.firstWidget = null;
         expect(container.count).toEqual(1);
         expect(container.child(0)).toEqual(child1);
 
-        container.secondComponent = null;
+        container.secondWidget = null;
         expect(container.count).toEqual(0);
         expect(container.children()).toEqual([]);
 
-        container.firstComponent = child0;
-        container.secondComponent = child1;
+        container.firstWidget = child0;
+        container.secondWidget = child1;
         expect(container.count).toEqual(2);
         expect(container.children()).toEqual([child0, child1]);
         container.clear();
         expect(container.count).toEqual(0);
         expect(container.children()).toEqual([]);
-        expect(container.firstComponent).toBeNull();
-        expect(container.secondComponent).toBeNull();
+        expect(container.firstWidget).toBeNull();
+        expect(container.secondWidget).toBeNull();
 
         done();
     });
@@ -1285,8 +1283,8 @@ describe('Containers Api', () => {
         const first = new Split();
         const second = new Split();
 
-        split.firstComponent = first;
-        split.secondComponent = second;
+        split.firstWidget = first;
+        split.secondWidget = second;
 
         expect(first.left).toEqual(0);
         first.left += 10;
@@ -1332,7 +1330,7 @@ describe('Containers Api', () => {
 
         split.dividerLocation = 100;
 
-        split.secondComponent = second;
+        split.secondWidget = second;
 
         Invoke.later(() => {
 
@@ -1352,7 +1350,7 @@ describe('Containers Api', () => {
             second.height += 10;
             expect(second.height).toEqual(200);
 
-            split.firstComponent = first;
+            split.firstWidget = first;
 
             Invoke.later(() => {
 
@@ -1689,11 +1687,13 @@ describe('Containers Api', () => {
             expect(textArea.element.offsetHeight).toEqual(scroll.element.offsetHeight);
             expect(scroll1.element.offsetWidth).toEqual(scroll.element.offsetWidth);
             expect(scroll1.element.offsetHeight).toEqual(scroll.element.offsetHeight);
-            const oldWidth = scroll.width;
+            expect(textArea.width).toEqual(scroll.width); // .p-scroll should be same size as parent .p-scroll
+            const oldScrollWidth = scroll.width;
+            const oldTextAreaWidth = textArea.width;
             scroll.width -= 10;
             textArea.width -= 10;
-            expect(scroll.width).toEqual(oldWidth);
-            expect(textArea.width).toEqual(oldWidth);
+            expect(scroll.width).toEqual(oldScrollWidth);
+            expect(textArea.width).toEqual(scroll.width); // .p-scroll should be same size as parent .p-scroll
             document.body.removeChild(scroll1.element);
             done();
         });
@@ -1713,11 +1713,12 @@ describe('Containers Api', () => {
             expect(textArea.element.offsetHeight).toEqual(scroll.element.offsetHeight);
             expect(scroll1.element.offsetWidth).toEqual(scroll.element.offsetWidth);
             expect(scroll1.element.offsetHeight).toEqual(scroll.element.offsetHeight);
-            const oldWidth = scroll.width;
+            expect(textArea.width).toEqual(scroll.width); // .p-scroll should be same size as parent .p-scroll
+            const oldScrollWidth = scroll.width;
             scroll.width -= 10;
             textArea.width -= 10;
-            expect(scroll.width).toEqual(oldWidth);
-            expect(textArea.width).toEqual(oldWidth);
+            expect(scroll.width).toEqual(oldScrollWidth);
+            expect(textArea.width).toEqual(scroll.width); // .p-scroll should be same size as parent .p-scroll
             document.body.removeChild(scroll1.element);
             done();
         });

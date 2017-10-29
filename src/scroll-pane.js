@@ -85,12 +85,15 @@ class Scroll extends Container {
         const superRemove = this.remove;
 
         function setView(w) {
-            const old = view;
-            if (old) {
-                superRemove(old);
+            if (view) {
+                superRemove(view);
             }
             view = w;
-            superAdd(w);
+            if (view) {
+                superAdd(w);
+            }
+            applyHorizontalScrollBarPolicy();
+            applyVerticalScrollBarPolicy();
         }
 
         if (view) {
@@ -104,7 +107,7 @@ class Scroll extends Container {
             } else if (horizontalScrollBarPolicy === SCROLLBAR_NEVER) {
                 value = 'hidden';
             }
-            if (view.element.className.includes('p-scroll')) {
+            if (view && view.element.className.includes('p-scroll')) {
                 value = 'hidden';
             }
             self.element.style.overflowX = value;
@@ -117,7 +120,7 @@ class Scroll extends Container {
             } else if (verticalScrollBarPolicy === SCROLLBAR_NEVER) {
                 value = 'hidden';
             }
-            if (view.element.className.includes('p-scroll')) {
+            if (view && view.element.className.includes('p-scroll')) {
                 value = 'hidden';
             }
             self.element.style.overflowY = value;
@@ -127,7 +130,6 @@ class Scroll extends Container {
             if (w) {
                 if (w.parent === self)
                     throw 'A widget already added to this container';
-                self.clear();
                 setView(w);
             }
         }
@@ -138,15 +140,24 @@ class Scroll extends Container {
         });
 
         function remove(widgetOrIndex) {
-            const removed = superRemove(widgetOrIndex);
-            if (removed === view) {
-                view = null;
+            if ((widgetOrIndex === 0 && view) || widgetOrIndex === view) {
+                const removed = view;
+                setView(null);
+                return removed;
             }
-            return removed;
         }
         Object.defineProperty(this, 'remove', {
             get: function () {
                 return remove;
+            }
+        });
+        
+        function clear(){
+            setView(null);
+        }
+        Object.defineProperty(this, 'clear', {
+            get: function () {
+                return clear;
             }
         });
 
@@ -156,10 +167,7 @@ class Scroll extends Container {
             },
             set: function (aValue) {
                 if (view !== aValue) {
-                    if (aValue)
-                        setView(aValue);
-                    else
-                        self.clear();
+                    setView(aValue);
                 }
             }
         });

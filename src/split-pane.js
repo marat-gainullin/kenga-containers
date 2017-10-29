@@ -176,7 +176,7 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, 'firstComponent', {
+        Object.defineProperty(this, 'firstWidget', {
             get: function() {
                 return firstWidget;
             },
@@ -193,7 +193,7 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, 'secondComponent', {
+        Object.defineProperty(this, 'secondWidget', {
             get: function() {
                 return secondWidget;
             },
