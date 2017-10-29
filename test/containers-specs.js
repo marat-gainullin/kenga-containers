@@ -84,35 +84,50 @@ describe('Containers Api', () => {
         widget.focus();
 
         expect('onShow' in widget).toBeTruthy();
-        expectValue(widget, 'onShow', () => {});
+        expectValue(widget, 'onShow', () => {
+        });
         expect('onHide' in widget).toBeTruthy();
-        expectValue(widget, 'onHide', () => {});
+        expectValue(widget, 'onHide', () => {
+        });
         expect('onMouseRelease' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseRelease', () => {});
+        expectValue(widget, 'onMouseRelease', () => {
+        });
         expect('onFocusLost' in widget).toBeTruthy();
-        expectValue(widget, 'onFocusLost', () => {});
+        expectValue(widget, 'onFocusLost', () => {
+        });
         expect('onMousePress' in widget).toBeTruthy();
-        expectValue(widget, 'onMousePress', () => {});
+        expectValue(widget, 'onMousePress', () => {
+        });
         expect('onMouseEnter' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseEnter', () => {});
+        expectValue(widget, 'onMouseEnter', () => {
+        });
         expect('onMouseMove' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseMove', () => {});
+        expectValue(widget, 'onMouseMove', () => {
+        });
         expect('onAction' in widget).toBeTruthy();
-        expectValue(widget, 'onAction', () => {});
+        expectValue(widget, 'onAction', () => {
+        });
         expect('onKeyRelease' in widget).toBeTruthy();
-        expectValue(widget, 'onKeyRelease', () => {});
+        expectValue(widget, 'onKeyRelease', () => {
+        });
         expect('onKeyType' in widget).toBeTruthy();
-        expectValue(widget, 'onKeyType', () => {});
+        expectValue(widget, 'onKeyType', () => {
+        });
         expect('onMouseWheelMove' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseWheelMove', () => {});
+        expectValue(widget, 'onMouseWheelMove', () => {
+        });
         expect('onFocus' in widget).toBeTruthy();
-        expectValue(widget, 'onFocus', () => {});
+        expectValue(widget, 'onFocus', () => {
+        });
         expect('onMouseClick' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseClick', () => {});
+        expectValue(widget, 'onMouseClick', () => {
+        });
         expect('onMouseExit' in widget).toBeTruthy();
-        expectValue(widget, 'onMouseExit', () => {});
+        expectValue(widget, 'onMouseExit', () => {
+        });
         expect('onKeyPress' in widget).toBeTruthy();
-        expectValue(widget, 'onKeyPress', () => {});
+        expectValue(widget, 'onKeyPress', () => {
+        });
     }
 
     function expectContainer(container) {
@@ -130,9 +145,11 @@ describe('Containers Api', () => {
         expect(container.child).toBeDefined();
         expect(typeof container.child).toEqual('function');
         expect('onAdd' in container).toBeTruthy();
-        expectValue(container, 'onAdd', () => {});
+        expectValue(container, 'onAdd', () => {
+        });
         expect('onRemove' in container).toBeTruthy();
-        expectValue(container, 'onRemove', () => {});
+        expectValue(container, 'onRemove', () => {
+        });
     }
 
     it('Flow pane.Structure', done => {
@@ -1614,41 +1631,42 @@ describe('Containers Api', () => {
         });
     });
 
-    it('TabedPane.Structure', done => {
+    it('TabbedPane.Structure', done => {
         const tabs = new TabbedPane();
         expectContainer(tabs);
         const tab0 = new TabbedPane();
         const tab1 = new TabbedPane();
         const tab2 = new TabbedPane();
-        Resource.Icon.load('base/assets/binary-content.png', loaded => {
-            tabs.add(tab0, 'tab1', loaded, 'tooltip1');
-            tabs.add(tab1, 'tab2', loaded, 'tooltip2');
-            tabs.add(tab2, 'tab3', loaded, 'tooltip3');
-            expect(tabs.count).toEqual(3);
-            expect(tabs.child(0)).toEqual(tab0);
-            expect(tabs.child(1)).toEqual(tab1);
-            expect(tabs.child(2)).toEqual(tab2);
-            expect(tabs.indexOf(tab0)).toEqual(0);
-            expect(tabs.indexOf(tab1)).toEqual(1);
-            expect(tabs.indexOf(tab2)).toEqual(2);
-            expect(tabs.children()).toEqual([tab0, tab1, tab2]);
-            tabs.remove(tab1);
-            expect(tabs.indexOf(tab0)).toEqual(0);
-            expect(tabs.indexOf(tab2)).toEqual(1);
-            expect(tabs.children()).toEqual([tab0, tab2]);
-            expect(tabs.indexOf(tab0)).toEqual(0);
-            expect(tabs.indexOf(tab1)).toEqual(-1);
-            expect(tabs.indexOf(tab2)).toEqual(1);
-            tabs.clear();
-            expect(tabs.count).toEqual(0);
-            expect(tabs.indexOf(tab0)).toEqual(-1);
-            expect(tabs.indexOf(tab1)).toEqual(-1);
-            expect(tabs.indexOf(tab2)).toEqual(-1);
-            expect(tabs.children()).toEqual([]);
-            done();
-        });
+        Resource.Icon.load('base/assets/binary-content.png')
+                .then(loaded => {
+                    tabs.add(tab0, 'tab1', loaded, 'tooltip1');
+                    tabs.add(tab1, 'tab2', loaded, 'tooltip2');
+                    tabs.add(tab2, 'tab3', loaded, 'tooltip3');
+                    expect(tabs.count).toEqual(3);
+                    expect(tabs.child(0)).toEqual(tab0);
+                    expect(tabs.child(1)).toEqual(tab1);
+                    expect(tabs.child(2)).toEqual(tab2);
+                    expect(tabs.indexOf(tab0)).toEqual(0);
+                    expect(tabs.indexOf(tab1)).toEqual(1);
+                    expect(tabs.indexOf(tab2)).toEqual(2);
+                    expect(tabs.children()).toEqual([tab0, tab1, tab2]);
+                    tabs.remove(tab1);
+                    expect(tabs.indexOf(tab0)).toEqual(0);
+                    expect(tabs.indexOf(tab2)).toEqual(1);
+                    expect(tabs.children()).toEqual([tab0, tab2]);
+                    expect(tabs.indexOf(tab0)).toEqual(0);
+                    expect(tabs.indexOf(tab1)).toEqual(-1);
+                    expect(tabs.indexOf(tab2)).toEqual(1);
+                    tabs.clear();
+                    expect(tabs.count).toEqual(0);
+                    expect(tabs.indexOf(tab0)).toEqual(-1);
+                    expect(tabs.indexOf(tab1)).toEqual(-1);
+                    expect(tabs.indexOf(tab2)).toEqual(-1);
+                    expect(tabs.children()).toEqual([]);
+                })
+                .then(done);
     });
-    it('TabedPane.Markup', done => {
+    it('TabbedPane.Markup', done => {
         const tabs = new TabbedPane();
         tabs.onSelect = evt => {
             Logger.info(`Tab selected on: ${evt.source.constructor.name}`);
@@ -1665,12 +1683,13 @@ describe('Containers Api', () => {
         const tab2 = new Flow();
         tabs.add(tab0, 'tab0', null, 'tooltip0');
         tabs.add(tab2, 'tab2', null, 'tooltip2');
-        Resource.Icon.load('base/assets/binary-content.png', loaded => {
-            tabs.add(tab1, 'tab1', loaded, 'tooltip1', 1);
-            expect(tabs.children()).toEqual([tab0, tab1, tab2]);
-            document.body.removeChild(tabs.element);
-            done();
-        });
+        Resource.Icon.load('base/assets/binary-content.png')
+                .then(loaded => {
+                    tabs.add(tab1, 'tab1', loaded, 'tooltip1', 1);
+                    expect(tabs.children()).toEqual([tab0, tab1, tab2]);
+                    document.body.removeChild(tabs.element);
+                })
+                .then(done);
     });
     it('TextArea.ScrollPane.Markup', done => {
         const textArea = new TextArea();
@@ -1752,7 +1771,7 @@ describe('Containers Api', () => {
             done();
         });
     });
-    it('ButtonGroup.Structure', done => {
+    it('ButtonGroup.Structure', () => {
         const check = new CheckBox('Check');
         const radio = new RadioButton('Radio');
         const toggle = new ToggleButton('Toggle');
@@ -1809,8 +1828,6 @@ describe('Containers Api', () => {
         expect(check.buttonGroup).toBeNull();
         expect(radio.buttonGroup).toBeNull();
         expect(toggle.buttonGroup).toBeNull();
-
-        done();
     });
     it('ButtonGroup.Markup', done => {
         const check = new CheckBox('Check');
