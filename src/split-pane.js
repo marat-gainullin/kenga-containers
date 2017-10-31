@@ -165,7 +165,7 @@ class Split extends Container {
             }
         });
 
-        Object.defineProperty(this, "orientation", {
+        Object.defineProperty(this, 'orientation', {
             get: function() {
                 return orientation;
             },
