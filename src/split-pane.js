@@ -13,8 +13,8 @@ class Split extends Container {
 
         let dividerSize = 10;
 
-        let firstWidget;
-        let secondWidget;
+        let first;
+        let second;
 
         let oneTouchExpandable;
         let dividerLocation = 0;
@@ -32,8 +32,8 @@ class Split extends Container {
         function formatChildren() {
             if (orientation === Ui.Orientation.HORIZONTAL) {
                 style.innerHTML =
-                        // firstWidget
-                        // secondWidget
+                        // first
+                        // second
                         `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;top: ${0}px;bottom: ${0}px;width: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;right: ${0}px;top: ${0}px;bottom: ${0}px;left: ${dividerLocation + dividerSize}px;}`;
                 divider.style.top = '0px';
                 divider.style.bottom = '0px';
@@ -43,8 +43,8 @@ class Split extends Container {
                 divider.style.right = '';
             } else {
                 style.innerHTML =
-                        // firstWidget
-                        // secondWidget
+                        // first
+                        // second
                         `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;right: ${0}px;top: ${0}px;height: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;left: ${0}px;right: ${0}px;bottom: ${0}px;top: ${dividerLocation + dividerSize}px;}`;
                 divider.style.left = '0px';
                 divider.style.right = '0px';
@@ -113,15 +113,15 @@ class Split extends Container {
         formatChildren();
 
         function checkAdd(w) {
-            if (!firstWidget) {
-                firstWidget = w;
-                self.element.insertBefore(firstWidget.element, divider);
+            if (!first) {
+                first = w;
+                self.element.insertBefore(first.element, divider);
             } else {
-                if (secondWidget) {
-                    superRemove(secondWidget);
+                if (second) {
+                    superRemove(second);
                 }
-                secondWidget = w;
-                self.element.appendChild(secondWidget.element);
+                second = w;
+                self.element.appendChild(second.element);
             }
         }
 
@@ -140,11 +140,11 @@ class Split extends Container {
         });
 
         function checkRemove(w) {
-            if (w === firstWidget) {
-                firstWidget = null;
+            if (w === first) {
+                first = null;
             }
-            if (w === secondWidget) {
-                secondWidget = null;
+            if (w === second) {
+                second = null;
             }
         }
 
@@ -162,8 +162,8 @@ class Split extends Container {
         const superClear = this.clear;
 
         function clear() {
-            firstWidget = null;
-            secondWidget = null;
+            first = null;
+            second = null;
             superClear();
         }
         Object.defineProperty(this, 'clear', {
@@ -183,36 +183,36 @@ class Split extends Container {
                 }
             }
         });
-        Object.defineProperty(this, 'firstWidget', {
+        Object.defineProperty(this, 'first', {
             get: function () {
-                return firstWidget;
+                return first;
             },
-            set: function (aFirstWidget) {
-                if (firstWidget !== aFirstWidget) {
-                    if (firstWidget) {
-                        superRemove(firstWidget);
+            set: function (aFirst) {
+                if (first !== aFirst) {
+                    if (first) {
+                        superRemove(first);
                     }
-                    firstWidget = aFirstWidget;
-                    if (firstWidget) {
-                        superAdd(firstWidget);
-                        self.element.insertBefore(firstWidget.element, divider);
+                    first = aFirst;
+                    if (first) {
+                        superAdd(first);
+                        self.element.insertBefore(first.element, divider);
                     }
                 }
             }
         });
-        Object.defineProperty(this, 'secondWidget', {
+        Object.defineProperty(this, 'second', {
             get: function () {
-                return secondWidget;
+                return second;
             },
-            set: function (aSecondWidget) {
-                if (secondWidget !== aSecondWidget) {
-                    if (secondWidget) {
-                        superRemove(secondWidget);
+            set: function (aSecond) {
+                if (second !== aSecond) {
+                    if (second) {
+                        superRemove(second);
                     }
-                    secondWidget = aSecondWidget;
-                    if (secondWidget) {
-                        superAdd(secondWidget);
-                        self.element.appendChild(secondWidget.element);
+                    second = aSecond;
+                    if (second) {
+                        superAdd(second);
+                        self.element.appendChild(second.element);
                     }
                 }
             }

@@ -32,7 +32,7 @@ class GridPane extends Container {
 
         function formatChildren() {
             gapsStyle.innerHTML =
-                `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;padding-left: ${hgap / 2}px;padding-right: ${hgap / 2}px;padding-top: ${vgap / 2}px;padding-bottom: ${vgap / 2}px;}`;
+                    `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;padding-left: ${hgap / 2}px;padding-right: ${hgap / 2}px;padding-top: ${vgap / 2}px;padding-bottom: ${vgap / 2}px;}`;
         }
         formatChildren();
 
@@ -44,33 +44,33 @@ class GridPane extends Container {
                 row.push(null);
             }
         }
-        Object.defineProperty(this, "rows", {
-            get: function() {
+        Object.defineProperty(this, 'rows', {
+            get: function () {
                 return rows;
             }
         });
-        Object.defineProperty(this, "columns", {
-            get: function() {
+        Object.defineProperty(this, 'columns', {
+            get: function () {
                 return columns;
             }
         });
 
-        Object.defineProperty(this, "hgap", {
-            get: function() {
+        Object.defineProperty(this, 'hgap', {
+            get: function () {
                 return hgap;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (hgap !== aValue) {
                     hgap = aValue;
                     formatChildren();
                 }
             }
         });
-        Object.defineProperty(this, "vgap", {
-            get: function() {
+        Object.defineProperty(this, 'vgap', {
+            get: function () {
                 return vgap;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (vgap !== aValue) {
                     vgap = aValue;
                     formatChildren();
@@ -91,7 +91,7 @@ class GridPane extends Container {
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function() {
+            get: function () {
                 return add;
             }
         });
@@ -143,7 +143,7 @@ class GridPane extends Container {
             }
         }
         Object.defineProperty(this, 'remove', {
-            get: function() {
+            get: function () {
                 return remove;
             }
         });
@@ -157,8 +157,24 @@ class GridPane extends Container {
             return getWidget(row, col);
         }
         Object.defineProperty(this, 'child', {
-            get: function() {
+            get: function () {
                 return child;
+            }
+        });
+
+        const superClear = this.clear;
+
+        function clear() {
+            superClear();
+            for (let i = 0; i < grid.length; i++) {
+                for (let j = 0; j < grid[i].length; j++) {
+                    grid[i][j] = null;
+                }
+            }
+        }
+        Object.defineProperty(this, 'clear', {
+            get: function () {
+                return clear;
             }
         });
 
@@ -176,28 +192,28 @@ class GridPane extends Container {
 
         function ajustLeft(w, aValue) {}
         Object.defineProperty(this, 'ajustLeft', {
-            get: function() {
+            get: function () {
                 return ajustLeft;
             }
         });
 
         function ajustWidth(w, aValue) {}
         Object.defineProperty(this, 'ajustWidth', {
-            get: function() {
+            get: function () {
                 return ajustWidth;
             }
         });
 
         function ajustTop(w, aValue) {}
         Object.defineProperty(this, 'ajustTop', {
-            get: function() {
+            get: function () {
                 return ajustTop;
             }
         });
 
         function ajustHeight(w, aValue) {}
         Object.defineProperty(this, 'ajustHeight', {
-            get: function() {
+            get: function () {
                 return ajustHeight;
             }
         });

@@ -1241,12 +1241,12 @@ describe('Containers Api', () => {
         container.add(child0);
         expect(container.count).toEqual(1);
         expect(container.child(0)).toEqual(child0);
-        expect(container.firstWidget).toEqual(child0);
+        expect(container.first).toEqual(child0);
 
         container.add(child1);
         expect(container.count).toEqual(2);
         expect(container.child(1)).toEqual(child1);
-        expect(container.secondWidget).toEqual(child1);
+        expect(container.second).toEqual(child1);
 
         expect(container.children()).toEqual([child0, child1]);
 
@@ -1256,7 +1256,7 @@ describe('Containers Api', () => {
         expect(container.count).toEqual(1);
         expect(container.children()).toEqual([child0]);
 
-        expect(container.firstWidget).toBeNull();
+        expect(container.first).toBeNull();
 
         const removed1 = container.remove(0);
         expect(removed1).toBeDefined();
@@ -1264,32 +1264,32 @@ describe('Containers Api', () => {
         expect(container.count).toEqual(0);
         expect(container.children()).toEqual([]);
 
-        expect(container.secondWidget).toBeNull();
+        expect(container.second).toBeNull();
 
-        container.firstWidget = child0;
+        container.first = child0;
         expect(container.count).toEqual(1);
         expect(container.child(0)).toEqual(child0);
-        container.secondWidget = child1;
+        container.second = child1;
         expect(container.count).toEqual(2);
         expect(container.child(1)).toEqual(child1);
 
-        container.firstWidget = null;
+        container.first = null;
         expect(container.count).toEqual(1);
         expect(container.child(0)).toEqual(child1);
 
-        container.secondWidget = null;
+        container.second = null;
         expect(container.count).toEqual(0);
         expect(container.children()).toEqual([]);
 
-        container.firstWidget = child0;
-        container.secondWidget = child1;
+        container.first = child0;
+        container.second = child1;
         expect(container.count).toEqual(2);
         expect(container.children()).toEqual([child0, child1]);
         container.clear();
         expect(container.count).toEqual(0);
         expect(container.children()).toEqual([]);
-        expect(container.firstWidget).toBeNull();
-        expect(container.secondWidget).toBeNull();
+        expect(container.first).toBeNull();
+        expect(container.second).toBeNull();
 
         done();
     });
@@ -1300,8 +1300,8 @@ describe('Containers Api', () => {
         const first = new Split();
         const second = new Split();
 
-        split.firstWidget = first;
-        split.secondWidget = second;
+        split.first = first;
+        split.second = second;
 
         expect(first.left).toEqual(0);
         first.left += 10;
@@ -1347,7 +1347,7 @@ describe('Containers Api', () => {
 
         split.dividerLocation = 100;
 
-        split.secondWidget = second;
+        split.second = second;
 
         Invoke.later(() => {
 
@@ -1367,7 +1367,7 @@ describe('Containers Api', () => {
             second.height += 10;
             expect(second.height).toEqual(200);
 
-            split.firstWidget = first;
+            split.first = first;
 
             Invoke.later(() => {
 
