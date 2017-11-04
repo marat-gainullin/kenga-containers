@@ -41,7 +41,7 @@ class Box extends Container {
         }
         formatChildren();
 
-        Object.defineProperty(this, "hgap", {
+        Object.defineProperty(this, 'hgap', {
             get: function() {
                 return hgap;
             },
@@ -52,7 +52,7 @@ class Box extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "vgap", {
+        Object.defineProperty(this, 'vgap', {
             configurable: true,
             get: function() {
                 return vgap;
@@ -64,7 +64,7 @@ class Box extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "orientation", {
+        Object.defineProperty(this, 'orientation', {
             configurable: true,
             get: function() {
                 return orientation;
@@ -74,21 +74,6 @@ class Box extends Container {
                     orientation = aValue;
                     formatChildren();
                 }
-            }
-        });
-
-        const superAdd = this.add;
-
-        function add(w) {
-            if (orientation === Ui.Orientation.HORIZONTAL) {
-                superAdd(w);
-            } else {
-                superAdd(w);
-            }
-        }
-        Object.defineProperty(this, 'add', {
-            get: function() {
-                return add;
             }
         });
 
