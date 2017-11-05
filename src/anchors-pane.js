@@ -40,8 +40,12 @@ class Anchors extends Container {
         }
 
         function ajustWidth(w, aValue) {
-            if (typeof aValue === 'string' && (aValue.endsWith('px') || aValue.endsWith('%'))) {
-                w.element.style.width = aValue;
+            if (typeof aValue === 'string') {
+                w.element.style.width = !aValue.endsWith('px') && !aValue.endsWith('%') && !aValue.endsWith('em') && aValue !== 'null' ?
+                        aValue + 'px' :
+                        (aValue === 'null' ? null : aValue);
+            } else if (aValue == null){
+                w.element.style.width = '';
             } else {
                 const anchors = getAnchors(w);
                 const containerWidth = self.element.offsetWidth;
@@ -60,8 +64,12 @@ class Anchors extends Container {
         });
 
         function ajustHeight(w, aValue) {
-            if (typeof aValue === 'string' && (aValue.endsWith('px') || aValue.endsWith('%'))) {
-                w.element.style.height = aValue;
+            if (typeof aValue === 'string') {
+                w.element.style.height = !aValue.endsWith('px') && !aValue.endsWith('%') && !aValue.endsWith('em') && aValue !== 'null' ?
+                        aValue + 'px' :
+                        (aValue === 'null' ? null : aValue);
+            } else if (aValue == null){
+                w.element.style.height = '';
             } else {
                 const anchors = getAnchors(w);
                 const containerHeight = self.element.offsetHeight;
@@ -80,8 +88,12 @@ class Anchors extends Container {
         });
 
         function ajustLeft(w, aValue) {
-            if (typeof aValue === 'string' && (aValue.endsWith('px') || aValue.endsWith('%'))) {
-                w.element.style.left = aValue;
+            if (typeof aValue === 'string') {
+                w.element.style.left = !aValue.endsWith('px') && !aValue.endsWith('%') && !aValue.endsWith('em') && aValue !== 'null' ?
+                        aValue + 'px' :
+                        (aValue === 'null' ? null : aValue);
+            } else if (aValue == null){
+                w.element.style.left = '';
             } else {
                 const anchors = getAnchors(w);
                 const containerWidth = self.element.offsetWidth;
@@ -104,8 +116,12 @@ class Anchors extends Container {
         });
 
         function ajustTop(w, aValue) {
-            if (typeof aValue === 'string' && (aValue.endsWith('px') || aValue.endsWith('%'))) {
-                w.element.style.top = aValue;
+            if (typeof aValue === 'string') {
+                w.element.style.top = !aValue.endsWith('px') && !aValue.endsWith('%') && !aValue.endsWith('em') && aValue !== 'null' ?
+                        aValue + 'px' :
+                        (aValue === 'null' ? null : aValue);
+            } else if (aValue == null){
+                w.element.style.top = '';
             } else {
                 const anchors = getAnchors(w);
                 const containerHeight = self.element.offsetHeight;
