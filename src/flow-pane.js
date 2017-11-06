@@ -28,7 +28,7 @@ class Flow extends Container {
         formatChildren();
         this.element.appendChild(style);
 
-        Object.defineProperty(this, "hgap", {
+        Object.defineProperty(this, 'hgap', {
             get: function() {
                 return hgap;
             },
@@ -40,7 +40,7 @@ class Flow extends Container {
                 }
             }
         });
-        Object.defineProperty(this, "vgap", {
+        Object.defineProperty(this, 'vgap', {
             get: function() {
                 return vgap;
             },

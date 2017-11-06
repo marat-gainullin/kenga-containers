@@ -19,7 +19,6 @@ class TabbedPane extends CardPane {
         captionsShell.className = 'p-tabs-captions-shell';
         const captions = document.createElement('div');
         captions.className = 'p-tabs-captions';
-        const tabsOf = new Map();
 
         captionsShell.appendChild(captions);
         shell.appendChild(captionsShell);
@@ -37,9 +36,9 @@ class TabbedPane extends CardPane {
             }
         }
 
-        function addCaption(w, title, image, toolTip, beforeIndex) {
-            if (!title) {
-                title = w.name ? w.name : `Unnamed - ${captions.childElementCount}`;
+        function addCaption(w, beforeIndex, tabTitle, tabIcon, tabToolTipText) {
+            if (!tabTitle) {
+                tabTitle = w.name ? w.name : `Unnamed - ${captions.childElementCount}`;
             }
             const caption = document.createElement('div');
             caption.className = 'p-tab-caption';
@@ -49,18 +48,18 @@ class TabbedPane extends CardPane {
             });
             const labelText = document.createElement('div');
             labelText.className = 'p-tab-caption-text';
-            labelText.innerText = title;
+            labelText.innerText = tabTitle;
             const closeTool = document.createElement('div');
             closeTool.className = 'p-tab-caption-close-tool';
             Ui.on(closeTool, Ui.Events.CLICK, event => {
                 event.stopPropagation();
                 self.remove(w);
             });
-            if (toolTip)
-                caption.title = toolTip;
-            if (image) {
-                image.classList.add('p-tab-caption-image');
-                caption.appendChild(image);
+            if (tabToolTipText)
+                caption.title = tabToolTipText;
+            if (tabIcon) {
+                tabIcon.classList.add('p-tab-caption-image');
+                caption.appendChild(tabIcon);
             }
             caption.appendChild(labelText);
             caption.appendChild(closeTool);
@@ -74,19 +73,57 @@ class TabbedPane extends CardPane {
                     captions.appendChild(caption);
                 }
             }
-            tabsOf.set(w, caption);
+            w.tab = new class {
+                get title() {
+                    return labelText.innerText;
+                }
+                set title(v) {
+                    labelText.innerText = v;
+                }
+                get toolTipText() {
+                    return caption.title;
+                }
+                set toolTipText(v) {
+                    caption.title = v;
+                }
+                get icon() {
+                    return tabIcon;
+                }
+                set icon(v) {
+                    if (tabIcon !== v) {
+                        if (tabIcon) {
+                            tabIcon.classList.remove('p-tab-caption-image');
+                            caption.removeChild(tabIcon);
+                        }
+                        tabIcon = v;
+                        if (tabIcon) {
+                            tabIcon.classList.add('p-tab-caption-image');
+                            caption.appendChild(tabIcon);
+                        }
+                    }
+                }
+                get closable() {
+                    return closeTool.style.display !== 'none';
+                }
+                set closable(v) {
+                    closeTool.style.display = v ? '' : 'none';
+                }
+                get element(){
+                    return caption;
+                }
+            }();
         }
 
         // TODO: Add <html> prefix in tab title feature 
         const superAdd = this.add;
 
-        function add(w, title, image, tooltip, beforeIndex) {
+        function add(w, beforeIndex, title, image, tooltip) {
             superAdd(w, beforeIndex);
-            addCaption(w, arguments.length < 2 ? null : title, arguments.length < 3 ? null : image, arguments.length < 4 ? '' : tooltip, beforeIndex);
+            addCaption(w, beforeIndex, arguments.length < 2 ? null : title, arguments.length < 3 ? null : image, arguments.length < 4 ? '' : tooltip, beforeIndex);
             checkChevrons();
         }
         Object.defineProperty(this, 'add', {
-            get: function() {
+            get: function () {
                 return add;
             }
         });
@@ -96,14 +133,13 @@ class TabbedPane extends CardPane {
         function remove(widgetOrIndex) {
             const removed = superRemove(widgetOrIndex);
             if (removed) {
-                captions.removeChild(tabsOf.get(removed));
-                tabsOf.delete(removed);
+                captions.removeChild(removed.tab.element);
             }
             checkChevrons();
             return removed;
         }
         Object.defineProperty(this, 'remove', {
-            get: function() {
+            get: function () {
                 return remove;
             }
         });
@@ -113,17 +149,17 @@ class TabbedPane extends CardPane {
             superClear();
             while (captions.firstElementChild)
                 captions.removeChild(captions.firstElementChild);
-            tabsOf.clear();
+            self.forEach(w => delete w.tab);
             checkChevrons();
         }
         Object.defineProperty(this, 'clear', {
-            get: function() {
+            get: function () {
                 return clear;
             }
         });
 
         this.addSelectHandler(evt => {
-            showCaption(tabsOf.get(evt.item));
+            showCaption(evt.item.tab.element);
         });
 
         const leftChevron = document.createElement('div');

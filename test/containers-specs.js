@@ -1639,9 +1639,9 @@ describe('Containers Api', () => {
         const tab2 = new TabbedPane();
         Resource.Icon.load('base/assets/binary-content.png')
                 .then(loaded => {
-                    tabs.add(tab0, 'tab1', loaded, 'tooltip1');
-                    tabs.add(tab1, 'tab2', loaded, 'tooltip2');
-                    tabs.add(tab2, 'tab3', loaded, 'tooltip3');
+                    tabs.add(tab0, tabs.count, 'tab1', loaded, 'tooltip1');
+                    tabs.add(tab1, tabs.count, 'tab2', loaded, 'tooltip2');
+                    tabs.add(tab2, tabs.count, 'tab3', loaded, 'tooltip3');
                     expect(tabs.count).toEqual(3);
                     expect(tabs.child(0)).toEqual(tab0);
                     expect(tabs.child(1)).toEqual(tab1);
@@ -1681,11 +1681,25 @@ describe('Containers Api', () => {
         tab1.width = 200;
         tab1.height = 250;
         const tab2 = new Flow();
-        tabs.add(tab0, 'tab0', null, 'tooltip0');
-        tabs.add(tab2, 'tab2', null, 'tooltip2');
+        tabs.add(tab0, tabs.count, 'tab0', null, 'tooltip0');
+        expect(tab0.tab.title).toEqual('tab0');
+        expect(tab0.tab.icon).toBeNull();
+        expect(tab0.tab.toolTipText).toEqual('tooltip0');
+        
+        
+        tabs.add(tab2);
+        tab2.tab.title = 'tab2';
+        const newIcon = document.createElement('div');
+        tab2.tab.icon = newIcon;
+        tab2.tab.toolTipText = 'tooltip2';
+        expect(tab2.tab.title).toEqual('tab2');
+        expect(tab2.tab.icon).toBe(newIcon);
+        expect(tab2.tab.toolTipText).toEqual('tooltip2');
+        
         Resource.Icon.load('base/assets/binary-content.png')
                 .then(loaded => {
-                    tabs.add(tab1, 'tab1', loaded, 'tooltip1', 1);
+                    tabs.add(tab1, 1, 'tab1', loaded, 'tooltip1');
+                    expect(tab1.tab.icon).toBe(loaded);
                     expect(tabs.children()).toEqual([tab0, tab1, tab2]);
                     document.body.removeChild(tabs.element);
                 })

@@ -28,24 +28,28 @@ class Box extends Container {
                 self.element.classList.remove('p-horizontal-scroll-filler');
                 self.element.classList.add('p-box-horizontal');
                 self.element.classList.add('p-vertical-scroll-filler');
-                gapsStyle.innerHTML =
-                    `div#${self.element.id} > .p-widget {height: 100%;display: inline-block;}div#${self.element.id} > .p-widget:nth-child(n + ${3}) {margin-left: ${hgap}px;}`;
+                gapsStyle.innerHTML = ``
+                        + `div#${self.element.id} > .p-widget{display:inline-block;vertical-align:middle;height:100%;}`
+                        + `div#${self.element.id} > .p-holy-grail-column{display:inline-flex;vertical-align:middle;height: 100%;}`
+                        + `div#${self.element.id} > .p-widget:nth-child(n + ${3}) {margin-left: ${hgap}px;}`;
             } else {
                 self.element.classList.remove('p-box-horizontal');
                 self.element.classList.remove('p-vertical-scroll-filler');
                 self.element.classList.add('p-box-vertical');
                 self.element.classList.add('p-horizontal-scroll-filler');
-                gapsStyle.innerHTML =
-                    `div#${self.element.id} > .p-widget {display: block;}div#${self.element.id} > .p-widget:nth-child(n + ${3}) {margin-top: ${vgap}px;}`;
+                gapsStyle.innerHTML = ``
+                        + `div#${self.element.id} > .p-widget {display: block; width:100%;}`
+                        + `div#${self.element.id} > .p-holy-grail-column {display: flex; width:100%;}`
+                        + `div#${self.element.id} > .p-widget:nth-child(n + ${3}) {margin-top: ${vgap}px;}`;
             }
         }
         formatChildren();
 
         Object.defineProperty(this, 'hgap', {
-            get: function() {
+            get: function () {
                 return hgap;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (hgap >= 0 && hgap !== aValue) {
                     hgap = aValue;
                     formatChildren();
@@ -54,10 +58,10 @@ class Box extends Container {
         });
         Object.defineProperty(this, 'vgap', {
             configurable: true,
-            get: function() {
+            get: function () {
                 return vgap;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (vgap >= 0 && vgap !== aValue) {
                     vgap = aValue;
                     formatChildren();
@@ -66,10 +70,10 @@ class Box extends Container {
         });
         Object.defineProperty(this, 'orientation', {
             configurable: true,
-            get: function() {
+            get: function () {
                 return orientation;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (orientation !== aValue) {
                     orientation = aValue;
                     formatChildren();
@@ -79,7 +83,7 @@ class Box extends Container {
 
         function ajustLeft(w, aValue) {}
         Object.defineProperty(this, 'ajustLeft', {
-            get: function() {
+            get: function () {
                 return ajustLeft;
             }
         });
@@ -90,14 +94,14 @@ class Box extends Container {
             }
         }
         Object.defineProperty(this, 'ajustWidth', {
-            get: function() {
+            get: function () {
                 return ajustWidth;
             }
         });
 
         function ajustTop(w, aValue) {}
         Object.defineProperty(this, 'ajustTop', {
-            get: function() {
+            get: function () {
                 return ajustTop;
             }
         });
@@ -108,7 +112,7 @@ class Box extends Container {
             }
         }
         Object.defineProperty(this, 'ajustHeight', {
-            get: function() {
+            get: function () {
                 return ajustHeight;
             }
         });
