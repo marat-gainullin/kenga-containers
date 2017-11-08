@@ -75,13 +75,13 @@ class TabbedPane extends CardPane {
             }
             w.tab = new class {
                 get title() {
-                    return labelText.innerText;
+                    return labelText.innerText ? labelText.innerText : null;
                 }
                 set title(v) {
                     labelText.innerText = v;
                 }
                 get toolTipText() {
-                    return caption.title;
+                    return caption.title ? caption.title : null;
                 }
                 set toolTipText(v) {
                     caption.title = v;

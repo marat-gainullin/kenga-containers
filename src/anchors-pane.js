@@ -53,6 +53,8 @@ class Anchors extends Container {
                     anchors.width = updatePlainValue(anchors.width, aValue, containerWidth);
                 } else if (is(anchors.left) && is(anchors.right)) {
                     anchors.right = updatePlainValue(anchors.right, containerWidth - w.element.offsetLeft - aValue, containerWidth);
+                } else {
+                    anchors.width = `${aValue}px`;
                 }
                 setAnchors(w, anchors);
             }
@@ -77,6 +79,8 @@ class Anchors extends Container {
                     anchors.height = updatePlainValue(anchors.height, aValue, containerHeight);
                 } else if (is(anchors.top) && is(anchors.bottom)) {
                     anchors.bottom = updatePlainValue(anchors.bottom, containerHeight - w.element.offsetTop - aValue, containerHeight);
+                } else {
+                    anchors.height = `${aValue}px`;
                 }
                 setAnchors(w, anchors);
             }
@@ -105,6 +109,10 @@ class Anchors extends Container {
                 } else if (is(anchors.left) && is(anchors.right)) {
                     anchors.left = updatePlainValue(anchors.left, aValue, containerWidth);
                     anchors.right = updatePlainValue(anchors.right, containerWidth - aValue - childWidth, containerWidth);
+                } else if (is(anchors.left)){
+                    anchors.left = updatePlainValue(anchors.left, aValue, containerWidth);
+                } else {
+                    anchors.left = `${aValue}px`;
                 }
                 setAnchors(w, anchors);
             }
@@ -133,6 +141,10 @@ class Anchors extends Container {
                 } else if (is(anchors.top) && is(anchors.bottom)) {
                     anchors.top = updatePlainValue(anchors.top, aValue, containerHeight);
                     anchors.bottom = updatePlainValue(anchors.bottom, containerHeight - aValue - childHeight, containerHeight);
+                } else if (is(anchors.top)){
+                    anchors.top = updatePlainValue(anchors.top, aValue, containerHeight);
+                } else {
+                    anchors.top = `${aValue}px`;
                 }
                 setAnchors(w, anchors);
             }
