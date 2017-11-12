@@ -73,6 +73,11 @@ class TabbedPane extends CardPane {
                     captions.appendChild(caption);
                 }
             }
+            function iconByString(aValue) {
+                const img = document.createElement('img');
+                img.src = aValue;
+                return img;
+            }
             w.tab = new class {
                 get title() {
                     return labelText.innerText ? labelText.innerText : null;
@@ -93,9 +98,9 @@ class TabbedPane extends CardPane {
                     if (tabIcon !== v) {
                         if (tabIcon) {
                             tabIcon.classList.remove('p-tab-caption-image');
-                            caption.removeChild(tabIcon);
+                            caption.insertBefore(tabIcon, labelText);
                         }
-                        tabIcon = v;
+                        tabIcon = typeof v === 'string' ? iconByString(v) : v;
                         if (tabIcon) {
                             tabIcon.classList.add('p-tab-caption-image');
                             caption.appendChild(tabIcon);
