@@ -27,7 +27,6 @@ import Split from '../src/split-pane';
 import Scroll from '../src/scroll-pane';
 import Grail from '../src/holy-grail-pane';
 import Anchors from '../src/anchors-pane';
-import Absolute from '../src/absolute-pane';
 import TabbedPane from '../src/tabbed-pane';
 import ButtonGroup from '../src/button-group';
 
@@ -684,46 +683,6 @@ describe('Containers Api', () => {
             });
         });
     });
-    it('Absolute pane.Structure', done => {
-        const container = new Absolute();
-        expectContainer(container);
-        expect(container.element).toBeDefined();
-
-        const child0 = new Absolute();
-        const child1 = new Absolute();
-        const child2 = new Absolute();
-        container.add(child0);
-        container.add(child1, {left: 10, top: 10, width: 50, height: 50});
-        child2.left = 70;
-        child2.top = 10;
-        child2.width = 50;
-        child2.height = 50;
-        container.add(child2);
-
-        expect(container.count).toEqual(3);
-        expect(container.child(0)).toEqual(child0);
-        expect(container.child(1)).toEqual(child1);
-        expect(container.child(2)).toEqual(child2);
-        expect(container.children()).toEqual([child0, child1, child2]);
-        expect(container.indexOf(child0)).toEqual(0);
-        expect(container.indexOf(child1)).toEqual(1);
-        expect(container.indexOf(child2)).toEqual(2);
-
-        const removed0 = container.remove(0);
-        expect(removed0).toBeDefined();
-        const removed1 = container.remove(child1);
-        expect(removed1).toBeDefined();
-
-        container.clear();
-        expect(container.count).toEqual(0);
-        expect(container.child(0)).toEqual(null);
-        expect(container.children()).toEqual([]);
-        expect(container.indexOf(child0)).toEqual(-1);
-        expect(container.indexOf(child1)).toEqual(-1);
-        expect(container.indexOf(child2)).toEqual(-1);
-
-        done();
-    });
     it('Anchors pane.Structure', done => {
         const container = new Anchors();
         expectContainer(container);
@@ -772,11 +731,19 @@ describe('Containers Api', () => {
         const child1 = new Anchors();
         const child2 = new Anchors();
         container.add(child0);
-        container.add(child1, {left: 10, top: 10, width: 50, height: 50});
-        child2.left = 70;
-        child2.top = 10;
-        child2.width = 50;
-        child2.height = 50;
+        {
+            child1.left = 10;
+            child1.top = 10;
+            child1.width = 50;
+            child1.height = 50;
+        }
+        container.add(child1);
+        {
+            child2.left = 70;
+            child2.top = 10;
+            child2.width = 50;
+            child2.height = 50;
+        }
         container.add(child2);
 
         Invoke.later(() => {
@@ -802,11 +769,29 @@ describe('Containers Api', () => {
         document.body.appendChild(container.element);
 
         const child0 = new Anchors();
-        container.add(child0, {left: '10%', top: '10%', width: '50%', height: '50%'});
+        {
+            child0.element.style.left = '10%';
+            child0.element.style.top = '10%';
+            child0.element.style.width = '50%';
+            child0.element.style.height = '50%';
+        }
+        container.add(child0);
         const child1 = new Anchors();
-        container.add(child1, {left: '10%', top: '10%', width: '50%', height: '50%'});
+        {
+            child1.element.style.left = '10%';
+            child1.element.style.top = '10%';
+            child1.element.style.width = '50%';
+            child1.element.style.height = '50%';
+        }
+        container.add(child1);
         const child2 = new Anchors();
-        container.add(child2, {right: '10%', bottom: '10%', width: '50%', height: '50%'});
+        {
+            child2.element.style.right = '10%';
+            child2.element.style.bottom = '10%';
+            child2.element.style.width = '50%';
+            child2.element.style.height = '50%';
+        }
+        container.add(child2);
 
         Invoke.later(() => {
             // child0
@@ -1685,8 +1670,8 @@ describe('Containers Api', () => {
         expect(tab0.tab.title).toEqual('tab0');
         expect(tab0.tab.icon).toBeNull();
         expect(tab0.tab.toolTipText).toEqual('tooltip0');
-        
-        
+
+
         tabs.add(tab2);
         tab2.tab.title = 'tab2';
         const newIcon = document.createElement('div');
@@ -1695,7 +1680,7 @@ describe('Containers Api', () => {
         expect(tab2.tab.title).toEqual('tab2');
         expect(tab2.tab.icon).toBe(newIcon);
         expect(tab2.tab.toolTipText).toEqual('tooltip2');
-        
+
         Resource.Icon.load('base/assets/binary-content.png')
                 .then(loaded => {
                     tabs.add(tab1, 1, 'tab1', loaded, 'tooltip1');
