@@ -71,6 +71,8 @@
 
 .p-cells > .p-widget {
     background-clip: content-box;
+    vertical-align: middle;
+    border: none;
 }
 
 .p-anchors > .p-widget {

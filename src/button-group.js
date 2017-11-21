@@ -80,7 +80,6 @@ class ButtonGroup {
         });
 
         function _children() {
-            Logger.warning("'children()' function is obsolete. Use 'count', 'child' and 'forEach' please");
             return children.slice(0, children.length);
         }
         Object.defineProperty(this, 'children', {
