@@ -1378,10 +1378,10 @@ describe('Containers Api', () => {
             });
         });
     });
-    it('Borders pane.Structure', () => {
-        const borders = new Grail();
-        expectContainer(borders);
-        expect(borders.element).toBeDefined();
+    it('Holy grail pane.Structure', () => {
+        const holyGrail = new Grail();
+        expectContainer(holyGrail);
+        expect(holyGrail.element).toBeDefined();
 
         const topChild = new Grail();
         const leftChild = new Grail();
@@ -1389,69 +1389,70 @@ describe('Containers Api', () => {
         const rightChild = new Grail();
         const bottomChild = new Grail();
 
-        borders.header = topChild;
-        expect(borders.count).toEqual(1);
-        expect(borders.child(0)).toEqual(topChild);
-        expect(borders.header).toEqual(topChild);
+        holyGrail.header = topChild;
+        expect(holyGrail.count).toEqual(1);
+        expect(holyGrail.child(0)).toEqual(topChild);
+        expect(holyGrail.header).toEqual(topChild);
 
-        borders.leftSide = leftChild;
-        expect(borders.count).toEqual(2);
-        expect(borders.child(1)).toEqual(leftChild);
-        expect(borders.leftSide).toEqual(leftChild);
+        holyGrail.leftSide = leftChild;
+        expect(holyGrail.count).toEqual(2);
+        expect(holyGrail.child(1)).toEqual(leftChild);
+        expect(holyGrail.leftSide).toEqual(leftChild);
 
-        borders.content = centerChild;
-        expect(borders.count).toEqual(3);
-        expect(borders.child(2)).toEqual(centerChild);
-        expect(borders.content).toEqual(centerChild);
+        holyGrail.content = centerChild;
+        expect(holyGrail.count).toEqual(3);
+        expect(holyGrail.child(2)).toEqual(centerChild);
+        expect(holyGrail.content).toEqual(centerChild);
 
-        borders.rightSide = rightChild;
-        expect(borders.count).toEqual(4);
-        expect(borders.child(3)).toEqual(rightChild);
-        expect(borders.rightSide).toEqual(rightChild);
+        holyGrail.rightSide = rightChild;
+        expect(holyGrail.count).toEqual(4);
+        expect(holyGrail.child(3)).toEqual(rightChild);
+        expect(holyGrail.rightSide).toEqual(rightChild);
 
-        borders.footer = bottomChild;
-        expect(borders.count).toEqual(5);
-        expect(borders.child(4)).toEqual(bottomChild);
-        expect(borders.footer).toEqual(bottomChild);
+        holyGrail.footer = bottomChild;
+        expect(holyGrail.count).toEqual(5);
+        expect(holyGrail.child(4)).toEqual(bottomChild);
+        expect(holyGrail.footer).toEqual(bottomChild);
 
-        expect(borders.children()).toEqual([topChild, leftChild, centerChild, rightChild, bottomChild]);
+        expect(holyGrail.children()).toEqual([topChild, leftChild, centerChild, rightChild, bottomChild]);
 
-        const removed0 = borders.remove(0);
+        const removed0 = holyGrail.remove(0);
         expect(removed0).toBeDefined();
         expect(removed0).toEqual(topChild);
-        expect(borders.count).toEqual(4);
-        expect(borders.children()).toEqual([leftChild, centerChild, rightChild, bottomChild]);
+        expect(holyGrail.count).toEqual(4);
+        expect(holyGrail.children()).toEqual([leftChild, centerChild, rightChild, bottomChild]);
 
-        expect(borders.header).toBeNull();
+        expect(holyGrail.header).toBeNull();
 
-        borders.header = topChild;
-        expect(borders.count).toEqual(5);
-        expect(borders.child(borders.count - 1)).toEqual(topChild);
-        expect(borders.header).toEqual(topChild);
+        holyGrail.header = topChild;
+        expect(holyGrail.count).toEqual(5);
+        expect(holyGrail.child(holyGrail.count - 1)).toEqual(topChild);
+        expect(holyGrail.header).toEqual(topChild);
 
-        borders.clear();
-        expect(borders.count).toEqual(0);
-        expect(borders.children()).toEqual([]);
-        expect(borders.leftSide).toBeNull();
-        expect(borders.content).toBeNull();
-        expect(borders.rightSide).toBeNull();
-        expect(borders.footer).toBeNull();
+        holyGrail.clear();
+        expect(holyGrail.count).toEqual(0);
+        expect(holyGrail.children()).toEqual([]);
+        expect(holyGrail.header).toBeNull();
+        expect(holyGrail.leftSide).toBeNull();
+        expect(holyGrail.content).toBeNull();
+        expect(holyGrail.rightSide).toBeNull();
+        expect(holyGrail.footer).toBeNull();
 
-        borders.content = centerChild;
-        const centerChild1 = new Grail();
-        const oldCenter = borders.add(centerChild1);
-        expect(oldCenter).toEqual(centerChild);
+        holyGrail.content = centerChild;
+        const headerChild1 = new Grail();
+        holyGrail.add(headerChild1);
+        expect(holyGrail.header).toEqual(headerChild1);
 
-        borders.rightSide = rightChild;
+        holyGrail.rightSide = rightChild;
         const rightChild1 = new Grail();
-        const oldRight = borders.add(rightChild1, Ui.HorizontalPosition.RIGHT);
+        const oldRight = holyGrail.add(rightChild1, Ui.HorizontalPosition.RIGHT);
         expect(oldRight).toEqual(rightChild);
     });
-    it('Borders pane.attached left top width height', done => {
-        const borders = new Grail();
-        borders.background = Color.blue;
-        borders.width = borders.height = 400;
-        document.body.appendChild(borders.element);
+    it('Holy grail pane.attached left top width height', done => {
+        const holyGrail = new Grail();
+        holyGrail.background = Color.blue;
+        holyGrail.width = holyGrail.height = 400;
+        document.body.appendChild(holyGrail.element);
 
         const topChild = new Grail();
         topChild.height = 50;
@@ -1472,12 +1473,12 @@ describe('Containers Api', () => {
         bottomChild.height = 50;
         bottomChild.background = Color.black;
 
-        borders.header = topChild;
-        borders.leftSide = leftChild;
-        borders.content = centerChild;
+        holyGrail.header = topChild;
+        holyGrail.leftSide = leftChild;
+        holyGrail.content = centerChild;
         //borders.rightSide = rightChild;
-        borders.add(rightChild, Ui.HorizontalPosition.RIGHT, 50);
-        borders.footer = bottomChild;
+        holyGrail.add(rightChild, Ui.HorizontalPosition.RIGHT, 50);
+        holyGrail.footer = bottomChild;
 
         Invoke.later(() => {
             // top
@@ -1546,7 +1547,7 @@ describe('Containers Api', () => {
             centerChild.top += 10;
             expect(centerChild.top).toEqual(60);
 
-            document.body.removeChild(borders.element);
+            document.body.removeChild(holyGrail.element);
             done();
         });
     });
