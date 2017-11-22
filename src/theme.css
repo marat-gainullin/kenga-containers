@@ -1,1 +1,5 @@
 @import 'node_modules/kenga/theme.css';
+
+.p-cells > .p-widget {
+    border: none;
+}

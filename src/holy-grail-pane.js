@@ -27,7 +27,7 @@ class HolyGrailPane extends Container {
 
         function formatChildren() {
             gapsStyle.innerHTML =
-                `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap}px;margin-right: ${hgap}px;}`;
+                    `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap}px;margin-right: ${hgap}px;}`;
         }
         formatChildren();
 
@@ -38,10 +38,10 @@ class HolyGrailPane extends Container {
         let footer;
 
         Object.defineProperty(this, 'hgap', {
-            get: function() {
+            get: function () {
                 return hgap;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (hgap !== aValue) {
                     hgap = aValue;
                     formatChildren();
@@ -50,10 +50,10 @@ class HolyGrailPane extends Container {
         });
 
         Object.defineProperty(this, 'vgap', {
-            get: function() {
+            get: function () {
                 return vgap;
             },
-            set: function(aValue) {
+            set: function (aValue) {
                 if (vgap !== aValue) {
                     vgap = aValue;
                     formatChildren();
@@ -65,9 +65,26 @@ class HolyGrailPane extends Container {
 
         function add(w, aPlace, aSize) {
             if (arguments.length < 2) {
-                let cold = self.content;
-                self.content = w;
-                return cold;
+                if (!self.header) {
+                    self.header = w;
+                    return null;
+                } else if (!self.leftSide) {
+                    self.leftSide = w;
+                    return null;
+                } else if (!self.content) {
+                    self.content = w;
+                    return null;
+                } else if (!self.rightSide) {
+                    self.rightSide = w;
+                    return null;
+                } else if (!self.footer) {
+                    self.footer = w;
+                    return null;
+                } else {
+                    let oldContent = self.content;
+                    self.content = w;
+                    return oldContent;
+                }
             } else {
                 switch (aPlace) {
                     case Ui.HorizontalPosition.LEFT:
@@ -102,7 +119,7 @@ class HolyGrailPane extends Container {
             }
         }
         Object.defineProperty(this, 'add', {
-            get: function() {
+            get: function () {
                 return add;
             }
         });
@@ -158,7 +175,7 @@ class HolyGrailPane extends Container {
             return removed;
         }
         Object.defineProperty(this, 'remove', {
-            get: function() {
+            get: function () {
                 return remove;
             }
         });
@@ -179,16 +196,16 @@ class HolyGrailPane extends Container {
                 contentRemoved();
         }
         Object.defineProperty(this, 'clear', {
-            get: function() {
+            get: function () {
                 return clear;
             }
         });
 
         Object.defineProperty(this, 'leftSide', {
-            get: function() {
+            get: function () {
                 return leftSide;
             },
-            set: function(w) {
+            set: function (w) {
                 if (w !== leftSide) {
                     if (leftSide) {
                         superRemove(leftSide);
@@ -204,10 +221,10 @@ class HolyGrailPane extends Container {
             }
         });
         Object.defineProperty(this, 'rightSide', {
-            get: function() {
+            get: function () {
                 return rightSide;
             },
-            set: function(w) {
+            set: function (w) {
                 if (w !== rightSide) {
                     if (rightSide) {
                         superRemove(rightSide);
@@ -223,10 +240,10 @@ class HolyGrailPane extends Container {
             }
         });
         Object.defineProperty(this, 'header', {
-            get: function() {
+            get: function () {
                 return header;
             },
-            set: function(w) {
+            set: function (w) {
                 if (w !== header) {
                     if (header) {
                         superRemove(header);
@@ -241,10 +258,10 @@ class HolyGrailPane extends Container {
             }
         });
         Object.defineProperty(this, 'footer', {
-            get: function() {
+            get: function () {
                 return footer;
             },
-            set: function(w) {
+            set: function (w) {
                 if (w !== footer) {
                     if (footer) {
                         superRemove(footer);
@@ -259,10 +276,10 @@ class HolyGrailPane extends Container {
             }
         });
         Object.defineProperty(this, 'content', {
-            get: function() {
+            get: function () {
                 return content;
             },
-            set: function(w) {
+            set: function (w) {
                 if (w !== content) {
                     if (content) {
                         superRemove(content);
@@ -280,7 +297,7 @@ class HolyGrailPane extends Container {
 
         function ajustLeft(w, aValue) {}
         Object.defineProperty(this, 'ajustLeft', {
-            get: function() {
+            get: function () {
                 return ajustLeft;
             }
         });
@@ -293,14 +310,14 @@ class HolyGrailPane extends Container {
             }
         }
         Object.defineProperty(this, 'ajustWidth', {
-            get: function() {
+            get: function () {
                 return ajustWidth;
             }
         });
 
         function ajustTop(w, aValue) {}
         Object.defineProperty(this, 'ajustTop', {
-            get: function() {
+            get: function () {
                 return ajustTop;
             }
         });
@@ -313,7 +330,7 @@ class HolyGrailPane extends Container {
             }
         }
         Object.defineProperty(this, 'ajustHeight', {
-            get: function() {
+            get: function () {
                 return ajustHeight;
             }
         });

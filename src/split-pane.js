@@ -31,6 +31,9 @@ class Split extends Container {
 
         function formatChildren() {
             if (orientation === Ui.Orientation.HORIZONTAL) {
+                self.element.classList.remove('p-split-vertical');
+                self.element.classList.add('p-split-horizontal');
+
                 style.innerHTML =
                         // first
                         // second
@@ -42,6 +45,9 @@ class Split extends Container {
                 divider.style.height = '';
                 divider.style.right = '';
             } else {
+                self.element.classList.remove('p-split-horizontal');
+                self.element.classList.add('p-split-vertical');
+
                 style.innerHTML =
                         // first
                         // second
@@ -223,8 +229,8 @@ class Split extends Container {
             },
             set: function (aValue) {
                 if (dividerLocation !== aValue) {
-                    const dividerLimit = (orientation === Ui.Orientation.HORIZONTAL ? self.element.offsetWidth : self.element.offsetHeight) - dividerSize;
-                    if (aValue >= 0 && aValue <= dividerLimit) {
+                    aValue = +aValue;
+                    if (aValue >= 0) {
                         dividerLocation = aValue;
                         formatChildren();
                     }
@@ -237,8 +243,11 @@ class Split extends Container {
             },
             set: function (aValue) {
                 if (dividerSize !== aValue) {
-                    dividerSize = aValue;
-                    formatChildren();
+                    aValue = +aValue;
+                    if (aValue > 0 && aValue <= 100) {
+                        dividerSize = aValue;
+                        formatChildren();
+                    }
                 }
             }
         });
