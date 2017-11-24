@@ -1,14 +1,14 @@
-# kenga-containers
+# Kenga containers
 Kenga containers. Border, Anchor, Box, Mdi, etc.
 
-# Install
+## Install
 To install `kenga-containers` package to your project, type the following command:
 `npm install kenga-containers --save`
 
-# Using
+## Using
 To use `HolyGrailPane` you can write something like this: `const hg = new HolyGrailPane(10/*horizontal gap*/, 5 /*vertical gap*/); hg.header = toolbar; hg.leftSide = ads; hg.content = yourAwesomeContent;`.
 
-# Architecture
+## Architecture
 The `HolyGrailPane` container is holy grail pattern implementation. It has `header`, `leftSide`, `rightSide`, `content` and `footer` properties.
 Header and footer should have a content or height. Left side and right side should have a content or width. Content widget will be stretched up to all remaning space.
 
