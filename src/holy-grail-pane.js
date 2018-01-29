@@ -19,8 +19,8 @@ class HolyGrailPane extends Container {
         flexRow.classList.add('p-holy-grail-row');
         this.element.appendChild(flexRow);
 
-        flexColumn.id = `p-${Id.generate()}`;
-        flexRow.id = `p-${Id.generate()}`;
+        flexColumn.id = `p-${Id.next()}`;
+        flexRow.id = `p-${Id.next()}`;
 
         const gapsStyle = document.createElement('style');
         this.element.appendChild(gapsStyle);

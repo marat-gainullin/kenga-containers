@@ -14,12 +14,6 @@
     height: 100%;
 }
 
-.p-cards,
-.p-tabs-content {
-    overflow: hidden;
-    position: relative;
-}
-
 .p-cards > .p-widget,
 .p-tabs-content > .p-widget {
     display: none;
@@ -31,9 +25,23 @@
 }
 
 .p-tabs {
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.p-tabs-captions-shell,
+.p-tabs-content {
+    display: inline-flex;
+}
+
+.p-tabs-captions-shell {
+    order: 1;
 }
 
 .p-tabs-content {
+    order: 2;
+    flex: 1 1;
 }
 
 .p-tabs-captions,

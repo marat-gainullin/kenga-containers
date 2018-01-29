@@ -23,7 +23,7 @@ class Cards extends Container {
 
         this.element.classList.add('p-cards');
 
-        this.element.id = `p-${Id.generate()}`;
+        this.element.id = `p-${Id.next()}`;
 
         const style = document.createElement('style');
         self.element.appendChild(style);

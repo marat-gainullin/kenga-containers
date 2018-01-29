@@ -21,7 +21,7 @@ class Split extends Container {
 
         this.element.classList.add('p-split');
 
-        this.element.id = `p-${Id.generate()}`;
+        this.element.id = `p-${Id.next()}`;
 
         const style = document.createElement('style');
         self.element.appendChild(style);

@@ -17,7 +17,7 @@ class Flow extends Container {
 
         this.element.classList.add('p-flow');
 
-        this.element.id = `p-${Id.generate()}`;
+        this.element.id = `p-${Id.next()}`;
 
         const style = document.createElement('style');
 

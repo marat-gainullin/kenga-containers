@@ -25,7 +25,7 @@ class GridPane extends Container {
 
         this.element.classList.add('p-cells');
 
-        this.element.id = `p-${Id.generate()}`;
+        this.element.id = `p-${Id.next()}`;
 
         const gapsStyle = document.createElement('style');
         this.element.appendChild(gapsStyle);

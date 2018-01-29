@@ -1687,7 +1687,7 @@ describe('Containers Api', () => {
                     tabs.add(tab1, 1, 'tab1', loaded, 'tooltip1');
                     expect(tab1.tab.icon).toBe(loaded);
                     expect(tabs.children()).toEqual([tab0, tab1, tab2]);
-                    document.body.removeChild(tabs.element);
+                    // document.body.removeChild(tabs.element);
                 })
                 .then(done);
     });
