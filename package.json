@@ -1,6 +1,6 @@
 {
   "name": "kenga-containers",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Kenga containers. Border, Anchor, Box, Mdi, etc.",
   "main": "index.js",
   "repository": "https://github.com/marat-gainullin/kenga-containers.git",
