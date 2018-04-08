@@ -35,8 +35,8 @@
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "kenga-buttons": "0.0.18",
-    "kenga-fields": "0.0.15",
+    "kenga-buttons": "0.0.19",
+    "kenga-fields": "0.0.16",
     "septima-remote": "0.0.8",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
@@ -44,7 +44,7 @@
     "yargs": "^9.0.1"
   },
   "dependencies": {
-    "kenga": "0.0.28",
+    "kenga": "0.0.30",
     "septima-utils": "0.0.5"
   }
 }
