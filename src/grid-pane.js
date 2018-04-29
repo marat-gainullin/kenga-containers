@@ -32,8 +32,11 @@ class GridPane extends Container {
 
         function formatChildren() {
             gapsStyle.innerHTML =
-                    `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;padding-left: ${hgap / 2}px;padding-right: ${hgap / 2}px;padding-top: ${vgap / 2}px;padding-bottom: ${vgap / 2}px;}`;
+                `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;}` +
+                (hgap != null && hgap != '' ? `div#${self.element.id} > .p-widget {padding-left: ${hgap / 2}px;padding-right: ${hgap / 2}px;}` : '') +
+                (vgap != null && vgap != '' ? `div#${self.element.id} > .p-widget {padding-top: ${vgap / 2}px;padding-bottom: ${vgap / 2}px;}` : '');
         }
+
         formatChildren();
 
         const grid = [];
@@ -90,6 +93,7 @@ class GridPane extends Container {
                     return setWidget(row, col, w);
             }
         }
+
         Object.defineProperty(this, 'add', {
             get: function () {
                 return add;
@@ -142,6 +146,7 @@ class GridPane extends Container {
                 return superRemove(w);
             }
         }
+
         Object.defineProperty(this, 'remove', {
             get: function () {
                 return remove;
@@ -156,6 +161,7 @@ class GridPane extends Container {
             }
             return getWidget(row, col);
         }
+
         Object.defineProperty(this, 'child', {
             get: function () {
                 return child;
@@ -172,6 +178,7 @@ class GridPane extends Container {
                 }
             }
         }
+
         Object.defineProperty(this, 'clear', {
             get: function () {
                 return clear;
@@ -190,28 +197,36 @@ class GridPane extends Container {
             }
         }
 
-        function ajustLeft(w, aValue) {}
+        function ajustLeft(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustLeft', {
             get: function () {
                 return ajustLeft;
             }
         });
 
-        function ajustWidth(w, aValue) {}
+        function ajustWidth(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustWidth', {
             get: function () {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {}
+        function ajustTop(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustTop', {
             get: function () {
                 return ajustTop;
             }
         });
 
-        function ajustHeight(w, aValue) {}
+        function ajustHeight(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustHeight', {
             get: function () {
                 return ajustHeight;

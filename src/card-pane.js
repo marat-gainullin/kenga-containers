@@ -43,7 +43,7 @@ class Cards extends Container {
             set: function (aValue) {
                 if (hgap !== aValue) {
                     hgap = aValue;
-                    self.element.style.paddingLeft = self.element.style.paddingRight = `${hgap}px`;
+                    self.element.style.paddingLeft = self.element.style.paddingRight = hgap != null && hgap != '' ? `${hgap}px` : '';
                 }
             }
         });
@@ -55,7 +55,7 @@ class Cards extends Container {
             set: function (aValue) {
                 if (vgap !== aValue) {
                     vgap = aValue;
-                    self.element.style.paddingTop = self.element.style.paddingBottom = `${vgap}px`;
+                    self.element.style.paddingTop = self.element.style.paddingBottom = vgap != null && vgap != '' ? `${vgap}px` : '';
                 }
             }
         });

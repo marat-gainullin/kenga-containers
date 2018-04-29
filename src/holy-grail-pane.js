@@ -4,6 +4,7 @@ import Container from 'kenga/container';
 
 class HolyGrailPane extends Container {
     constructor(hgap, vgap) {
+
         if (arguments.length < 2)
             vgap = 0;
         if (arguments.length < 1)
@@ -27,8 +28,10 @@ class HolyGrailPane extends Container {
 
         function formatChildren() {
             gapsStyle.innerHTML =
-                    `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap}px;margin-right: ${hgap}px;}`;
+                (hgap != null && hgap != '' ? `div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap}px;margin-right: ${hgap}px;}` : '') +
+                (vgap != null && vgap != '' ? `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}` : '');
         }
+
         formatChildren();
 
         let content;
@@ -118,6 +121,7 @@ class HolyGrailPane extends Container {
                 }
             }
         }
+
         Object.defineProperty(this, 'add', {
             get: function () {
                 return add;
@@ -174,6 +178,7 @@ class HolyGrailPane extends Container {
             checkRemoved(removed);
             return removed;
         }
+
         Object.defineProperty(this, 'remove', {
             get: function () {
                 return remove;
@@ -195,6 +200,7 @@ class HolyGrailPane extends Container {
             if (content)
                 contentRemoved();
         }
+
         Object.defineProperty(this, 'clear', {
             get: function () {
                 return clear;
@@ -295,7 +301,9 @@ class HolyGrailPane extends Container {
             }
         });
 
-        function ajustLeft(w, aValue) {}
+        function ajustLeft(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustLeft', {
             get: function () {
                 return ajustLeft;
@@ -309,13 +317,16 @@ class HolyGrailPane extends Container {
                 rightSide.element.style.width = `${aValue}px`;
             }
         }
+
         Object.defineProperty(this, 'ajustWidth', {
             get: function () {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {}
+        function ajustTop(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustTop', {
             get: function () {
                 return ajustTop;
@@ -329,6 +340,7 @@ class HolyGrailPane extends Container {
                 footer.element.style.height = `${aValue}px`;
             }
         }
+
         Object.defineProperty(this, 'ajustHeight', {
             get: function () {
                 return ajustHeight;
