@@ -31,6 +31,7 @@ class Box extends Container {
                 gapsStyle.innerHTML = ``
                         + `div#${self.element.id} > .p-widget{display:inline-block;vertical-align:middle;height:100%;}`
                         + `div#${self.element.id} > .p-holy-grail-column{display:inline-flex;vertical-align:middle;height: 100%;}`
+                        + `div#${self.element.id} > .p-grid-shell{display:inline-flex;vertical-align:middle;height: 100%;}`
                         + `div#${self.element.id} > .p-tabs{display:inline-flex;vertical-align:middle;height: 100%;}`
                         + (hgap != null && hgap != '' ? `div#${self.element.id} > .p-widget:nth-child(n + ${3}) {margin-left: ${hgap}px;}` : '');
             } else {
@@ -41,6 +42,7 @@ class Box extends Container {
                 gapsStyle.innerHTML = ``
                         + `div#${self.element.id} > .p-widget {display: block; width:100%;}`
                         + `div#${self.element.id} > .p-holy-grail-column {display: flex; width:100%;}`
+                        + `div#${self.element.id} > .p-grid-shell {display: flex; width:100%;}`
                         + `div#${self.element.id} > .p-tabs {display: flex; width:100%;}`
                         + (vgap != null && vgap != '' ? `div#${self.element.id} > .p-widget:nth-child(n + ${3}) {margin-top: ${vgap}px;}` : '');
             }

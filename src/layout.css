@@ -161,6 +161,16 @@
     display: inline-block;
 }
 
+.p-holy-grail-column > .p-holy-grail-column,
+.p-holy-grail-row > .p-holy-grail-column {
+    display: inline-flex;
+}
+
+.p-holy-grail-column > .p-tabs,
+.p-holy-grail-row > .p-tabs {
+    display: inline-flex;
+}
+
 .p-holy-grail-column > .p-holy-grail-row {
     display: inline-flex;
 }
