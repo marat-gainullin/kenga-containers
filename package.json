@@ -35,16 +35,16 @@
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "kenga-buttons": "0.0.23",
-    "kenga-fields": "0.0.20",
-    "septima-remote": "0.0.20",
+    "kenga-buttons": "0.0.24",
+    "kenga-fields": "0.0.21",
+    "septima-remote": "0.0.26",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0",
     "yargs": "^9.0.1"
   },
   "dependencies": {
-    "kenga": "0.0.38",
-    "septima-utils": "0.0.5"
+    "kenga": "0.0.40",
+    "septima-utils": "0.0.7"
   }
 }
