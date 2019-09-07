@@ -42,6 +42,7 @@
 .p-tabs-content {
     order: 2;
     flex: 1 1;
+    min-height: 0;
 }
 
 .p-tabs-captions,
@@ -150,6 +151,7 @@
 
 .p-holy-grail-row {
     display: inline-flex;
+    min-height: 0;
     flex-direction: row;
     flex-wrap: nowrap;
 }
@@ -185,6 +187,10 @@
 .p-holy-grail-row > .p-holy-grail-content {
     order: 2;
     flex: 1 1;
+}
+
+.p-holy-grail-row > .p-holy-grail-content {
+    min-width: 0;
 }
 
 .p-holy-grail-column > .p-holy-grail-footer,
