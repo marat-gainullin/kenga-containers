@@ -1623,7 +1623,7 @@ describe('Containers Api', () => {
         const tab0 = new TabbedPane();
         const tab1 = new TabbedPane();
         const tab2 = new TabbedPane();
-        Resource.Icon.load('base/assets/binary-content.png')
+        Resource.Icon.load('../assets/binary-content.png')
                 .then(loaded => {
                     tabs.add(tab0, tabs.count, 'tab1', loaded, 'tooltip1');
                     tabs.add(tab1, tabs.count, 'tab2', loaded, 'tooltip2');
@@ -1682,7 +1682,7 @@ describe('Containers Api', () => {
         expect(tab2.tab.icon).toBe(newIcon);
         expect(tab2.tab.toolTipText).toEqual('tooltip2');
 
-        Resource.Icon.load('base/assets/binary-content.png')
+        Resource.Icon.load('../assets/binary-content.png')
                 .then(loaded => {
                     tabs.add(tab1, 1, 'tab1', loaded, 'tooltip1');
                     expect(tab1.tab.icon).toBe(loaded);

@@ -1,5 +1,4 @@
 import Invoke from 'septima-utils/invoke';
-import Logger from 'septima-utils/logger';
 import Widget from 'kenga/widget';
 import SelectionEvent from 'kenga/events/item-event';
 import ContainerEvent from 'kenga/events/container-event';
