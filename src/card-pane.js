@@ -1,5 +1,4 @@
-import Id from 'septima-utils/id';
-import Invoke from 'septima-utils/invoke';
+import Ui from 'kenga/utils';
 import Container from 'kenga/container';
 import SelectionEvent from 'kenga/events/item-event';
 
@@ -23,15 +22,16 @@ class Cards extends Container {
 
         this.element.classList.add('p-cards');
 
-        this.element.id = `p-${Id.next()}`;
+        this.element.id = `p-${Ui.next()}`;
 
         const style = document.createElement('style');
         self.element.appendChild(style);
 
         function formatChildren() {
             style.innerHTML =
-                    `div#${self.element.id} > .p-widget {}`;
+                `div#${self.element.id} > .p-widget {}`;
         }
+
         formatChildren();
 
         let selected;
@@ -65,12 +65,14 @@ class Cards extends Container {
 
         function add(w, index = self.count) {
             if (w) {
+                w.element.style.display = 'none';
                 superAdd(w, index);
                 if (!selected) {
                     show(w);
                 }
+            }
         }
-        }
+
         Object.defineProperty(this, 'add', {
             configurable: true,
             get: function () {
@@ -81,6 +83,7 @@ class Cards extends Container {
         function remove(widgetOrIndex) {
             const removed = superRemove(widgetOrIndex);
             if (removed) {
+                removed.element.style.display = '';
                 if (selected === removed) {
                     if (self.count === 0) {
                         selected = null;
@@ -91,6 +94,7 @@ class Cards extends Container {
             }
             return removed;
         }
+
         Object.defineProperty(this, 'remove', {
             configurable: true,
             get: function () {
@@ -104,9 +108,11 @@ class Cards extends Container {
             selected = null;
             self.forEach(w => {
                 w.element.classList.remove('p-card-shown');
+                w.element.style.display = '';
             });
             superClear();
         }
+
         Object.defineProperty(this, 'clear', {
             configurable: true,
             get: function () {
@@ -120,9 +126,11 @@ class Cards extends Container {
 
             if (selected !== oldWidget) {
                 selected.element.classList.add('p-card-shown');
+                selected.element.style.display = '';
 
                 if (oldWidget) {
                     oldWidget.element.classList.remove('p-card-shown');
+                    oldWidget.element.style.display = 'none';
                 }
                 fireSelected(selected);
             }
@@ -131,7 +139,7 @@ class Cards extends Container {
         function fireSelected(aItem) {
             const event = new SelectionEvent(self, aItem);
             selectHandlers.forEach(h => {
-                Invoke.later(() => {
+                Ui.later(() => {
                     h(event);
                 });
             });
@@ -174,28 +182,36 @@ class Cards extends Container {
             }
         });
 
-        function ajustLeft(w, aValue) {}
+        function ajustLeft(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustLeft', {
             get: function () {
                 return ajustLeft;
             }
         });
 
-        function ajustWidth(w, aValue) {}
+        function ajustWidth(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustWidth', {
             get: function () {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {}
+        function ajustTop(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustTop', {
             get: function () {
                 return ajustTop;
             }
         });
 
-        function ajustHeight(w, aValue) {}
+        function ajustHeight(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustHeight', {
             get: function () {
                 return ajustHeight;

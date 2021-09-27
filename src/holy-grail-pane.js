@@ -1,4 +1,3 @@
-import Id from 'septima-utils/id';
 import Ui from 'kenga/utils';
 import Container from 'kenga/container';
 
@@ -20,8 +19,8 @@ class HolyGrailPane extends Container {
         flexRow.classList.add('p-holy-grail-row');
         this.element.appendChild(flexRow);
 
-        flexColumn.id = `p-${Id.next()}`;
-        flexRow.id = `p-${Id.next()}`;
+        flexColumn.id = `p-${Ui.next()}`;
+        flexRow.id = `p-${Ui.next()}`;
 
         const gapsStyle = document.createElement('style');
         this.element.appendChild(gapsStyle);

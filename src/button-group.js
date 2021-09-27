@@ -1,4 +1,4 @@
-import Invoke from 'septima-utils/invoke';
+import Ui from 'kenga/utils';
 import Widget from 'kenga/widget';
 import SelectionEvent from 'kenga/events/item-event';
 import ContainerEvent from 'kenga/events/container-event';
@@ -21,7 +21,7 @@ class ButtonGroup {
         function fireSelected(aItem) {
             const event = new SelectionEvent(self, aItem);
             selectionHandlers.forEach(h => {
-                Invoke.later(() => {
+                Ui.later(() => {
                     h(event);
                 });
             });
@@ -202,7 +202,7 @@ class ButtonGroup {
         function fireAdded(w) {
             const event = new ContainerEvent(self, w);
             addHandlers.forEach(h => {
-                Invoke.later(() => {
+                Ui.later(() => {
                     h(event);
                 });
             });
@@ -228,7 +228,7 @@ class ButtonGroup {
         function fireRemoved(w) {
             const event = new ContainerEvent(self, w);
             removeHandlers.forEach(h => {
-                Invoke.later(() => {
+                Ui.later(() => {
                     h(event);
                 });
             });

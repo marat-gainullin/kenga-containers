@@ -14,16 +14,6 @@
     height: 100%;
 }
 
-.p-cards > .p-widget,
-.p-tabs-content > .p-widget {
-    display: none;
-}
-
-.p-cards > .p-card-shown,
-.p-tabs-content > .p-card-shown {
-    display: inline-block;
-}
-
 .p-tabs {
     display: inline-flex;
     flex-direction: column;

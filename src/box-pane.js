@@ -1,4 +1,3 @@
-import Id from 'septima-utils/id';
 import Ui from 'kenga/utils';
 import Container from 'kenga/container';
 
@@ -17,7 +16,7 @@ class Box extends Container {
 
         this.element.classList.add('p-box-horizontal');
         this.element.classList.add('p-vertical-scroll-filler');
-        this.element.id = `p-${Id.next()}`;
+        this.element.id = `p-${Ui.next()}`;
 
         const gapsStyle = document.createElement('style');
         this.element.appendChild(gapsStyle);

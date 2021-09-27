@@ -1,4 +1,3 @@
-import Invoke from 'septima-utils/invoke';
 import Ui from 'kenga/utils';
 import CardPane from './card-pane';
 
@@ -228,7 +227,7 @@ class TabbedPane extends CardPane {
         var scheduledLeft = null;
         Ui.on(leftChevron, Ui.Events.MOUSEDOWN, event => {
             function schedule() {
-                Invoke.delayed(AUTO_SCROLL_DELAY, () => {
+                Ui.delayed(AUTO_SCROLL_DELAY, () => {
                     if (scheduledLeft === schedule) {
                         schedule();
                         moveRight();
@@ -245,7 +244,7 @@ class TabbedPane extends CardPane {
         var scheduledRight = null;
         Ui.on(rightChevron, Ui.Events.MOUSEDOWN, event => {
             function schedule() {
-                Invoke.delayed(AUTO_SCROLL_DELAY, () => {
+                Ui.delayed(AUTO_SCROLL_DELAY, () => {
                     if (scheduledRight === schedule) {
                         schedule();
                         moveLeft();

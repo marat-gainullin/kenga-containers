@@ -1,6 +1,6 @@
-import Id from 'septima-utils/id';
 import Ui from 'kenga/utils';
 import Container from 'kenga/container';
+import ChangeEvent from './events/change-event';
 
 class Split extends Container {
     constructor(orientation) {
@@ -21,7 +21,7 @@ class Split extends Container {
 
         this.element.classList.add('p-split');
 
-        this.element.id = `p-${Id.next()}`;
+        this.element.id = `p-${Ui.next()}`;
 
         const style = document.createElement('style');
         self.element.appendChild(style);
@@ -229,10 +229,12 @@ class Split extends Container {
             },
             set: function (aValue) {
                 if (dividerLocation !== aValue) {
+                    const oldValue = dividerLocation;
                     aValue = +aValue;
                     if (aValue >= 0) {
                         dividerLocation = aValue;
                         formatChildren();
+                        fireDividerLocationChanged(oldValue, dividerLocation)
                     }
                 }
             }
@@ -287,6 +289,62 @@ class Split extends Container {
         Object.defineProperty(this, 'ajustHeight', {
             get: function () {
                 return ajustHeight;
+            }
+        });
+
+        const dividerLocationChangeHandlers = new Set();
+
+        function addDividerLocationChangeHandler(handler) {
+            dividerLocationChangeHandlers.add(handler);
+            return {
+                removeHandler: function () {
+                    dividerLocationChangeHandlers.delete(handler);
+                }
+            };
+        }
+
+        Object.defineProperty(this, 'addDividerLocationChangeHandler', {
+            get: function () {
+                return addDividerLocationChangeHandler;
+            }
+        });
+
+        function fireDividerLocationChanged(oldValue, aValue) {
+            const event = new ChangeEvent(self, oldValue, aValue);
+            dividerLocationChangeHandlers.forEach(h => {
+                Ui.later(() => {
+                    h(event);
+                });
+            });
+        }
+
+        Object.defineProperty(this, 'fireDividerLocationChanged', {
+            get: function () {
+                return fireDividerLocationChanged;
+            }
+        });
+        let onDividerLocationChange;
+        let onDividerLocationChangeReg;
+        Object.defineProperty(this, 'onDividerLocationChange', {
+            get: function () {
+                return onDividerLocationChange;
+            },
+            set: function (aValue) {
+                if (onDividerLocationChange !== aValue) {
+                    if (onDividerLocationChangeReg) {
+                        onDividerLocationChangeReg.removeHandler();
+                        onDividerLocationChangeReg = null;
+                    }
+                    onDividerLocationChange = aValue;
+                    if (onDividerLocationChange && addDividerLocationChangeHandler) {
+                        onDividerLocationChangeReg = addDividerLocationChangeHandler(event => {
+                            if (onDividerLocationChange) {
+                                onDividerLocationChange(event);
+                            }
+                        });
+
+                    }
+                }
             }
         });
     }

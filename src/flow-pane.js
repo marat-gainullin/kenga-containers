@@ -1,4 +1,4 @@
-import Id from 'septima-utils/id';
+import Ui from 'kenga/utils';
 import Container from 'kenga/container';
 
 class Flow extends Container {
@@ -17,7 +17,7 @@ class Flow extends Container {
 
         this.element.classList.add('p-flow');
 
-        this.element.id = `p-${Id.next()}`;
+        this.element.id = `p-${Ui.next()}`;
 
         const style = document.createElement('style');
 
