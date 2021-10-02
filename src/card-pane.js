@@ -65,8 +65,8 @@ class Cards extends Container {
 
         function add(w, index = self.count) {
             if (w) {
-                w.element.style.display = 'none';
                 superAdd(w, index);
+                w.element.style.display = 'none';
                 if (!selected) {
                     show(w);
                 }
