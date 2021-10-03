@@ -1,15 +1,15 @@
 import Ui from 'kenga/utils';
-import Box from './box-pane';
+import HBox from './horizontal-box-pane';
 
 const SCROLL_PORTION = 20;
 const AUTO_SCROLL_DELAY = 300;
 
-class Toolbar extends Box {
+class Toolbar extends HBox {
     constructor(hgap) {
         if (arguments.length < 1)
             hgap = 0;
 
-        super(Ui.Orientation.HORIZONTAL, hgap, 0);
+        super(hgap);
 
         const self = this;
 

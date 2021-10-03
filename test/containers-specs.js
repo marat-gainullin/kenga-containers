@@ -19,6 +19,8 @@ import ToggleButton from 'kenga-buttons/toggle-button';
 import TextArea from 'kenga-fields/text-area';
 import RichTextArea from 'kenga-fields/rich-text-area';
 import Box from '../src/box-pane';
+import HBox from '../src/horizontal-box-pane';
+import VBox from '../src/vertical-box-pane';
 import Flow from '../src/flow-pane';
 import Cards from '../src/card-pane';
 import Cells from '../src/grid-pane';
@@ -915,7 +917,7 @@ describe('Containers Api', () => {
         expect(child0.height).toEqual(10);
         done();
     });
-    it('Box pane.attached left top width height', done => {
+    xit('Box pane.attached left top width height', done => {
         const container = new Box();
         document.body.appendChild(container.element);
         container.width = container.height = 400;
@@ -978,7 +980,7 @@ describe('Containers Api', () => {
         document.body.removeChild(container.element);
         done();
     });
-    it('Box pane.attached hgap vgap orientation', done => {
+    xit('Box pane.attached hgap vgap orientation', done => {
         const container = new Box();
         document.body.appendChild(container.element);
         container.width = container.height = 400;
@@ -1043,6 +1045,44 @@ describe('Containers Api', () => {
         box.orientation = Ui.Orientation.VERTICAL;
 
         child0.height = child1.height = 200;
+        box.vgap = 10;
+        expect(box.element.offsetHeight).toEqual(400);
+        expect(box.element.scrollHeight).toEqual(410);
+
+        document.body.removeChild(box.element);
+        done();
+    });
+    it('Sized HBox', done => {
+        const box = new HBox();
+        document.body.appendChild(box.element);
+        box.width = box.height = 400;
+        const child0 = new HBox();
+        const child1 = new HBox();
+        box.add(child0);
+        box.add(child1);
+        child0.width = 200;
+        child1.width = 200;
+        box.hgap = 10;
+        expect(box.element.offsetWidth).toEqual(400);
+        expect(box.element.scrollWidth).toEqual(410);
+
+        // cleanup
+        //document.body.removeChild(box.element);
+        done();
+    });
+    it('Sized VBox', done => {
+        const box = new VBox();
+        document.body.appendChild(box.element);
+        box.width = box.height = 400;
+        const child0 = new VBox();
+        const child1 = new VBox();
+        box.add(child0);
+        box.add(child1);
+        // cleanup
+        child0.width = child1.width = null;
+
+        child0.height = 200;
+        child1.height = 200;
         box.vgap = 10;
         expect(box.element.offsetHeight).toEqual(400);
         expect(box.element.scrollHeight).toEqual(410);
@@ -1687,7 +1727,7 @@ describe('Containers Api', () => {
                     tabs.add(tab1, 1, 'tab1', loaded, 'tooltip1');
                     expect(tab1.tab.icon).toBe(loaded);
                     expect(tabs.children()).toEqual([tab0, tab1, tab2]);
-                    // document.body.removeChild(tabs.element);
+                    document.body.removeChild(tabs.element);
                 })
                 .then(done);
     });

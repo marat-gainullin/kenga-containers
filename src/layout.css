@@ -85,9 +85,23 @@
     white-space: nowrap;
 }
 
+.p-box-horizontal::after{
+    height: 100%;
+    width: 0px;
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .p-box-vertical {
     overflow-y: auto;
     white-space: normal;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.p-box-vertical > .p-widget {
+    flex: 0 0 auto;
 }
 
 .p-scroll > .p-widget {
