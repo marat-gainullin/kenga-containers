@@ -13,9 +13,6 @@ class Toolbar extends HBox {
 
         const self = this;
 
-        delete this.orientation;
-        delete this.vgap;
-
         this.element.classList.add('p-toolbar');
         this.element.classList.add('p-btn-group');
 
