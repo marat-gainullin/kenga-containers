@@ -16,7 +16,12 @@ class Split extends Container {
         let first;
         let second;
 
-        let oneTouchExpandable;
+        let collapsed = false
+        let expanded = false
+
+        let expandable = false;
+        let collapsible = false;
+        let prevDividerLocation = 0;
         let dividerLocation = 0;
 
         this.element.classList.add('p-split');
@@ -35,9 +40,9 @@ class Split extends Container {
                 self.element.classList.add('p-split-horizontal');
 
                 style.innerHTML =
-                        // first
-                        // second
-                        `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;top: ${0}px;bottom: ${0}px;width: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;right: ${0}px;top: ${0}px;bottom: ${0}px;left: ${dividerLocation + dividerSize}px;}`;
+                    // first
+                    // second
+                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;top: ${0}px;bottom: ${0}px;width: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;right: ${0}px;top: ${0}px;bottom: ${0}px;left: ${dividerLocation + dividerSize}px;}`;
                 divider.style.top = '0px';
                 divider.style.bottom = '0px';
                 divider.style.width = `${dividerSize}px`;
@@ -49,9 +54,9 @@ class Split extends Container {
                 self.element.classList.add('p-split-vertical');
 
                 style.innerHTML =
-                        // first
-                        // second
-                        `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;right: ${0}px;top: ${0}px;height: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;left: ${0}px;right: ${0}px;bottom: ${0}px;top: ${dividerLocation + dividerSize}px;}`;
+                    // first
+                    // second
+                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;right: ${0}px;top: ${0}px;height: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;left: ${0}px;right: ${0}px;bottom: ${0}px;top: ${dividerLocation + dividerSize}px;}`;
                 divider.style.left = '0px';
                 divider.style.right = '0px';
                 divider.style.height = `${dividerSize}px`;
@@ -65,6 +70,42 @@ class Split extends Container {
         divider.classList.add('p-split-divider');
         divider.style.position = 'absolute';
         this.element.appendChild(divider);
+
+        const dividerCollapse = document.createElement('div');
+        dividerCollapse.style.display = 'none';
+        dividerCollapse.classList.add('p-split-divider-collapse');
+        divider.appendChild(dividerCollapse);
+
+        const dividerExpand = document.createElement('div');
+        dividerExpand.style.display = 'none';
+        dividerExpand.classList.add('p-split-divider-expand');
+        divider.appendChild(dividerExpand);
+
+        Ui.on(dividerCollapse, Ui.Events.MOUSEDOWN, event => {
+            if (event.button === 0) {
+                event.stopPropagation();
+            }
+        });
+        Ui.on(dividerCollapse, Ui.Events.CLICK, event => {
+            if (collapsed) {
+                restore()
+            } else {
+                collapse()
+            }
+        });
+
+        Ui.on(dividerExpand, Ui.Events.MOUSEDOWN, event => {
+            if (event.button === 0) {
+                event.stopPropagation();
+            }
+        });
+        Ui.on(dividerExpand, Ui.Events.CLICK, event => {
+            if (expanded) {
+                restore()
+            } else {
+                expand()
+            }
+        });
 
         ((() => {
             let mouseDownAt = null;
@@ -139,6 +180,7 @@ class Split extends Container {
                 checkAdd(w);
             }
         }
+
         Object.defineProperty(this, 'add', {
             get: function () {
                 return add;
@@ -159,6 +201,7 @@ class Split extends Container {
             checkRemove(removed);
             return removed;
         }
+
         Object.defineProperty(this, 'remove', {
             get: function () {
                 return remove;
@@ -172,6 +215,7 @@ class Split extends Container {
             second = null;
             superClear();
         }
+
         Object.defineProperty(this, 'clear', {
             get: function () {
                 return clear;
@@ -246,49 +290,132 @@ class Split extends Container {
             set: function (aValue) {
                 if (dividerSize !== aValue) {
                     aValue = +aValue;
-                    if (aValue > 0 && aValue <= 100) {
+                    if (aValue >= 0 && aValue <= 100) {
                         dividerSize = aValue;
                         formatChildren();
                     }
                 }
             }
         });
-        Object.defineProperty(this, 'oneTouchExpandable', {
+        Object.defineProperty(this, 'expandable', {
             get: function () {
-                return oneTouchExpandable;
+                return expandable;
             },
             set: function (aValue) {
-                if (oneTouchExpandable !== aValue) {
-                    oneTouchExpandable = aValue;
+                if (expandable !== aValue) {
+                    expandable = aValue;
+                    dividerExpand.style.display = expandable ? '' : 'none'
                 }
             }
         });
+        Object.defineProperty(this, 'expanded', {
+            get: function () {
+                return expanded;
+            }
+        });
+        Object.defineProperty(this, 'collapsible', {
+            get: function () {
+                return collapsible;
+            },
+            set: function (aValue) {
+                if (collapsible !== aValue) {
+                    collapsible = aValue;
+                    dividerCollapse.style.display = collapsible ? '' : 'none'
+                }
+            }
+        });
+        Object.defineProperty(this, 'collapsed', {
+            get: function () {
+                return collapsed;
+            }
+        });
 
-        function ajustLeft(w, aValue) {}
+        function ajustLeft(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustLeft', {
             get: function () {
                 return ajustLeft;
             }
         });
 
-        function ajustWidth(w, aValue) {}
+        function ajustWidth(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustWidth', {
             get: function () {
                 return ajustWidth;
             }
         });
 
-        function ajustTop(w, aValue) {}
+        function ajustTop(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustTop', {
             get: function () {
                 return ajustTop;
             }
         });
 
-        function ajustHeight(w, aValue) {}
+        function ajustHeight(w, aValue) {
+        }
+
         Object.defineProperty(this, 'ajustHeight', {
             get: function () {
                 return ajustHeight;
+            }
+        });
+
+        Object.defineProperty(this, 'expander', {
+            get: function () {
+                return dividerExpand;
+            }
+        });
+
+        Object.defineProperty(this, 'collapser', {
+            get: function () {
+                return dividerCollapse;
+            }
+        });
+
+        function collapse() {
+            prevDividerLocation = self.dividerLocation;
+            collapsed = true
+            expanded = false
+            self.dividerLocation = 0
+            fireCollapsed();
+        }
+
+        Object.defineProperty(this, 'collapse', {
+            get: function () {
+                return collapse;
+            }
+        });
+
+        function expand() {
+            prevDividerLocation = self.dividerLocation;
+            collapsed = false
+            expanded = true
+            self.dividerLocation = orientation === Ui.Orientation.HORIZONTAL ? self.element.clientWidth - self.dividerSize : self.element.clientHeight - self.dividerSize
+            fireExpanded();
+        }
+
+        Object.defineProperty(this, 'expand', {
+            get: function () {
+                return expand;
+            }
+        });
+
+        function restore() {
+            collapsed = false
+            expanded = false
+            self.dividerLocation = prevDividerLocation;
+            fireRestored();
+        }
+
+        Object.defineProperty(this, 'restore', {
+            get: function () {
+                return restore;
             }
         });
 
@@ -340,6 +467,174 @@ class Split extends Container {
                         onDividerLocationChangeReg = addDividerLocationChangeHandler(event => {
                             if (onDividerLocationChange) {
                                 onDividerLocationChange(event);
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
+
+        const expandHandlers = new Set();
+
+        function addExpandHandler(handler) {
+            expandHandlers.add(handler);
+            return {
+                removeHandler: function () {
+                    expandHandlers.delete(handler);
+                }
+            };
+        }
+
+        Object.defineProperty(this, 'addExpandHandler', {
+            get: function () {
+                return addExpandHandler;
+            }
+        });
+
+        function fireExpanded() {
+            const event = new ChangeEvent(self, dividerLocation, dividerLocation);
+            expandHandlers.forEach(h => {
+                Ui.later(() => {
+                    h(event);
+                });
+            });
+        }
+
+        Object.defineProperty(this, 'fireExpanded', {
+            get: function () {
+                return fireExpanded;
+            }
+        });
+        let onExpanded;
+        let onExpandedChangeReg;
+        Object.defineProperty(this, 'onExpanded', {
+            get: function () {
+                return onExpanded;
+            },
+            set: function (aValue) {
+                if (onExpanded !== aValue) {
+                    if (onExpandedChangeReg) {
+                        onExpandedChangeReg.removeHandler();
+                        onExpandedChangeReg = null;
+                    }
+                    onExpanded = aValue;
+                    if (onExpanded) {
+                        onExpandedChangeReg = addExpandHandler(event => {
+                            if (onExpanded) {
+                                onExpanded(event);
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
+
+        const collapseHandlers = new Set();
+
+        function addCollapseHandler(handler) {
+            collapseHandlers.add(handler);
+            return {
+                removeHandler: function () {
+                    collapseHandlers.delete(handler);
+                }
+            };
+        }
+
+        Object.defineProperty(this, 'addCollapseHandler', {
+            get: function () {
+                return addCollapseHandler;
+            }
+        });
+
+        function fireCollapsed() {
+            const event = new ChangeEvent(self, dividerLocation, dividerLocation);
+            collapseHandlers.forEach(h => {
+                Ui.later(() => {
+                    h(event);
+                });
+            });
+        }
+
+        Object.defineProperty(this, 'fireCollapsed', {
+            get: function () {
+                return fireCollapsed;
+            }
+        });
+        let onCollapsed;
+        let onCollapsedChangeReg;
+        Object.defineProperty(this, 'onCollapsed', {
+            get: function () {
+                return onCollapsed;
+            },
+            set: function (aValue) {
+                if (onCollapsed !== aValue) {
+                    if (onCollapsedChangeReg) {
+                        onCollapsedChangeReg.removeHandler();
+                        onCollapsedChangeReg = null;
+                    }
+                    onCollapsed = aValue;
+                    if (onCollapsed) {
+                        onCollapsedChangeReg = addCollapseHandler(event => {
+                            if (onCollapsed) {
+                                onCollapsed(event);
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
+
+        const restoreHandlers = new Set();
+
+        function addRestoreHandler(handler) {
+            restoreHandlers.add(handler);
+            return {
+                removeHandler: function () {
+                    restoreHandlers.delete(handler);
+                }
+            };
+        }
+
+        Object.defineProperty(this, 'addRestoreHandler', {
+            get: function () {
+                return addRestoreHandler;
+            }
+        });
+
+        function fireRestored() {
+            const event = new ChangeEvent(self, dividerLocation, dividerLocation);
+            restoreHandlers.forEach(h => {
+                Ui.later(() => {
+                    h(event);
+                });
+            });
+        }
+
+        Object.defineProperty(this, 'fireRestored', {
+            get: function () {
+                return fireRestored;
+            }
+        });
+        let onRestored;
+        let onRestoredChangeReg;
+        Object.defineProperty(this, 'onRestored', {
+            get: function () {
+                return onRestored;
+            },
+            set: function (aValue) {
+                if (onRestored !== aValue) {
+                    if (onRestoredChangeReg) {
+                        onRestoredChangeReg.removeHandler();
+                        onRestoredChangeReg = null;
+                    }
+                    onRestored = aValue;
+                    if (onRestored) {
+                        onRestoredChangeReg = addRestoreHandler(event => {
+                            if (onRestored) {
+                                onRestored(event);
                             }
                         });
 
