@@ -5,9 +5,9 @@ class HolyGrailPane extends Container {
     constructor(hgap, vgap) {
 
         if (arguments.length < 2)
-            vgap = 0;
+            vgap = '0px';
         if (arguments.length < 1)
-            hgap = 0;
+            hgap = '0px';
 
         super();
 
@@ -27,8 +27,8 @@ class HolyGrailPane extends Container {
 
         function formatChildren() {
             gapsStyle.innerHTML =
-                (hgap != null && hgap != '' ? `div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap}px;margin-right: ${hgap}px;}` : '') +
-                (vgap != null && vgap != '' ? `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap}px;margin-bottom: ${vgap}px;}` : '');
+                (hgap != null && hgap != '' ? `div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap};margin-right: ${hgap};}` : '') +
+                (vgap != null && vgap != '' ? `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap};margin-bottom: ${vgap};}` : '');
         }
 
         formatChildren();
@@ -45,7 +45,7 @@ class HolyGrailPane extends Container {
             },
             set: function (aValue) {
                 if (hgap !== aValue) {
-                    hgap = aValue;
+                    hgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
                     formatChildren();
                 }
             }
@@ -57,7 +57,7 @@ class HolyGrailPane extends Container {
             },
             set: function (aValue) {
                 if (vgap !== aValue) {
-                    vgap = aValue;
+                    vgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
                     formatChildren();
                 }
             }

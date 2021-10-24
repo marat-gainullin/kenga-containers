@@ -7,7 +7,7 @@ const AUTO_SCROLL_DELAY = 300;
 class Toolbar extends HBox {
     constructor(hgap) {
         if (arguments.length < 1)
-            hgap = 0;
+            hgap = '0px';
 
         super(hgap);
 

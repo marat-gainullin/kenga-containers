@@ -5,12 +5,10 @@ import Container from 'kenga/container';
  * A container with Grid Layout.
  * @param rows the number of grid rows.
  * @param columns the number of grid columns.
- * @param hgap the horizontal gap (optional).
- * @param vgap the vertical gap (optional).
  * @constructor GridPane GridPane
  */
 class GridPane extends Container {
-    constructor(rows, columns, hgap, vgap) {
+    constructor(rows, columns) {
         super();
         const self = this;
 
@@ -18,10 +16,6 @@ class GridPane extends Container {
             rows = 1;
         if (arguments.length < 2)
             columns = 1;
-        if (arguments.length < 3)
-            hgap = 0;
-        if (arguments.length < 4)
-            vgap = 0;
 
         this.element.classList.add('p-cells');
 
@@ -32,9 +26,7 @@ class GridPane extends Container {
 
         function formatChildren() {
             gapsStyle.innerHTML =
-                `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;}` +
-                (hgap != null && hgap != '' ? `div#${self.element.id} > .p-widget {padding-left: ${hgap / 2}px;padding-right: ${hgap / 2}px;}` : '') +
-                (vgap != null && vgap != '' ? `div#${self.element.id} > .p-widget {padding-top: ${vgap / 2}px;padding-bottom: ${vgap / 2}px;}` : '');
+                `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;}`;
         }
 
         formatChildren();
@@ -55,29 +47,6 @@ class GridPane extends Container {
         Object.defineProperty(this, 'columns', {
             get: function () {
                 return columns;
-            }
-        });
-
-        Object.defineProperty(this, 'hgap', {
-            get: function () {
-                return hgap;
-            },
-            set: function (aValue) {
-                if (hgap !== aValue) {
-                    hgap = aValue;
-                    formatChildren();
-                }
-            }
-        });
-        Object.defineProperty(this, 'vgap', {
-            get: function () {
-                return vgap;
-            },
-            set: function (aValue) {
-                if (vgap !== aValue) {
-                    vgap = aValue;
-                    formatChildren();
-                }
             }
         });
 

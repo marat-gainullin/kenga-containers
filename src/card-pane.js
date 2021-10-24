@@ -13,11 +13,11 @@ class Cards extends Container {
         const self = this;
 
         if (arguments.length < 2) {
-            vgap = 0;
+            vgap = '0px';
         }
         if (arguments.length < 1) {
-            vgap = 0;
-            hgap = 0;
+            vgap = '0px';
+            hgap = '0px';
         }
 
         this.element.classList.add('p-cards');
@@ -42,8 +42,8 @@ class Cards extends Container {
             },
             set: function (aValue) {
                 if (hgap !== aValue) {
-                    hgap = aValue;
-                    self.element.style.paddingLeft = self.element.style.paddingRight = hgap != null && hgap != '' ? `${hgap}px` : '';
+                    hgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
+                    self.element.style.paddingLeft = self.element.style.paddingRight = hgap != null && hgap != '' ? `${hgap}` : '';
                 }
             }
         });
@@ -54,8 +54,8 @@ class Cards extends Container {
             },
             set: function (aValue) {
                 if (vgap !== aValue) {
-                    vgap = aValue;
-                    self.element.style.paddingTop = self.element.style.paddingBottom = vgap != null && vgap != '' ? `${vgap}px` : '';
+                    vgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
+                    self.element.style.paddingTop = self.element.style.paddingBottom = vgap != null && vgap != '' ? `${vgap}` : '';
                 }
             }
         });
