@@ -25,6 +25,8 @@ class Flow extends Container {
             style.innerHTML =
                 (hgap != null && hgap != '' ? `div#${self.element.id} > .p-widget {margin-left: ${hgap}px;}` : '') +
                 (vgap != null && vgap != '' ? `div#${self.element.id} > .p-widget {margin-top: ${vgap}px;}` : '');
+            style.paddingRight = hgap != null && hgap != '' ? `${hgap}px` : '';
+            style.paddingBottom = vgap != null && vgap != '' ? `${vgap}px` : '';
         }
 
         formatChildren();

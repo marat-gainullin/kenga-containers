@@ -148,6 +148,7 @@ class Split extends Container {
                                 mouseDiff = event.clientY - mouseDownAt;
                             }
                             if (collapsed || expanded) {
+                                prevDividerLocation = `${mouseDownDividerAt + mouseDiff}px`;
                                 restore()
                             }
                             self.dividerLocation = `${mouseDownDividerAt + mouseDiff}px`;
