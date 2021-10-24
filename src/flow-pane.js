@@ -8,11 +8,11 @@ class Flow extends Container {
         const self = this;
 
         if (arguments.length < 2) {
-            vgap = 0;
+            vgap = '0px';
         }
         if (arguments.length < 1) {
-            vgap = 0;
-            hgap = 0;
+            vgap = '0px';
+            hgap = '0px';
         }
 
         this.element.classList.add('p-flow');
@@ -23,10 +23,10 @@ class Flow extends Container {
 
         function formatChildren() {
             style.innerHTML =
-                (hgap != null && hgap != '' ? `div#${self.element.id} > .p-widget {margin-left: ${hgap}px;}` : '') +
-                (vgap != null && vgap != '' ? `div#${self.element.id} > .p-widget {margin-top: ${vgap}px;}` : '');
-            self.element.style.paddingRight = hgap != null && hgap != '' ? `${hgap}px` : '';
-            self.element.style.paddingBottom = vgap != null && vgap != '' ? `${vgap}px` : '';
+                (hgap != null && hgap != '' ? `div#${self.element.id} > .p-widget {margin-left: ${hgap};}` : '') +
+                (vgap != null && vgap != '' ? `div#${self.element.id} > .p-widget {margin-top: ${vgap};}` : '');
+            self.element.style.paddingRight = hgap != null && hgap != '' ? `${hgap}` : '';
+            self.element.style.paddingBottom = vgap != null && vgap != '' ? `${vgap}` : '';
         }
 
         formatChildren();
@@ -38,9 +38,8 @@ class Flow extends Container {
             },
             set: function (aValue) {
                 if (hgap !== aValue) {
-                    hgap = aValue;
+                    hgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
                     formatChildren();
-                    self.element.style.paddingRight = hgap != null && hgap != '' ? `${hgap}px` : '';
                 }
             }
         });
@@ -50,9 +49,8 @@ class Flow extends Container {
             },
             set: function (aValue) {
                 if (vgap !== aValue) {
-                    vgap = aValue;
+                    vgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
                     formatChildren();
-                    self.element.style.paddingBottom = vgap != null && vgap != '' ? `${vgap}px` : '';
                 }
             }
         });
