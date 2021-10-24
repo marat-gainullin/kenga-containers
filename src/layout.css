@@ -85,7 +85,7 @@
     white-space: nowrap;
 }
 
-.p-box-horizontal::after{
+.p-box-horizontal::after {
     height: 100%;
     width: 0px;
     content: ' ';
@@ -200,4 +200,16 @@
 .p-holy-grail-column > .p-holy-grail-footer,
 .p-holy-grail-row > .p-holy-grail-right {
     order: 3;
+}
+
+.p-split-horizontal > .p-split-divider {
+    width: 10px;
+    margin-left: -5px;
+    z-index: 1;
+}
+
+.p-split-vertical > .p-split-divider {
+    height: 10px;
+    margin-top: -5px;
+    z-index: 1;
 }

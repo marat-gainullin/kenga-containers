@@ -11,8 +11,6 @@ class Split extends Container {
 
         const self = this;
 
-        let dividerSize = 10;
-
         let first;
         let second;
 
@@ -21,10 +19,10 @@ class Split extends Container {
 
         let expandable = false;
         let collapsible = false;
-        let prevDividerLocation = 0;
-        let dividerLocation = 0;
+        let prevDividerLocation = '0px';
+        let dividerLocation = '0px';
 
-        this.element.classList.add('p-split');
+        this.element.classList.add('p-split', 'p-split-restored');
 
         this.element.id = `p-${Ui.next()}`;
 
@@ -42,11 +40,10 @@ class Split extends Container {
                 style.innerHTML =
                     // first
                     // second
-                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;top: ${0}px;bottom: ${0}px;width: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;right: ${0}px;top: ${0}px;bottom: ${0}px;left: ${dividerLocation + dividerSize}px;}`;
+                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: 0px;top: 0px;bottom: 0px;width: ${dividerLocation};}div#${self.element.id} > .p-widget:last-child {position: absolute;right: 0px;top: 0px;bottom: 0px;left: ${dividerLocation};}`;
                 divider.style.top = '0px';
                 divider.style.bottom = '0px';
-                divider.style.width = `${dividerSize}px`;
-                divider.style.left = `${dividerLocation}px`;
+                divider.style.left = dividerLocation;
                 divider.style.height = '';
                 divider.style.right = '';
             } else {
@@ -56,11 +53,10 @@ class Split extends Container {
                 style.innerHTML =
                     // first
                     // second
-                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: ${0}px;right: ${0}px;top: ${0}px;height: ${dividerLocation}px;}div#${self.element.id} > .p-widget:last-child {position: absolute;left: ${0}px;right: ${0}px;bottom: ${0}px;top: ${dividerLocation + dividerSize}px;}`;
+                    `div#${self.element.id} > .p-widget:nth-child(2) {position: absolute;left: 0px;right: 0px;top: 0px;height: ${dividerLocation};}div#${self.element.id} > .p-widget:last-child {position: absolute;left: 0px;right: 0px;bottom: 0px;top: ${dividerLocation};}`;
                 divider.style.left = '0px';
                 divider.style.right = '0px';
-                divider.style.height = `${dividerSize}px`;
-                divider.style.top = `${dividerLocation}px`;
+                divider.style.top = dividerLocation;
                 divider.style.width = '';
                 divider.style.bottom = '';
             }
@@ -119,14 +115,15 @@ class Split extends Container {
                 }
             });
             Ui.on(divider, Ui.Events.MOUSEDOWN, event => {
-                if (event.button === 0) {
+                if (event.button === 0 && first) {
                     event.stopPropagation();
                     if (orientation === Ui.Orientation.HORIZONTAL) {
                         mouseDownAt = event.clientX;
+                        mouseDownDividerAt = first.element.offsetWidth;
                     } else {
+                        mouseDownDividerAt = first.element.offsetHeight;
                         mouseDownAt = event.clientY;
                     }
-                    mouseDownDividerAt = dividerLocation;
                     if (!onMouseUp) {
                         onMouseUp = Ui.on(document, Ui.Events.MOUSEUP, event => {
                             event.stopPropagation();
@@ -150,7 +147,10 @@ class Split extends Container {
                             } else {
                                 mouseDiff = event.clientY - mouseDownAt;
                             }
-                            self.dividerLocation = mouseDownDividerAt + mouseDiff;
+                            if (collapsed || expanded) {
+                                restore()
+                            }
+                            self.dividerLocation = `${mouseDownDividerAt + mouseDiff}px`;
                         });
                     }
                 }
@@ -274,26 +274,9 @@ class Split extends Container {
             set: function (aValue) {
                 if (dividerLocation !== aValue) {
                     const oldValue = dividerLocation;
-                    aValue = +aValue;
-                    if (aValue >= 0) {
-                        dividerLocation = aValue;
-                        formatChildren();
-                        fireDividerLocationChanged(oldValue, dividerLocation)
-                    }
-                }
-            }
-        });
-        Object.defineProperty(this, 'dividerSize', {
-            get: function () {
-                return dividerSize;
-            },
-            set: function (aValue) {
-                if (dividerSize !== aValue) {
-                    aValue = +aValue;
-                    if (aValue >= 0 && aValue <= 100) {
-                        dividerSize = aValue;
-                        formatChildren();
-                    }
+                    dividerLocation = typeof aValue === 'number' ? `${aValue}px` : aValue;
+                    formatChildren();
+                    fireDividerLocationChanged(oldValue, dividerLocation)
                 }
             }
         });
@@ -380,9 +363,11 @@ class Split extends Container {
 
         function collapse() {
             prevDividerLocation = self.dividerLocation;
-            collapsed = true
-            expanded = false
-            self.dividerLocation = 0
+            collapsed = true;
+            expanded = false;
+            self.dividerLocation = '0px';
+            self.element.classList.remove('p-split-restored')
+            self.element.classList.add('p-split-collapsed')
             fireCollapsed();
         }
 
@@ -394,9 +379,11 @@ class Split extends Container {
 
         function expand() {
             prevDividerLocation = self.dividerLocation;
-            collapsed = false
-            expanded = true
-            self.dividerLocation = orientation === Ui.Orientation.HORIZONTAL ? self.element.clientWidth - self.dividerSize : self.element.clientHeight - self.dividerSize
+            collapsed = false;
+            expanded = true;
+            self.dividerLocation = '100%'
+            self.element.classList.remove('p-split-restored')
+            self.element.classList.add('p-split-expanded')
             fireExpanded();
         }
 
@@ -407,10 +394,13 @@ class Split extends Container {
         });
 
         function restore() {
-            collapsed = false
-            expanded = false
-            self.dividerLocation = prevDividerLocation;
+            collapsed = false;
+            expanded = false;
+            self.element.classList.add('p-split-restored')
+            self.element.classList.remove('p-split-collapsed')
+            self.element.classList.remove('p-split-expanded')
             fireRestored();
+            self.dividerLocation = prevDividerLocation;
         }
 
         Object.defineProperty(this, 'restore', {

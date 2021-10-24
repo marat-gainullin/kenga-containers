@@ -20,7 +20,7 @@ class HBox extends Container {
         this.element.appendChild(gapsStyle);
 
         function formatChildren() {
-            const alignHeight = `vertical-align:${align === 'center' ? 'middle' : align};${align === 'fit' ? 'height:100%' : ''};`;
+            const alignHeight = `vertical-align:${align === 'center' ? 'middle' : align === 'fit' ? 'top' : align};${align === 'fit' ? 'height:100%' : ''};`;
             gapsStyle.innerHTML = ``
                 + `div#${self.element.id} > .p-widget{display:inline-block;${alignHeight}}`
                 + `div#${self.element.id} > .p-grid-shell{display:inline-block;${alignHeight}}`
