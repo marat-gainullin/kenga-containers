@@ -1,3 +1,4 @@
+import Ui from 'kenga/utils';
 import Container from 'kenga/container';
 
 class Scroll extends Container {

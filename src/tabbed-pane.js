@@ -10,7 +10,7 @@ class TabbedPane extends CardPane {
         shell.className = 'p-tabs';
         const content = document.createElement('div');
         content.className = 'p-tabs-content';
-        super('0px', '0px', shell, content);
+        super(0, 0, shell, content);
         shell.classList.remove('p-cards'); // This is because CardsPane is the base class
 
         const self = this;

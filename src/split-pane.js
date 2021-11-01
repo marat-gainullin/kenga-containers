@@ -19,8 +19,8 @@ class Split extends Container {
 
         let expandable = false;
         let collapsible = false;
-        let prevDividerLocation = '0px';
-        let dividerLocation = '0px';
+        let prevDividerLocation = '50%';
+        let dividerLocation = '50%';
 
         this.element.classList.add('p-split', 'p-split-restored');
 
@@ -151,7 +151,7 @@ class Split extends Container {
                                 prevDividerLocation = `${mouseDownDividerAt + mouseDiff}px`;
                                 restore()
                             }
-                            self.dividerLocation = `${mouseDownDividerAt + mouseDiff}px`;
+                            self.dividerLocation = `${Math.min(self.element.clientWidth, Math.max(0, mouseDownDividerAt + mouseDiff))}px`;
                         });
                     }
                 }
