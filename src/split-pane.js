@@ -124,6 +124,13 @@ class Split extends Container {
                         mouseDownDividerAt = first.element.offsetHeight;
                         mouseDownAt = event.clientY;
                     }
+                    divider.style.transitionDuration = '0s'
+                    if (first) {
+                        first.element.style.transitionDuration = '0s'
+                    }
+                    if (second) {
+                        second.element.style.transitionDuration = '0s'
+                    }
                     if (!onMouseUp) {
                         onMouseUp = Ui.on(document, Ui.Events.MOUSEUP, event => {
                             event.stopPropagation();
@@ -134,6 +141,13 @@ class Split extends Container {
                             if (onMouseMove) {
                                 onMouseMove.removeHandler();
                                 onMouseMove = null;
+                            }
+                            divider.style.transitionDuration = ''
+                            if (first) {
+                                first.element.style.transitionDuration = ''
+                            }
+                            if (second) {
+                                second.element.style.transitionDuration = ''
                             }
                         });
                     }
