@@ -165,7 +165,11 @@ class Split extends Container {
                                 prevDividerLocation = `${mouseDownDividerAt + mouseDiff}px`;
                                 restore()
                             }
-                            self.dividerLocation = `${Math.min(self.element.clientWidth, Math.max(0, mouseDownDividerAt + mouseDiff))}px`;
+                            if (orientation === Ui.Orientation.HORIZONTAL) {
+                                self.dividerLocation = `${Math.min(self.element.clientWidth, Math.max(0, mouseDownDividerAt + mouseDiff))}px`;
+                            } else {
+                                self.dividerLocation = `${Math.min(self.element.clientHeight, Math.max(0, mouseDownDividerAt + mouseDiff))}px`;
+                            }
                         });
                     }
                 }
