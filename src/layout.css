@@ -173,12 +173,17 @@
     display: inline-flex;
 }
 
+.p-holy-grail-column > .p-holy-grail-row {
+  display: inline-flex;
+}
+
 .p-holy-grail-column > .p-tabs,
 .p-holy-grail-row > .p-tabs {
     display: inline-flex;
 }
 
-.p-holy-grail-column > .p-holy-grail-row {
+.p-holy-grail-column > .p-box-vertical,
+.p-holy-grail-row > .p-box-vertical {
     display: inline-flex;
 }
 
