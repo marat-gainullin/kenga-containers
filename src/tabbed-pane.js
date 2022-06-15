@@ -119,9 +119,21 @@ class TabbedPane extends CardPane {
             }();
         }
 
-        // TODO: Add <html> prefix in tab title feature 
-        const superAdd = this.add;
+        // TODO: Add <html> prefix in tab title feature
 
+        Object.defineProperty(this, 'captionsShell', {
+            get: function () {
+                return captionsShell;
+            }
+        });
+        Object.defineProperty(this, 'captions', {
+            get: function () {
+                return captions;
+            }
+        });
+
+
+        const superAdd = this.add;
         function add(w, beforeIndex, title, image, tooltip) {
             superAdd(w, beforeIndex);
             addCaption(w, beforeIndex, arguments.length < 2 ? null : title, arguments.length < 3 ? null : image, arguments.length < 4 ? '' : tooltip, beforeIndex);
