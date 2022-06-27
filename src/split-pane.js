@@ -381,10 +381,13 @@ class Split extends Container {
         });
 
         function collapse() {
-            prevDividerLocation = self.dividerLocation;
+            if (!collapsed && !expanded) {
+              prevDividerLocation = self.dividerLocation;
+            }
             collapsed = true;
             expanded = false;
             self.dividerLocation = '0px';
+            self.element.classList.remove('p-split-expanded')
             self.element.classList.remove('p-split-restored')
             self.element.classList.add('p-split-collapsed')
             fireCollapsed();
@@ -397,10 +400,13 @@ class Split extends Container {
         });
 
         function expand() {
-            prevDividerLocation = self.dividerLocation;
+            if (!collapsed && !expanded) {
+              prevDividerLocation = self.dividerLocation;
+            }
             collapsed = false;
             expanded = true;
             self.dividerLocation = '100%'
+            self.element.classList.remove('p-split-collapsed')
             self.element.classList.remove('p-split-restored')
             self.element.classList.add('p-split-expanded')
             fireExpanded();
@@ -415,9 +421,9 @@ class Split extends Container {
         function restore() {
             collapsed = false;
             expanded = false;
-            self.element.classList.add('p-split-restored')
             self.element.classList.remove('p-split-collapsed')
             self.element.classList.remove('p-split-expanded')
+            self.element.classList.add('p-split-restored')
             fireRestored();
             self.dividerLocation = prevDividerLocation;
         }
