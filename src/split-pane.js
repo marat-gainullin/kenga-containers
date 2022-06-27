@@ -83,7 +83,7 @@ class Split extends Container {
             }
         });
         Ui.on(dividerCollapse, Ui.Events.CLICK, event => {
-            if (collapsed) {
+            if (expanded) {
                 restore()
             } else {
                 collapse()
@@ -96,7 +96,7 @@ class Split extends Container {
             }
         });
         Ui.on(dividerExpand, Ui.Events.CLICK, event => {
-            if (expanded) {
+            if (collapsed) {
                 restore()
             } else {
                 expand()
