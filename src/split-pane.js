@@ -83,7 +83,7 @@ class Split extends Container {
             }
         });
         Ui.on(dividerCollapse, Ui.Events.CLICK, event => {
-            if (expanded) {
+            if (expanded || collapsed) {
                 restore()
             } else {
                 collapse()
@@ -96,7 +96,7 @@ class Split extends Container {
             }
         });
         Ui.on(dividerExpand, Ui.Events.CLICK, event => {
-            if (collapsed) {
+            if (collapsed || expanded) {
                 restore()
             } else {
                 expand()
@@ -162,7 +162,9 @@ class Split extends Container {
                                 mouseDiff = event.clientY - mouseDownAt;
                             }
                             if (collapsed || expanded) {
+                                // This is to avoid unexpected dividerLocation change while restore
                                 prevDividerLocation = `${mouseDownDividerAt + mouseDiff}px`;
+                                //
                                 restore()
                             }
                             if (orientation === Ui.Orientation.HORIZONTAL) {
