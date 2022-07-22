@@ -426,8 +426,8 @@ class Split extends Container {
             self.element.classList.remove('p-split-collapsed')
             self.element.classList.remove('p-split-expanded')
             self.element.classList.add('p-split-restored')
-            fireRestored();
             self.dividerLocation = prevDividerLocation;
+            fireRestored();
         }
 
         Object.defineProperty(this, 'restore', {
