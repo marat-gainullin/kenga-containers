@@ -4,7 +4,7 @@ import Container from 'kenga/container';
 import ChangeEvent from './events/change-event';
 
 export default class Split extends Container {
-  orientation: Utils.Orientation;
+  orientation: `${Utils.Orientation}`;
   first: Widget;
   second: Widget;
   dividerLocation: number | string;

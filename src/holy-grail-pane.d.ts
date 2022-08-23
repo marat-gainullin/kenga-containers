@@ -6,7 +6,7 @@ export default class HolyGrailPane extends Container {
   hgap: number | string;
   vgap: number | string;
 
-  add(w: Widget, aPlace: Utils.HorizontalPosition | Utils.VerticalPosition, aSize: number): void;
+  add(w: Widget, aPlace?: `${Utils.HorizontalPosition}` | `${Utils.VerticalPosition}`, aSize?: number): void;
 
   header: Widget;
   leftSide: Widget;
