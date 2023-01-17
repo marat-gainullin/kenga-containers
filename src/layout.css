@@ -40,6 +40,10 @@
     position: relative;
 }
 
+.p-tabs-captions {
+    flex-shrink: 0;
+}
+
 .p-tab-caption {
     display: inline-block;
     line-height: normal;
