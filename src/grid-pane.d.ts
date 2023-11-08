@@ -7,10 +7,8 @@ import Container from 'kenga/container';
  * @param columns the number of grid columns.
  */
 export default class GridPane extends Container {
-  constructor(rows: number, columns: number);
-
-  readonly rows: number;
-  readonly columns: number;
+  hgap: number | string
+  vgap: number | string
 
   child(row: number, col: number): Widget;
   add(w: Widget, row: number, col: number): void;

@@ -22,17 +22,6 @@ class HolyGrailPane extends Container {
         flexColumn.id = `p-${Ui.next()}`;
         flexRow.id = `p-${Ui.next()}`;
 
-        const gapsStyle = document.createElement('style');
-        this.element.appendChild(gapsStyle);
-
-        function formatChildren() {
-            gapsStyle.innerHTML =
-                (hgap != null && hgap != '' ? `div#${flexRow.id} > .p-holy-grail-content {margin-left: ${hgap};margin-right: ${hgap};}` : '') +
-                (vgap != null && vgap != '' ? `div#${flexColumn.id} > .p-holy-grail-row {margin-top: ${vgap};margin-bottom: ${vgap};}` : '');
-        }
-
-        formatChildren();
-
         let content;
         let leftSide;
         let rightSide;
@@ -46,7 +35,7 @@ class HolyGrailPane extends Container {
             set: function (aValue) {
                 if (hgap !== aValue) {
                     hgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
-                    formatChildren();
+                    flexRow.style.columnGap = hgap
                 }
             }
         });
@@ -58,7 +47,7 @@ class HolyGrailPane extends Container {
             set: function (aValue) {
                 if (vgap !== aValue) {
                     vgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
-                    formatChildren();
+                    flexColumn.style.rowGap = vgap
                 }
             }
         });

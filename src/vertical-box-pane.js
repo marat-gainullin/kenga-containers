@@ -22,8 +22,7 @@ class VBox extends Container {
         function formatChildren() {
             self.element.style.alignItems = align === 'fit' ? 'stretch' : align === 'left' ? 'start' : align === 'right' ? 'end' : align;
             gapsStyle.innerHTML = ``
-                + (vgap != null && vgap !== '' ? `div#${self.element.id} > .p-widget {margin-top: ${vgap};}` : '');
-            self.element.style.paddingBottom = vgap != null && vgap !== '' ? vgap : '';
+                + (vgap != null && vgap !== '' ? `div#${self.element.id} > .p-widget:nth-child(n + 3){margin-top: ${vgap};}` : '');
         }
 
         formatChildren();

@@ -11,26 +11,11 @@ class Flow extends Container {
             vgap = '0px';
         }
         if (arguments.length < 1) {
-            vgap = '0px';
             hgap = '0px';
         }
 
         this.element.classList.add('p-flow');
-
         this.element.id = `p-${Ui.next()}`;
-
-        const style = document.createElement('style');
-
-        function formatChildren() {
-            style.innerHTML =
-                (hgap != null && hgap != '' ? `div#${self.element.id} > .p-widget {margin-left: ${hgap};}` : '') +
-                (vgap != null && vgap != '' ? `div#${self.element.id} > .p-widget {margin-top: ${vgap};}` : '');
-            self.element.style.paddingRight = hgap != null && hgap != '' ? `${hgap}` : '';
-            self.element.style.paddingBottom = vgap != null && vgap != '' ? `${vgap}` : '';
-        }
-
-        formatChildren();
-        this.element.appendChild(style);
 
         Object.defineProperty(this, 'hgap', {
             get: function () {
@@ -39,7 +24,7 @@ class Flow extends Container {
             set: function (aValue) {
                 if (hgap !== aValue) {
                     hgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
-                    formatChildren();
+                    this.element.style.columnGap = hgap
                 }
             }
         });
@@ -50,7 +35,7 @@ class Flow extends Container {
             set: function (aValue) {
                 if (vgap !== aValue) {
                     vgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
-                    formatChildren();
+                    this.element.style.rowGap = vgap
                 }
             }
         });

@@ -27,8 +27,7 @@ class HBox extends Container {
                 + `div#${self.element.id} > .p-box-vertical{display:inline-flex;${alignHeight}}`
                 + `div#${self.element.id} > .p-holy-grail-column{display:inline-flex;${alignHeight}}`
                 + `div#${self.element.id} > .p-tabs{display:inline-flex;${alignHeight}}`
-                + (hgap != null && hgap !== '' ? `div#${self.element.id} > .p-widget {margin-left: ${hgap};}` : '');
-            self.element.style.paddingRight = hgap != null && hgap !== '' ? hgap : '';
+                + (hgap != null && hgap !== '' ? `div#${self.element.id} > .p-widget:nth-child(n + 3) {margin-left: ${hgap};}` : '');
         }
 
         formatChildren();

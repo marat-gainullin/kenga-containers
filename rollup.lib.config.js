@@ -2,7 +2,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import {babel} from '@rollup/plugin-babel';
 import glob from 'fast-glob'
-import copy from "rollup-plugin-copy";
+import copy from 'rollup-plugin-copy';
 
 const destDir = 'build/lib'
 const config = {

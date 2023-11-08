@@ -1,6 +1,9 @@
 @import 'kenga/layout.css';
 
 .p-flow {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: start;
     white-space: normal;
 }
 
@@ -72,16 +75,15 @@
 .p-tab-caption-selected {
 }
 
-.p-cells > .p-widget {
-    background-clip: content-box;
-    vertical-align: middle;
+.p-cells {
+  display: inline-grid;
+}
+
+.p-anchors {
 }
 
 .p-anchors > .p-widget {
     position: absolute;
-}
-
-.p-anchors {
 }
 
 .p-box-horizontal {
@@ -172,23 +174,21 @@
     display: inline-block;
 }
 
+.p-holy-grail-column > .p-flow,
+.p-holy-grail-column > .p-tabs,
+.p-holy-grail-column > .p-box-vertical,
 .p-holy-grail-column > .p-holy-grail-column,
+.p-holy-grail-column > .p-holy-grail-row,
+.p-holy-grail-row > .p-flow,
+.p-holy-grail-row > .p-tabs,
+.p-holy-grail-row > .p-box-vertical,
 .p-holy-grail-row > .p-holy-grail-column {
     display: inline-flex;
 }
 
-.p-holy-grail-column > .p-holy-grail-row {
-  display: inline-flex;
-}
-
-.p-holy-grail-column > .p-tabs,
-.p-holy-grail-row > .p-tabs {
-    display: inline-flex;
-}
-
-.p-holy-grail-column > .p-box-vertical,
-.p-holy-grail-row > .p-box-vertical {
-    display: inline-flex;
+.p-holy-grail-column > .p-cells,
+.p-holy-grail-row > .p-cells {
+    display: inline-grid;
 }
 
 .p-holy-grail-column > .p-holy-grail-header,

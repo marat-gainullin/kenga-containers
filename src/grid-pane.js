@@ -8,163 +8,73 @@ import Container from 'kenga/container';
  * @constructor GridPane GridPane
  */
 class GridPane extends Container {
-    constructor(rows, columns) {
+    constructor(hgap, vgap) {
         super();
         const self = this;
 
-        if (arguments.length < 1)
-            rows = 1;
-        if (arguments.length < 2)
-            columns = 1;
+        let columns = 1;
+        let rows = null;
 
+        if (arguments.length < 2) {
+            vgap = '0px';
+        }
+        if (arguments.length < 1) {
+            hgap = '0px';
+        }
         this.element.classList.add('p-cells');
-
         this.element.id = `p-${Ui.next()}`;
 
-        const gapsStyle = document.createElement('style');
-        this.element.appendChild(gapsStyle);
-
-        function formatChildren() {
-            gapsStyle.innerHTML =
-                `div#${self.element.id} > .p-widget {width: ${100 / columns}%;height: ${100 / rows}%;}`;
+        function formatChilden() {
+            self.element.style.gridTemplateColumns = typeof columns == 'number' ? Array.from({ length: columns }, () => '1fr').join(' ') : columns
+            self.element.style.gridTemplateRows = typeof rows == 'number' ? Array.from({ length: rows }, () => '1fr').join(' ') : rows
         }
+        formatChilden()
 
-        formatChildren();
-
-        const grid = [];
-        for (let r = 0; r < rows; r++) {
-            const row = [];
-            grid.push(row);
-            for (let c = 0; c < columns; c++) {
-                row.push(null);
+        Object.defineProperty(this, 'hgap', {
+            get: function () {
+                return hgap;
+            },
+            set: function (aValue) {
+                if (hgap !== aValue) {
+                    hgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
+                    this.element.style.columnGap = hgap
+                }
             }
-        }
+        });
+        Object.defineProperty(this, 'vgap', {
+            get: function () {
+                return vgap;
+            },
+            set: function (aValue) {
+                if (vgap !== aValue) {
+                    vgap = typeof aValue === 'number' ? `${aValue}px` : aValue;
+                    this.element.style.rowGap = vgap
+                }
+            }
+        });
+
         Object.defineProperty(this, 'rows', {
             get: function () {
                 return rows;
+            },
+            set: function (value) {
+                if (rows != value) {
+                    rows = value
+                    formatChilden()
+                }
             }
         });
         Object.defineProperty(this, 'columns', {
             get: function () {
                 return columns;
-            }
-        });
-
-        const superAdd = this.add;
-
-        function add(w, row, col) {
-            if (w) {
-                if (w.parent === self)
-                    throw 'A widget already added to this container';
-                if (arguments.length < 3)
-                    addToFreeCell(w);
-                else
-                    return setWidget(row, col, w);
-            }
-        }
-
-        Object.defineProperty(this, 'add', {
-            get: function () {
-                return add;
-            }
-        });
-
-        function addToFreeCell(w) {
-            for (let row = 0; row < grid.length; row++) {
-                for (let col = 0; col < grid[row].length; col++) {
-                    const already = getWidget(row, col);
-                    if (!already) {
-                        setWidget(row, col, w);
-                        return true;
-                    }
+            },
+            set: function (value) {
+                if (columns != value) {
+                    columns = value
+                    formatChilden()
                 }
             }
-            return false;
-        }
-
-        const superRemove = this.remove;
-
-        function setWidget(row, column, w) {
-            if (row >= 0 && row < grid.length && column >= 0 && column < grid[row].length) {
-                const old = grid[row][column];
-                if (old) {
-                    superRemove(old);
-                }
-                grid[row][column] = w;
-                superAdd(w);
-                return old;
-            }
-        }
-
-        function getWidget(row, column) {
-            if (row >= 0 && row < grid.length && column >= 0 && column < grid[row].length) {
-                return grid[row][column];
-            } else {
-                return null;
-            }
-        }
-
-        function remove(widgetOrIndexOrRow, column) {
-            if (arguments.length < 2) {
-                const removed = superRemove(widgetOrIndexOrRow);
-                checkCells(removed);
-                return removed;
-            } else {
-                const w = grid[widgetOrIndexOrRow][column];
-                grid[widgetOrIndexOrRow][column] = null;
-                return superRemove(w);
-            }
-        }
-
-        Object.defineProperty(this, 'remove', {
-            get: function () {
-                return remove;
-            }
         });
-
-        const superChild = this.child;
-
-        function child(row, col) {
-            if (arguments < 2) {
-                throw "'row' and 'col' are required parameters";
-            }
-            return getWidget(row, col);
-        }
-
-        Object.defineProperty(this, 'child', {
-            get: function () {
-                return child;
-            }
-        });
-
-        const superClear = this.clear;
-
-        function clear() {
-            superClear();
-            for (let i = 0; i < grid.length; i++) {
-                for (let j = 0; j < grid[i].length; j++) {
-                    grid[i][j] = null;
-                }
-            }
-        }
-
-        Object.defineProperty(this, 'clear', {
-            get: function () {
-                return clear;
-            }
-        });
-
-        function checkCells(w) {
-            if (w) {
-                for (let i = 0; i < grid.length; i++) {
-                    for (let j = 0; j < grid[i].length; j++) {
-                        if (grid[i][j] === w) {
-                            grid[i][j] = null;
-                        }
-                    }
-                }
-            }
-        }
 
         function ajustLeft(w, aValue) {
         }
