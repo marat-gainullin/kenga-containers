@@ -1,6 +1,6 @@
 {
   "name": "kenga-containers",
-  "version": "0.0.57",
+  "version": "0.0.58",
   "description": "Kenga containers. Border, Anchor, Box, Mdi, etc.",
   "repository": "https://github.com/marat-gainullin/kenga-containers.git",
   "author": "marat-gainullin <mg@altsoft.biz>",
@@ -13,7 +13,7 @@
     "lib": "rollup -c rollup.lib.config.js"
   },
   "dependencies": {
-    "kenga": "0.0.52"
+    "kenga": "0.0.53"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
@@ -33,7 +33,7 @@
     "shelljs": "^0.8.4",
     "septima-model": "0.0.25",
     "septima-remote": "0.0.28",
-    "kenga-buttons": "0.0.37",
-    "kenga-fields": "0.0.35"
+    "kenga-buttons": "0.0.39",
+    "kenga-fields": "0.0.37"
   }
 }
