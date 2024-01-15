@@ -1,6 +1,6 @@
 {
   "name": "kenga-containers",
-  "version": "0.0.58",
+  "version": "0.0.59",
   "description": "Kenga containers. Border, Anchor, Box, Mdi, etc.",
   "repository": "https://github.com/marat-gainullin/kenga-containers.git",
   "author": "marat-gainullin <mg@altsoft.biz>",
@@ -33,7 +33,7 @@
     "shelljs": "^0.8.4",
     "septima-model": "0.0.25",
     "septima-remote": "0.0.28",
-    "kenga-buttons": "0.0.39",
-    "kenga-fields": "0.0.37"
+    "kenga-buttons": "0.0.40",
+    "kenga-fields": "0.0.38"
   }
 }

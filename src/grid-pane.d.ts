@@ -10,7 +10,6 @@ export default class GridPane extends Container {
   hgap: number | string
   vgap: number | string
 
-  child(row: number, col: number): Widget;
-  add(w: Widget, row: number, col: number): void;
-  remove(widgetOrRow: Widget | number, column: number): Widget;
+  rows: number | string
+  columns: number | string
 }
