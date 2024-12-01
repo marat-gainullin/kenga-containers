@@ -98,12 +98,14 @@ class TabbedPane extends CardPane {
                     if (tabIcon !== v) {
                         if (tabIcon) {
                             tabIcon.classList.remove('p-tab-caption-image');
-                            caption.insertBefore(tabIcon, labelText);
+                            if (tabIcon.parentElement != null) {
+                                caption.removeChild(tabIcon);
+                            }
                         }
                         tabIcon = typeof v === 'string' ? iconByString(v) : v;
                         if (tabIcon) {
                             tabIcon.classList.add('p-tab-caption-image');
-                            caption.appendChild(tabIcon);
+                            caption.insertBefore(tabIcon, labelText);
                         }
                     }
                 }
