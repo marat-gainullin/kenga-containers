@@ -1,6 +1,6 @@
 {
   "name": "kenga-containers",
-  "version": "0.0.66",
+  "version": "0.0.67",
   "description": "Kenga containers. Border, Anchor, Box, Mdi, etc.",
   "repository": "https://github.com/marat-gainullin/kenga-containers.git",
   "author": "marat-gainullin <mg@altsoft.biz>",
@@ -13,7 +13,7 @@
     "upload": "rimraf ./build && rollup -c rollup.lib.config.mjs && npm publish ./build/lib"
   },
   "dependencies": {
-    "kenga": "0.0.58"
+    "kenga": "0.0.59"
   },
   "devDependencies": {
     "kenga-labels": "0.0.51",
