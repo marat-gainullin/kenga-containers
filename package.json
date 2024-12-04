@@ -1,6 +1,6 @@
 {
   "name": "kenga-containers",
-  "version": "0.0.69",
+  "version": "0.0.70",
   "description": "Kenga containers. Border, Anchor, Box, Mdi, etc.",
   "repository": "https://github.com/marat-gainullin/kenga-containers.git",
   "author": "marat-gainullin <mg@altsoft.biz>",
@@ -18,7 +18,7 @@
   "devDependencies": {
     "kenga-labels": "0.0.53",
     "kenga-buttons": "0.0.48",
-    "kenga-fields": "0.0.51",
+    "kenga-fields": "0.0.52",
     "@babel/runtime": "^7.15.3",
     "@babel/core": "^7.15.0",
     "@babel/plugin-transform-runtime": "^7.15.0",
