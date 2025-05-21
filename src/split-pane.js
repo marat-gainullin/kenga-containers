@@ -77,11 +77,6 @@ class Split extends Container {
         dividerExpand.classList.add('p-split-divider-expand');
         divider.appendChild(dividerExpand);
 
-        Ui.on(dividerCollapse, Ui.Events.MOUSEDOWN, event => {
-            if (event.button === 0) {
-                event.stopPropagation();
-            }
-        });
         Ui.on(dividerCollapse, Ui.Events.CLICK, event => {
             if (expanded || collapsed) {
                 restore()
@@ -90,11 +85,6 @@ class Split extends Container {
             }
         });
 
-        Ui.on(dividerExpand, Ui.Events.MOUSEDOWN, event => {
-            if (event.button === 0) {
-                event.stopPropagation();
-            }
-        });
         Ui.on(dividerExpand, Ui.Events.CLICK, event => {
             if (collapsed || expanded) {
                 restore()
@@ -114,15 +104,14 @@ class Split extends Container {
                     event.stopPropagation();
                 }
             });
-            Ui.on(divider, Ui.Events.MOUSEDOWN, event => {
-                if (event.button === 0 && first) {
-                    event.stopPropagation();
+            Ui.on(divider, 'pointerdown', downEvent => {
+                if (downEvent.button === 0 && downEvent.target == divider && first) {
                     if (orientation === Ui.Orientation.HORIZONTAL) {
-                        mouseDownAt = event.clientX;
+                        mouseDownAt = downEvent.clientX;
                         mouseDownDividerAt = first.element.offsetWidth;
                     } else {
                         mouseDownDividerAt = first.element.offsetHeight;
-                        mouseDownAt = event.clientY;
+                        mouseDownAt = downEvent.clientY;
                     }
                     divider.style.transitionDuration = '0s'
                     if (first) {
@@ -132,8 +121,8 @@ class Split extends Container {
                         second.element.style.transitionDuration = '0s'
                     }
                     if (!onMouseUp) {
-                        onMouseUp = Ui.on(document, Ui.Events.MOUSEUP, event => {
-                            event.stopPropagation();
+                        onMouseUp = Ui.on(document, 'pointerup', upEvent => {
+                            divider.releasePointerCapture(upEvent.pointerId)
                             if (onMouseUp) {
                                 onMouseUp.removeHandler();
                                 onMouseUp = null;
@@ -152,14 +141,13 @@ class Split extends Container {
                         });
                     }
                     if (!onMouseMove) {
-                        onMouseMove = Ui.on(document, Ui.Events.MOUSEMOVE, event => {
-                            event.stopPropagation();
-                            event.preventDefault();
+                        onMouseMove = Ui.on(document, Ui.Events.MOUSEMOVE, moveEvent => {
+                            moveEvent.preventDefault();
                             let mouseDiff;
                             if (orientation === Ui.Orientation.HORIZONTAL) {
-                                mouseDiff = event.clientX - mouseDownAt;
+                                mouseDiff = moveEvent.clientX - mouseDownAt;
                             } else {
-                                mouseDiff = event.clientY - mouseDownAt;
+                                mouseDiff = moveEvent.clientY - mouseDownAt;
                             }
                             if (collapsed || expanded) {
                                 // This is to avoid unexpected dividerLocation change while restore
@@ -174,6 +162,7 @@ class Split extends Container {
                             }
                         });
                     }
+                    divider.setPointerCapture(downEvent.pointerId)
                 }
             });
         })());
